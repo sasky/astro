@@ -1,39 +1,56 @@
 ---
-import BaseLayout from './BaseLayout.astro';
+import BaseLayout from "./BaseLayout.astro";
 const { frontmatter } = Astro.props;
+
+const dateYMD = frontmatter.pubDate.slice(0, 10);
+const dateDDMMYYYY = new Date(dateYMD).toLocaleDateString("en-GB" );
 ---
-<BaseLayout pageTitle={frontmatter.title}>
-  <p><em>{frontmatter.description}</em></p>
-  <p>{frontmatter.pubDate.slice(0,10)}</p>
 
-  <p>Written by: {frontmatter.author}</p>
-
-  <img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} />
-
-  <div class="tags">
-    {frontmatter.tags.map((tag) => (
-      <p class="tag"><a href={`/tags/${tag}`}>{tag}</a></p>
-    ))}
-  </div>
-
-  <slot />
-</BaseLayout>
 <style>
-  a {
-    color: #00539F;
-  }
-
+  
   .tags {
-    display: flex;
-    flex-wrap: wrap;
+    display: inline-block;
+    margin:  0 0 var(--size-6)  0 ;
+    background-image: var(--gradient-21);
+    border-radius: 5px;
   }
 
-  .tag {
-    margin: 0.25em;
-    border: dotted 1px #a1a1a1;
-    border-radius: .5em;
-    padding: .5em 1em;
-    font-size: 1.15em;
-    background-color: #F8FCFD;
+  .tags a {
+    display: inline-block;
+    padding: var(--size-4)  var(--size-5);
+    color: var(--stone-2);
+
+  }
+  .tags a:hover {
+    color: var(--red-7);
+    background-image: var(--gradient-5);
+  }
+  em {
+    margin:  0 0  var(--size-5)  0 ;
   }
 </style>
+
+<BaseLayout pageTitle={frontmatter.title}>
+  <time datetime={dateYMD}>{dateDDMMYYYY}</time>
+  <nav class="tags">
+    {
+      frontmatter.tags.map((tag) => (
+          <a href={`/tags/${tag}`}>{tag}</a>
+      ))
+    }
+  </div>
+  <p><em>{frontmatter.description}</em></p>
+
+  {
+    frontmatter.image && (
+      <img
+        src={frontmatter.image.url}
+        width="300"
+        alt={frontmatter.image.alt}
+      />
+    )
+  }
+
+  <slot />
+  <style></style>
+</BaseLayout>

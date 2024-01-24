@@ -1,10 +1,42 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Greeting from '../components/Greeting.jsx';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Greeting from "../components/Greeting.jsx";
+const allPosts = await Astro.glob("../pages/posts/*.md");
 
-const pageTitle = "Home Page";
+const pageTitle = "Welcome to Cam's website";
 ---
+
+<style>
+  nav {
+    margin-top: var(--size-8);
+  }
+
+  nav ul {
+  }
+  nav li {
+    margin-bottom: var(--size-6);
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+    max-inline-size: initial;
+  }
+  nav li a {
+    display: block;
+  }
+</style>
 <BaseLayout pageTitle={pageTitle}>
-  <h2>My awesome blog subtitle</h2>
-  <Greeting client:load messages={["Hi", "Hello", "Howdy", "Hey there"]} />
+  <nav id="menu"> 
+    <ul>
+      {
+        allPosts.map((post) => (
+          <li>
+            <a id={post.url} href={post.url}>
+              {post.frontmatter.title}
+            </a>
+            {post.frontmatter.description}
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
 </BaseLayout>

@@ -1,12 +1,68 @@
 ---
-import Hamburger from './Hamburger.astro';
-import Navigation from './Navigation.astro';
-import ThemeIcon from './ThemeIcon.astro';
+import Hamburger from "./Hamburger.astro";
+import Navigation from "./Navigation.astro";
+import ThemeIcon from "./ThemeIcon.astro";
+const  anchorLink  = Astro.url.pathname ==="/" ? 'menu': Astro.url.pathname;
+console.log(Astro);
+
 ---
+
+<style>
+  header {
+    margin-bottom: var(--size-8);
+  }
+  nav {
+    width: var(--size-content-1);
+  }
+  .flex {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    /* background-image: var(--gradient-12),var(--noise-3); */
+    filter: var(--noise-filter-1);
+    background-size: cover;
+    text-decoration: none;
+    color: var(--blue-6);
+  }
+  .flex:hover {
+    color: var(--orange-5);
+  }
+  .flex:hover .line {
+    background-color: var(--orange-5);
+  }
+  .flex span {
+    text-transform: uppercase;
+    font-size: var(--size-4);
+  }
+
+  .hamburger {
+    display: inline-block;
+    /* padding-right: 20px; */
+    cursor: pointer;
+    display: inline-block;
+    cursor: pointer;
+    top: 5px;
+    position: relative;
+  }
+
+  .line {
+    display: block;
+    width: 40px;
+    height: 5px;
+    margin-bottom: 10px;
+    /* background-color: var(--orange-5); */
+    background-color: var(--blue-6);
+  }
+</style>
 <header>
   <nav>
-    <Hamburger />
-    <ThemeIcon />
-    <Navigation />
+    <a class="flex" href={"/#" + anchorLink}>
+      <div class="hamburger">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+      <span>sasky.nz</span>
+    </a>
   </nav>
 </header>
