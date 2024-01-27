@@ -1,6 +1,6 @@
 ---
 layout: ../../layouts/MarkdownPostLayout.astro
-title: Hide n Seek Pico 8 Game
+title: Hide n Seek
 description: "Building a game for my girls"
 pubDate: 2022-08-08
 tags: ["pico8", "learning"]

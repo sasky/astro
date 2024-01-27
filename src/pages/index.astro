@@ -1,9 +1,9 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Greeting from "../components/Greeting.jsx";
+import { toAnchor  } from "../scripts/utils";
 const allPosts = await Astro.glob("../pages/posts/*.md");
 
-const pageTitle = "Welcome to Cam's website";
+const pageTitle = "";
 ---
 
 <style>
@@ -25,12 +25,39 @@ const pageTitle = "Welcome to Cam's website";
   }
 </style>
 <BaseLayout pageTitle={pageTitle}>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
   <nav id="menu"> 
     <ul>
       {
         allPosts.map((post) => (
           <li>
-            <a id={post.url} href={post.url}>
+            <a id={toAnchor(post.url)} href={post.url}>
               {post.frontmatter.title}
             </a>
             {post.frontmatter.description}

@@ -1,9 +1,8 @@
 import { defineConfig } from 'astro/config';
 
-import preact from "@astrojs/preact";
-
+Astro.
 // https://astro.build/config
 export default defineConfig({
   site: "https://sasky.nz",
-  integrations: [preact()]
+  integrations: []
 });
