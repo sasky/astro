@@ -4,6 +4,7 @@ import Footer from '../components/Footer.astro';
 import { ViewTransitions } from 'astro:transitions';
 import '../styles/global.css';
 const {pageTitle,url} = Astro.props;
+const title = pageTitle ? pageTitle : 'sasky.nz';
 ---
 <html lang="en">
   <head>
@@ -11,7 +12,7 @@ const {pageTitle,url} = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>{pageTitle ? {pageTitle}  : 'sasky.nz' }</title>
+    <title>{title}</title>
     <ViewTransitions />
   </head>
   <body>
