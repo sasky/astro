@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
+import Pico8 from "../components/Pico8.astro";
 const { frontmatter } = Astro.props;
 
 const dateYMD = frontmatter.pubDate.slice(0, 10);
@@ -50,6 +51,13 @@ const dateDDMMYYYY = new Date(dateYMD).toLocaleDateString("en-GB" );
       />
     )
   }
+
+  {
+    frontmatter.pico8 && (
+      <Pico8 pico8src={frontmatter.pico8} />
+    )
+  }
+  
 
   <slot />
   <style></style>
