@@ -9,88 +9,157 @@ let { pico8src } = Astro.props;
     // hacky but works
     window.pico8src = pico8JSSrc; 
 </script>
+<script is:inline src="/pico8/pico8Loader.js" ></script>
 
 <!-- all this is copied from the pico8 html generator, with some changes, so yucky -->
-<div style="padding:0px; margin:0px; background-color:#222; color:#ccc">
-<div id="body_0" data-pico8src={pico8src}> <!-- hide this when playing in mobile (p8_touch_detected) so that elements don't affect layout -->
+<div style="padding: 0px; margin: 0px; background-color: #222; color: #ccc">
+  <div id="body_0" data-pico8src="{pico8src}">
+    <div
+      id="p8_frame_0"
+      style="max-width: 800px; max-height: 800px; margin: auto"
+    >
+      <div
+        id="p8_frame"
+        style="
+          display: flex;
+          width: 100%;
+          max-width: 95vw;
+          height: 60vw;
+          max-height: 95vh;
+          margin: auto;
+        "
+      >
+        <div
+          id="p8_menu_buttons_touch"
+          style="position: absolute; width: 100%; z-index: 10; left: 0px"
+        >
+          <div
+            class="p8_menu_button"
+            id="p8b_full"
+            style="float: left; margin-left: 10px"
+          ></div>
+          <div
+            class="p8_menu_button"
+            id="p8b_sound"
+            style="float: left; margin-left: 10px"
+          ></div>
+          <div
+            class="p8_menu_button"
+            id="p8b_close"
+            style="float: right; margin-right: 10px"
+          ></div>
+        </div>
+        <div id="p8_container" style="margin: auto; display: table">
+          <div
+            id="p8_start_button"
+            class="p8_start_button"
+            style="width: 100%; height: 100%; display: flex"
+          >
+            <img
+              width="80"
+              height="80"
+              style="margin: auto"
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABpklEQVR42u3au23DQBCEYUXOXIGKcujQXUgFuA0XIKgW90Q9oEAg+Ljd27vd2RsCf058gEDqhofPj+OB6SMCAQlIQAIyAhKQgARkBAQDnM6XSRsB7/2e/tSA0//12fCAKsQX3ntDA4oRFwBRIc0AixE38BAhTQGLEAsBUSDNAXcRhYDRIZsAPlp99VECRoXsDpgN0g0wC6Q7IDpkGEBUyG6A0+vKBtkdMBukG2AWSHdAdMgwgKiQ4QDRIMMCokCGB4wOCQPYFVKw2cABNocUjl6wgE0gFashPKAZpHJ2TQNYBVmxW6cDFENWDv9pAUshCVgJScBKSAISkD9hPkT4GkNAMdzepyj8Kye852EBLe51CZHHWQK4JcThD1SlcHPEYY/0a+A0n6SkGZV6w6WZNb3g4Id1b7hwgGhwYQBR4dwB0eHcALPAdQfMBhcOEA0uDCAqnDsgOpwbYBa4poA/31+rZYFrBriFpwGMCtcEcA9PAhgdzhywBK8EEQXOFFCCtwaIBmcGKMWbI6LCmQBq8R6hw5kAMgISkIAEJCAjIAEJSEBGQI9ukV7lRn9nD+gAAAAASUVORK5CYII="
+            />
+          </div>
+          <div
+            id="p8_playarea"
+            style="
+              display: none;
+              margin: auto;
+              -webkit-user-select: none;
+              -moz-user-select: none;
+              user-select: none;
+              -webkit-touch-callout: none;
+            "
+          >
+            <div
+              id="touch_controls_background"
+              style="
+                pointer-events: none;
+                display: none;
+                background-color: #000;
+                position: fixed;
+                top: 0px;
+                left: 0px;
+                border: 0;
+                width: 100vw;
+                height: 100vh;
+              "
+            >
+              &nbsp
+            </div>
 
-
-<!-- Add any content above the cart here -->
-
-
-<div id="p8_frame_0" style="max-width:800px; max-height:800px; margin:auto;"> <!-- double function: limit size, and display only this div for touch devices -->
-<div id="p8_frame" style="display:flex; width:100%; max-width:95vw; height:60vw; max-height:95vh; margin:auto;">
-
-	<div id="p8_menu_buttons_touch" style="position:absolute; width:100%; z-index:10; left:0px;">
-		<div class="p8_menu_button" id="p8b_full"  style="float:left;margin-left:10px" ></div>
-		<div class="p8_menu_button" id="p8b_sound" style="float:left;margin-left:10px" ></div>
-		<div class="p8_menu_button" id="p8b_close" style="float:right; margin-right:10px" ></div>
-	</div>
-
-	<div id="p8_container"
-		style="margin:auto; display:table;">
-
-		<div id="p8_start_button" class="p8_start_button" style="width:100%; height:100%; display:flex;">
-			<img width=80 height=80 style="margin:auto;"
-		src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABpklEQVR42u3au23DQBCEYUXOXIGKcujQXUgFuA0XIKgW90Q9oEAg+Ljd27vd2RsCf058gEDqhofPj+OB6SMCAQlIQAIyAhKQgARkBAQDnM6XSRsB7/2e/tSA0//12fCAKsQX3ntDA4oRFwBRIc0AixE38BAhTQGLEAsBUSDNAXcRhYDRIZsAPlp99VECRoXsDpgN0g0wC6Q7IDpkGEBUyG6A0+vKBtkdMBukG2AWSHdAdMgwgKiQ4QDRIMMCokCGB4wOCQPYFVKw2cABNocUjl6wgE0gFashPKAZpHJ2TQNYBVmxW6cDFENWDv9pAUshCVgJScBKSAISkD9hPkT4GkNAMdzepyj8Kye852EBLe51CZHHWQK4JcThD1SlcHPEYY/0a+A0n6SkGZV6w6WZNb3g4Id1b7hwgGhwYQBR4dwB0eHcALPAdQfMBhcOEA0uDCAqnDsgOpwbYBa4poA/31+rZYFrBriFpwGMCtcEcA9PAhgdzhywBK8EEQXOFFCCtwaIBmcGKMWbI6LCmQBq8R6hw5kAMgISkIAEJCAjIAEJSEBGQI9ukV7lRn9nD+gAAAAASUVORK5CYII="/>
-		</div>
-
-		<div id="p8_playarea" style="display:none; margin:auto;
-				-webkit-user-select:none; -moz-user-select: none; user-select: none; -webkit-touch-callout:none;
-		">
-
-			<div  id="touch_controls_background"
-				  style=" pointer-events:none; display:none; background-color:#000;
-						 position:fixed; top:0px; left:0px; border:0; width:100vw; height:100vh">
-				&nbsp
-			</div>
-
-			<div style="display:flex; position:relative">
-				<!-- pointer-events turned off for mobile in p8_update_layout because need for desktop mouse -->
-				<canvas class="emscripten" id="canvas"  >
-				</canvas>
-				<div class=p8_menu_buttons id="p8_menu_buttons" style="margin-left:10px;">
-					<div class="p8_menu_button" style="position:absolute; bottom:125px" id="p8b_controls" ></div>					
-					<div class="p8_menu_button" style="position:absolute; bottom:90px" id="p8b_pause" ></div>
-					<div class="p8_menu_button" style="position:absolute; bottom:55px" id="p8b_sound" ></div>
-					<div class="p8_menu_button" style="position:absolute; bottom:20px" id="p8b_full" ></div>
-				</div>
-			</div>
-
-
-			<!-- display after first layout update -->
-			<div  id="touch_controls_gfx"
-				  style=" pointer-events:none; display:table; 
-						 position:fixed; top:0px; left:0px; border:0; width:100vw; height:100vh">
-
-					<img src="" id="controls_right_panel" style="position:absolute; opacity:0.5;">
-					<img src="" id="controls_left_panel" style="position:absolute;  opacity:0.5;">
-						
-			
-			</div> <!-- touch_controls_gfx -->
-
-			<!-- used for clipboard access & keyboard input; displayed and used by PICO-8 only once needed. can be safely removed if clipboard / key presses not needed. -->
-			<!-- (needs to be inside p8_playarea so that it still works under Chrome when fullscreened) -->
-			<!-- 0.2.5: added "display:none"; pico8.js shows on demand to avoid mac osx accent character selector // https://www.lexaloffle.com/bbs/?tid=47743 -->
-
-			<textarea id="codo_textarea" class="emscripten" style="display:none; position:absolute; left:-9999px; height:0px; overflow:hidden"></textarea>
-
-		</div> <!--p8_playarea -->
-
-	</div> <!-- p8_container -->
-
-</div> <!-- p8_frame -->
-</div> <!-- p8_frame_0 size limit -->
-
-
-<!-- Add content below the cart here -->
-
-
-
-
-</div> <!-- body_0 -->
+            <div style="display: flex; position: relative">
+              <canvas class="emscripten" id="canvas"> </canvas>
+              <div
+                class="p8_menu_buttons"
+                id="p8_menu_buttons"
+                style="margin-left: 10px"
+              >
+                <div
+                  class="p8_menu_button"
+                  style="position: absolute; bottom: 125px"
+                  id="p8b_controls"
+                ></div>
+                <div
+                  class="p8_menu_button"
+                  style="position: absolute; bottom: 90px"
+                  id="p8b_pause"
+                ></div>
+                <div
+                  class="p8_menu_button"
+                  style="position: absolute; bottom: 55px"
+                  id="p8b_sound"
+                ></div>
+                <div
+                  class="p8_menu_button"
+                  style="position: absolute; bottom: 20px"
+                  id="p8b_full"
+                ></div>
+              </div>
+            </div>
+            <div
+              id="touch_controls_gfx"
+              style="
+                pointer-events: none;
+                display: table;
+                position: fixed;
+                top: 0px;
+                left: 0px;
+                border: 0;
+                width: 100vw;
+                height: 100vh;
+              "
+            >
+              <img
+                src=""
+                id="controls_right_panel"
+                style="position: absolute; opacity: 0.5"
+              />
+              <img
+                src=""
+                id="controls_left_panel"
+                style="position: absolute; opacity: 0.5"
+              />
+            </div>
+            <textarea
+              id="codo_textarea"
+              class="emscripten"
+              style="
+                display: none;
+                position: absolute;
+                left: -9999px;
+                height: 0px;
+                overflow: hidden;
+              "
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<script is:inline src="/pico8/pico8Loader.js" ></script>
 
 
 

@@ -57,7 +57,8 @@ const pageTitle = "";
       {
         allPosts.map((post) => (
           <li>
-            <a id={toAnchor(post.url)} href={post.url}>
+            <a id={toAnchor(post.url || '')} href={post.url} data-astro-reload={!!post.frontmatter.pico8}>
+              
               {post.frontmatter.title}
             </a>
             {post.frontmatter.description}

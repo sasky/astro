@@ -1012,6 +1012,7 @@ window.onload = function () {
 
   // handlers
   document.getElementById("p8b_full").addEventListener("click", () => {
+    console.log('request full');
     p8_give_focus();
     p8_request_fullscreen();
   });
@@ -1040,9 +1041,5 @@ window.onload = function () {
     p8_give_focus();
     p8_create_audio_context();
     Module.pico8ToggleSound();
-  });
-  document.getElementById("p8b_full").addEventListener("click", () => {
-    p8_give_focus();
-    p8_request_fullscreen();
   });
 };
