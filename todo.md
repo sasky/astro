@@ -1,3 +1,10 @@
+do images, mdx
+do css for headings
+change sasky to menu
+add sasky at home page
+do final copy proof read.
+Go live
+Add more selling my skills on about page.
 
 [] create about page, copy
 create another page about my work history
