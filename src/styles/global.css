@@ -24,15 +24,19 @@ html {
 }
 
 body {
-  margin: 0 auto;
+  overflow-x: hidden;
   width: 100%;
-  max-width: 120ch;
   padding: var(--size-5);
   line-height: 1.5;
 }
 
 * {
   box-sizing: border-box;
+}
+main {
+  margin: 0 auto;
+  max-width: 120ch;
+  position: relative;
 }
 /* type Start */
 
@@ -41,6 +45,25 @@ h1 {
   font-family: "ibm_plex", sans-serif;
   max-inline-size: initial;
   text-align: center;
+}
+h2,h3, h4, h5, h6 {
+  /* font-family: "Hack", sans-serif; */
+  font-family: "ibm_plex", sans-serif;
+  max-inline-size: initial;
+  margin-top: var(--size-5);
+  margin-bottom: var(--size-5);
+
+}
+h2 {
+  background: var(--gradient-5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+h3 {
+  background: var(--gradient-22);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
 }
 time {
   display: block;

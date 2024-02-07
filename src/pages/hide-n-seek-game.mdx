@@ -7,7 +7,7 @@ tags: ["pico8", "learning"]
 pico8: hidenseek
 ---
 
-import { Image, Picture } from "astro:assets";
+import {  Picture } from "astro:assets";
 import coldShower from "../images/cold_shower_new_hobby.jpg"; // Image is 1600x900
 import hiphop from "../images/daddy_at_work_listing_to_hip_hop.jpg";
 import headphones from "../images/full_attention_headphones.jpg";
@@ -17,6 +17,7 @@ import saltmines from "../images/salt_mines.jpg";
 import sandwich from "../images/sandwich_goes_under_hat.jpg";
 import whatnow from "../images/what_now_with_baby.jpg";
 import monkey from "../images/wheres_monkey.jpg"
+import ImageCollection from "../components/ImageCollection.astro"
 export const tags = ["pico8", "learning"];
 
 **use the arrow and X keys to play**
@@ -47,8 +48,7 @@ Watching them play it and laughing makes me feel all warm and fuzzy inside.
 
 Before the girls came along, Celestina used to make these occasional comic, usually to mock and of my hobbies of the week. And the tradition has kind of stuck by making each other cards for birthdays and the like.
 Here a few examples
-
-
+<ImageCollection>
 <Picture
   src={whatnow}
   width={600}
@@ -125,6 +125,7 @@ Here a few examples
   formats={["webp"]}
   alt="comic of little daddy taking a cold shower as a new hobby"
 />
+</ImageCollection>
 
 For a while there Arla's imaginary friends where little mummy and little daddy, which I suppose is a tad red flagy without context.
 

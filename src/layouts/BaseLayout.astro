@@ -1,11 +1,12 @@
 ---
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import { ViewTransitions } from 'astro:transitions';
-import '../styles/global.css';
-const {pageTitle,url} = Astro.props;
-const title = pageTitle ? pageTitle : 'sasky.nz';
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { ViewTransitions } from "astro:transitions";
+import "../styles/global.css";
+const { pageTitle, url } = Astro.props;
+const title = pageTitle ? pageTitle : "sasky.nz";
 ---
+
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -16,11 +17,10 @@ const title = pageTitle ? pageTitle : 'sasky.nz';
     <ViewTransitions />
   </head>
   <body>
-    <Header anchor={url}/>
-    {pageTitle && <h1>{pageTitle}</h1>}
-    <slot />
-    <Footer />
-    <script>
-    </script>
+    <Header anchor={url} />
+    <main>
+      {pageTitle && <h1>{pageTitle}</h1>}
+      <slot />
+    </main>
   </body>
 </html>

@@ -1,0 +1,22 @@
+<style is:global>
+  .image-collection {
+    /* breakout of container stuff */
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    /* child stuff */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  .image-collection picture {
+    padding: var(--size-3);
+  }
+</style>
+<div class="image-collection">
+  <slot />
+</div>
