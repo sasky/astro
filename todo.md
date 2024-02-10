@@ -1,9 +1,5 @@
-change sasky to menu
-add sasky at home page
 do final copy proof read. (gpt)
-do lighthouse tests/ accessibility audits
 check pico 8 is good on large monitor (think it's not)
-remove favicon
 
 Go live
  remove unneeded css

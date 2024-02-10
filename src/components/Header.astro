@@ -22,19 +22,20 @@ const anchorLink = isHome ? "menu" : toAnchor(Astro.url.pathname);
     filter: var(--noise-filter-1);
     background-size: cover;
     text-decoration: none;
-    color: var(--blue-6);
-  }
-  .flex:hover {
     color: var(--cyan-3);
   }
+  .flex:hover {
+    color: var(--cyan-2);
+  }
   .flex:hover .line {
-    background-color: var(--cyan-3);
+    background-color: var(--cyan-2);
   }
   .flex span {
     text-transform: uppercase;
     font-size: var(--size-4);
     text-decoration: underline;
     text-underline-offset: var(--size-1);
+
   }
 
   .hamburger {
@@ -52,8 +53,7 @@ const anchorLink = isHome ? "menu" : toAnchor(Astro.url.pathname);
     width: 40px;
     height: 5px;
     margin-bottom: 10px;
-    /* background-color: var(--orange-5); */
-    background-color: var(--blue-6);
+    background-color: var(--cyan-3);
   }
   h1,
   h2 {
@@ -62,8 +62,8 @@ const anchorLink = isHome ? "menu" : toAnchor(Astro.url.pathname);
   h1 {
     font-size: var(--size-10);
     background: var(--gradient-11);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
     /* font-size: var(--font-size-8); */
   }
   h2 {
@@ -74,16 +74,16 @@ const anchorLink = isHome ? "menu" : toAnchor(Astro.url.pathname);
 <header>
   {
     !isHome && (
-      <nav>
-        <a class="flex" href={"/#" + anchorLink}>
-          <div class="hamburger">
-            <span class="line" />
-            <span class="line" />
-            <span class="line" />
-          </div>
-          <span>menu</span>
-        </a>
-      </nav>
+  <nav>
+    <a class="flex" href={"/#" + anchorLink}>
+      <div class="hamburger">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+      <span>menu</span>
+    </a>
+  </nav>
     )
   }
   {

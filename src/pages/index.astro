@@ -3,7 +3,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { toAnchor  } from "../scripts/utils";
 const allPosts = await Astro.glob("../pages/*.mdx");
 
-const pageTitle = "";
+ const pageTitle = "";
+ const metaDescription = "Personal and professional website of Cameron Grant";
 ---
 
 <style>
@@ -24,7 +25,7 @@ const pageTitle = "";
     display: block;
   }
 </style>
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout pageTitle={pageTitle} metaDescription={metaDescription}>
 
   <nav id="menu"> 
     <ul>

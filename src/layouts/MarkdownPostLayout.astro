@@ -4,42 +4,39 @@ import Pico8 from "../components/Pico8.astro";
 const { frontmatter } = Astro.props;
 
 const dateYMD = frontmatter.pubDate.slice(0, 10);
-const dateDDMMYYYY = new Date(dateYMD).toLocaleDateString("en-GB" );
+const dateDDMMYYYY = new Date(dateYMD).toLocaleDateString("en-GB");
 ---
 
 <style>
-  
   .tags {
     display: inline-block;
-    margin:  0 0 var(--size-6)  0 ;
+    margin: 0 0 var(--size-6) 0;
     background-image: var(--gradient-21);
     border-radius: 5px;
   }
 
   .tags a {
     display: inline-block;
-    padding: var(--size-4)  var(--size-5);
+    padding: var(--size-4) var(--size-5);
     color: var(--stone-2);
-
   }
   .tags a:hover {
     color: var(--red-7);
     background-image: var(--gradient-5);
   }
   em {
-    margin:  0 0  var(--size-5)  0 ;
+    margin: 0 0 var(--size-5) 0;
   }
 </style>
 
-<BaseLayout pageTitle={frontmatter.title}>
+<BaseLayout
+  pageTitle={frontmatter.title}
+  metaDescription={frontmatter.description}
+>
   <time datetime={dateYMD}>{dateDDMMYYYY}</time>
   <nav class="tags">
-    {
-      frontmatter.tags.map((tag) => (
-          <a href={`/tags/${tag}`}>{tag}</a>
-      ))
-    }
-  </div>
+    {frontmatter.tags.map((tag) => <a href={`/tags/${tag}`}>{tag}</a>)}
+  </nav>
   <p><em>{frontmatter.description}</em></p>
 
   {
@@ -52,12 +49,7 @@ const dateDDMMYYYY = new Date(dateYMD).toLocaleDateString("en-GB" );
     )
   }
 
-  {
-    frontmatter.pico8 && (
-      <Pico8 pico8src={frontmatter.pico8} />
-    )
-  }
-  
+  {frontmatter.pico8 && <Pico8 pico8src={frontmatter.pico8} />}
 
   <slot />
 </BaseLayout>
