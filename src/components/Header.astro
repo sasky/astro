@@ -1,8 +1,8 @@
 ---
 import Hamburger from "./Hamburger.astro";
-import { toAnchor  } from "../scripts/utils";
-const  anchorLink  = Astro.url.pathname ==="/" ? 'menu': toAnchor(Astro.url.pathname);
-
+import { toAnchor } from "../scripts/utils";
+const isHome = Astro.url.pathname === "/";
+const anchorLink = isHome ? "menu" : toAnchor(Astro.url.pathname);
 ---
 
 <style>
@@ -11,6 +11,8 @@ const  anchorLink  = Astro.url.pathname ==="/" ? 'menu': toAnchor(Astro.url.path
   }
   nav {
     width: var(--size-content-1);
+  }
+  a {
   }
   .flex {
     display: flex;
@@ -23,14 +25,16 @@ const  anchorLink  = Astro.url.pathname ==="/" ? 'menu': toAnchor(Astro.url.path
     color: var(--blue-6);
   }
   .flex:hover {
-    color: var(--orange-5);
+    color: var(--cyan-3);
   }
   .flex:hover .line {
-    background-color: var(--orange-5);
+    background-color: var(--cyan-3);
   }
   .flex span {
     text-transform: uppercase;
     font-size: var(--size-4);
+    text-decoration: underline;
+    text-underline-offset: var(--size-1);
   }
 
   .hamburger {
@@ -51,16 +55,43 @@ const  anchorLink  = Astro.url.pathname ==="/" ? 'menu': toAnchor(Astro.url.path
     /* background-color: var(--orange-5); */
     background-color: var(--blue-6);
   }
+  h1,
+  h2 {
+    text-transform: uppercase;
+  }
+  h1 {
+    font-size: var(--size-10);
+    background: var(--gradient-11);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* font-size: var(--font-size-8); */
+  }
+  h2 {
+    text-align: center;
+    font-size: var(--size-8);
+  }
 </style>
 <header>
-  <nav>
-    <a class="flex" href={"/#" + anchorLink}>
-      <div class="hamburger">
-        <span class="line"></span>
-        <span class="line"></span>
-        <span class="line"></span>
-      </div>
-      <span>sasky.nz</span>
-    </a>
-  </nav>
+  {
+    !isHome && (
+      <nav>
+        <a class="flex" href={"/#" + anchorLink}>
+          <div class="hamburger">
+            <span class="line" />
+            <span class="line" />
+            <span class="line" />
+          </div>
+          <span>menu</span>
+        </a>
+      </nav>
+    )
+  }
+  {
+    isHome && (
+      <>
+        <h1>sasky.nz</h1>
+        <h2>Cameron Grant</h2>
+      </>
+    )
+  }
 </header>

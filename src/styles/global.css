@@ -38,6 +38,7 @@ main {
   max-width: 120ch;
   position: relative;
 }
+
 /* type Start */
 
 h1 {
@@ -54,12 +55,13 @@ h2,h3, h4, h5, h6 {
   margin-bottom: var(--size-5);
 
 }
-h2 {
+
+main h2 {
   background: var(--gradient-5);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-h3 {
+main h3 {
   background: var(--gradient-22);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -91,6 +93,7 @@ ul {
 }
 a {
   text-decoration: underline;
+  text-underline-offset: var(--size-1);
 }
 a:hover {
   color: var(--orange-5);
