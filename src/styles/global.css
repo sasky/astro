@@ -100,4 +100,10 @@ a:hover {
   /* text-decoration-color: var(--orange-5); */
 }
 
-/* type Start */
+/* Utils */
+.floated-right-image {
+  float: right;
+  margin-left: var(--size-3);
+  margin-bottom: var(--size-3);
+  box-shadow: var(--shadow-5)
+}
