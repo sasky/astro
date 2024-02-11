@@ -99,11 +99,13 @@ a:hover {
   color: var(--orange-5);
   /* text-decoration-color: var(--orange-5); */
 }
+picture {
+  box-shadow: var(--shadow-5)
+}
 
 /* Utils */
 .floated-right-image {
   float: right;
   margin-left: var(--size-3);
   margin-bottom: var(--size-3);
-  box-shadow: var(--shadow-5)
 }
