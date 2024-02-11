@@ -7,5 +7,5 @@
  */
 export function toAnchor(urlPath) {
   const str = urlPath.charAt(0) === "/" ? urlPath.substring(1) : urlPath;
-  return str.replace(/\//g, "-");
+  return str.trim().replace(/\//g, "-");
 }
