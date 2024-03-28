@@ -2,13 +2,9 @@ do final copy proof read. (gpt)
 check pico 8 is good on large monitor (think it's not)
 
 Go live
- remove unneeded css
+ remove unneeded css (uneeded styled componenets)
 
-[] create about page, copy
 
-Add more selling my skills on about page.
-create another page about my work history
-another page expanding on my work philosophy 
 
 update pico copy, that I will do a refactor clean code
 
@@ -20,13 +16,11 @@ get a better logo, add favicon
 ui rethink, tags at top of menu, add a footer
 
 
-[] hook up domain / live
 
 
 make the pico 8 code nicer
 https://www.npmjs.com/package/react-pico-8
 
-[] from sasky.nz to menu ?
 -- sticky menu might be nicer?
 [] do footer, or not
 [] next, prev links on the blog post?

@@ -1,0 +1,190 @@
+---
+layout: ../layouts/MarkdownPostLayout.astro
+title: cleaning up my sloppy Pico-8 code - part 1
+description: "Cleaning up my sloppy Pico-8 code"
+metaDescription: "Cleaning up my sloppy Pico-8 code"
+pubDate: 2024-02-14
+tags: []
+---
+
+
+## What does clean code look like in Pico 8?
+
+At the end of the post I wrote on the [Hide n Seek](/hide-n-seek-game) game I built.
+I mentioned that my code was not as clean, espically since I did a song a dance about how I'm all
+about well maintened code in the [about](/about) page.
+Here I'm going to explore what I think cleaner code in this Pico-8 game could look like,
+and talk about some potential patterns I may may apply to this code to improve maintainability
+
+
+Lets start by looking at other devs's Pico-8 code. Here is a list to some of the best Pico 8 games.
+https://nerdyteachers.com/PICO-8/Games/Top200/
+If you go to that page and have a look at the player, you can see a small handy button that will show the code underneath.
+I had a look through a couple of them to get a sense on how the best
+Pico-8 devs code their games.
+Now granted, the best games may not be the best example of code quality in some senses,
+this is because Pico-8 has such strict restrictions, one of which is the number of 'tokens'.
+You have 8192 tokens. A token, in pico-8 is basically every word, [symbol in the code](https://pico-8.fandom.com/wiki/Tokens)
+The best games tend to push right up against the limits, so they tend to use a few tricks to
+squeeze out a few more tokens.
+These tricks do tend to reduce the code readability. fortunately for me Ive only used half my tokens using Hide n Seek
+so plenty of space to full my cartridge up with nicer code.
+Premature optimisation being the root of eval and all that.
+
+Looking at the code for a few of these top games, I did notice the this object/entity pattern seemed
+to be quite popular.
+[By which I Mean that firstly Pico-8's game loop consists of three functions](https://www.lexaloffle.com/dl/docs/pico-8_manual.html#PICO_8_Program_Structure).
+
+
+```lua
+function _init()
+end
+function _update()
+end
+function _draw()
+end
+```
+
+So this pattern is to follow a pattern like so, where a collection of objects a stored, and looped though and updated/drawn
+form there own functions.
+
+```lua
+
+function _init()
+    objects = {}
+    add(objects, {
+        name: "object 1 ",
+        update = function(self)
+            print("updating " .. self.name)
+        end,
+        draw = function(self)
+            print("drawing " .. self.name)
+        end
+    })
+    add(objects, {
+        name: "object 2"
+        update = function(self)
+            print("updating " .. self.name)
+        end,
+        draw = function(self)
+            print("drawing " .. self.name)
+        end
+    })
+end
+function _update()
+    for object in all(objects) do
+        object:update()
+    end
+end
+function _draw()
+    for object in all(objects) do
+        object:draw()
+    end
+end
+```
+
+If you are new to Pico-8\lua code. Then you may have a couple of questions, well I did.
+The first one is so this is an array, it looks like an empty (js) object.
+```lua
+objects = {}
+```
+Yeah, it is. They call it a Sequence, or a special kind of Table.
+Tables can also be used as (js) objects by doing the key, value thing like object 1 and 2.
+In that case you have your blog standard JS object or Lua Table.
+Now that I think about it, this is the same as PHP, with arrays and associate arrays, expect
+PHP uses brackets instead of squiggly brackets.
+
+The next thing you may be starching your head over is this.
+```lua
+function _init()
+    objects = {}
+end
+```
+Yeah so, like JS declaring a variable makes it global by default.
+In fact a common patten is putting all your gloabls in the _init function.
+That way you can just call _init() if you need to restart the game.
+To make it local chuck a 'local' in front
+```lua
+function _init()
+    local objects = {}
+end
+```
+Lua is very simpler to JS conceptaully, it's intentionally minimal and flexible. Language like this are great
+as you can bring your own paradims and style to the language. But they are equally terrible for the same reason.
+global by default variables and dynamic types puts the ownins 100% on the author to keep the code easy to understand and
+work with. More opinuated languages can meet you somewhere in the middle.
+(think I'd like to write more on the above brain fart in the future)
+
+## lets go through the code
+
+The exercisee is, well make the code more reable and easier to work with.
+For me, this is really goind need to invole improving the mental overhead required to work in this code. It may be me, and real game devs are used to it.
+But I hate too many moving parts. meaning all these variable floating all around the place. It hurts, it's like going to the supermarket and needing
+to buy seven things and keeping that all floating around in your head.
+Yes it can be done, but It's to much brain power for me. Give me a list and
+a pen and I'll just go through and tick off the milk and bread one by one thank you.
+It's the same with all these god damm varibles all over the show. To much to keep in my pretty little head.
+Lets see if we can improve this in the code.
+Well with that preample, lets look through the code
+
+```lua
+
+function _init()
+    ...
+    selected_plr = 'select player'
+    selected = 0
+    add(
+        players, init_player(
+            'daddy', 58, 0, 17, 32, 63, 90 - 31, {
+                { x = 47, y = 24, toX = 63, toY = 24 },
+                { x = 47, y = 41, toX = 47, toY = 41 },
+                { x = 58, y = 97, toX = 58, toY = 62 },
+                { x = 113, y = 78, toX = 95, toY = 78 },
+                { x = 86, y = 36, toX = 104, toY = 36 },
+                { x = 0, y = 30, toX = 16, toY = 30 }
+            }
+        )
+    )
+    ...
+end
+
+```
+
+Here you can see me loading up the gloabls and loading these player
+objects.
+Already I can see a few things that I could improve, firstly
+`select_plr` and `selected` are global vars, but these bad boys are only needed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## heaps of moving parts, lots of constructor arguments
+
+
+## deeply coupled objects
+
+## player class is doing too much
+
+
+## state enum is getting a bit confusing
+
+
+# Approach? Object Orientated/ Functional/ Procedural?
+
+
+# let's start with the non side effect'y functions
