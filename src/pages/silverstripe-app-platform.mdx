@@ -1,0 +1,75 @@
+---
+layout: ../layouts/MarkdownPostLayout.astro
+title: "Cheap and easy Silverstripe Hosting"
+description: "Using Digital Ocean's App platform to host a  managed Silverstripe site on the cheap"
+metaDescription: "Using Digital Ocean's App platform to host a  managed Silverstripe site on the cheap"
+pubDate: 2024-04-01
+tags: ["silverstripe", "learning"]
+---
+
+import {  Picture } from "astro:assets";
+
+# Setup steps
+
+### Step 1: install and run Silverstripe locally
+```
+composer create-project silverstripe/installer my-website
+```
+
+
+with composer, create a new silverstripe project, 
+more info on the [silverstripe docs](https://docs.silverstripe.org/en/5/getting_started/composer/)
+
+
+
+
+Create an account on [Digital Ocean](https://www.digitalocean.com/)
+if you don't already have one. 
+Create a project called the name of you website
+Then smash that 'Create App' button on the App Platform page, and create a app 
+
+
+### Step 2
+Follow the steps to hook up a Sil
+
+
+
+### step 3
+```php 
+
+// app/_config.php
+
+<?php
+
+use SilverStripe\Control\Director;
+
+if (!Director::isDev()) {
+    Director::config()->set('alternate_base_url', 'https://elp-bookings-c35eo.ondigitalocean.app');
+}
+```
+
+
+
+
+### Step 4, set up Environment Variables
+
+```
+SS_DATABASE_CLASS=MySQLDatabase
+SS_DATABASE_SERVER=db-mysql-syd1-76912-do-user-266434-0.c.db.ondigitalocean.com
+SS_DATABASE_PORT=25060
+SS_DATABASE_USERNAME=doadmin
+SS_DATABASE_PASSWORD=AVNS_cyUOBXjdqGkTso92bJb
+SS_DATABASE_NAME=defaultdb
+SS_ENVIRONMENT_TYPE=live
+SS_FLUSH_ON_DEPLOY=true
+SS_DEFAULT_ADMIN_USERNAME=admin
+SS_DEFAULT_ADMIN_PASSWORD=ynDp9kQmKCrko$PK
+TZ=Pacific/Auckland
+SS_DATABASE_TIMEZONE=Pacific/Auckland
+SS_BASE_URL=https://elp-bookings-c35eo.ondigitalocean.app
+MAILER_DSN=smtp://resend:re_KKaWRjeq_8dAEnxhxpGeazFnBqMr6kAS4@smtp.resend.com:465
+```
+
+
+commands :
+build command: vendor/bin/sake dev/build "flush=1"
