@@ -102,6 +102,10 @@ a:hover {
 picture {
   box-shadow: var(--shadow-5)
 }
+pre{
+
+  margin:  0 0 var(--size-5) 0;
+}
 
 /* Utils */
 .floated-right-image {
