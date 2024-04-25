@@ -1,16 +1,30 @@
 ---
-import Social from './Social.astro';
+import Social from "./Social.astro";
 ---
+
 <style>
   footer {
     display: flex;
     gap: 1rem;
-    margin-top: 2rem;
+    margin-top: auto;
+    padding: var(--size-10) 0 var(--size-2) 0;
+  }
+  .footerNav {
+    display: inline-block;
+    margin: 0 0 var(--size-6) 0;
+    border-radius: 5px;
+    border: 2px solid var(--cyan-3);
+    box-shadow: var(--shadow-2);
   }
 </style>
 
 <footer>
-  <!-- <Social platform="twitter" username="astrodotbuild" />
-  <Social platform="github" username="withastro" />
-  <Social platform="youtube" username="astrodotbuild" /> -->
+  <nav class="footerNav">
+    <Social platform="Mastodon" link="https://mastodon.social/@sasky" />
+    <Social
+      platform="Linkedin"
+      link="https://www.linkedin.com/in/cameron-grant-5802b45b/"
+    />
+    <Social platform="Github" link="https://github.com/sasky/" />
+  </nav>
 </footer>
