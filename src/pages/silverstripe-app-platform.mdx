@@ -21,32 +21,30 @@ Think of the Framework as similar to Laravel, but a bit more shit.
 And the CMS bit as like Wordpress, also a bit more shit.
 Not that I have much love for Wordpress, but's that another story.
 
-So, where was I. Actually there is a sweet spot there which Is actually quite nice, that I haven't seen done in other projects in this space.
-I mean can you use Laravel or the other popular open source web application frameworks  like Ruby on Rail's or Elixir with Phoenix for client work? 
-They seem to be amazing Frameworks, but how can you use them for a client?
-Meaning, clients need a CMS, they need a nice intuitive backend to create and edit pages, customers, orders etc.
+So, where was I.... 
+There is a sweet spot there which is actually quite nice, that I haven't seen done in other projects in this space.
+SilverStripe is conceptually similar to MVC style frameworks like Laravel for PHP, Rail's for Ruby, Django for python and perhaps Phoenix for Elixir.
+I have often wondered if you use such frameworks for client work in a fast moving web agency setting? 
+My naive understanding is that these frameworks do have compatible CMS's but they are added later as a nicety, not being core to the Framework exactly. 
+SilverStripe has evolved from the get go with a CMS, and as such, is tightly integrated ecosystem.
 
-I have often wondered but too afraid to ask. 
-Clients need wysiwyg's! Am I right? 
-
-As much as we love writing our web content in markdown, pushing to Github
+As much as us devs love getting swept up in the new hotness like writing our web content in markdown, pushing to Github
 then having our fancy Jam stack'ish venture funded SAAS build and deploy our static'ish sites to the 'edge'.
 
-clients ain't having that nonsense, they just want something as similar to Word as possible.
-They want to edit some text, add a title or two, and see those changes instantly appear on their website.
+Clients ain't having that nonsense, they just want something as similar to Microsoft Word as possible.
+Clients seek familiarity, they want to edit some text, add a title or two, and see those changes instantly appear on their website.
 
 So enter Silverstripe, it's sweet spot is for building non trivial data driven websites using custom design's.
 It's great at building out relational data schemas (like one to many, many to many etc), quickly.
 Then the backend UI almost works out of the box which allowing clients to edit those data structures.
-I'm probably doing a terrible job at selling you, dear reader, on the merits of Silverstripe.
+I'm probably doing a terrible job at selling you; dear reader; on the merits of Silverstripe.
 But If I have sparked your interest, [I think the lessons page in the docs would be a good next step.](https://www.silverstripe.org/learn/lessons/v4/)
 
 If I sound a little bitter, I may be. I have spent probably 90% of my dev career working on Silverstripe websites of all sizes and complexities.
-I would like to move on from Silverstripe at this stage. But it's hard to get out. 
-But gosh darn, It's still such a great solution for many of the projects that come my way.
+I would like to move on from Silverstripe at this stage.
+But gosh darn, It's still such a great solution for many of the projects that come my way. Just when I think I'm out I keep getting pulled back in
 
-
-So any anyhoo
+So anyhoo
 
 ### Step 1: install and run Silverstripe locally
 
@@ -73,12 +71,13 @@ You will also need to create a managed mySql instance. This is because the App p
 it gives you it's more idealised cousin Postgres. 
 
 And in case you are thinking, oh shit, that's not a problem because
-I'm sure Silverstripe has a PostGres module, I'll just composer install that bad boy and happy days.
+I'm sure Silverstripe has a Postgres module, I'll just composer install that bad boy and happy days.
 Down that path, there be dragons, I tried the best part of a couple of hours getting that to work, but no dice.
 Didn't help that I didn't have Postgres installed locally and couldn't be arsed to. 
 But further digging, the port number in the Postgres module seems to be unconfigurable, and you need a exotic port for the App platform.
 Nothing a fork and pull request couldn't fix. But I took the step back at that point and asked if there was a faster way.
 Turns out there was, and that was just spinning up a managed Mysql database outside of the App platforms offerings.
+So go ahead and spin up a managed Mysql instance.
 
 ### Step 3: Set up environment variables
 
@@ -113,8 +112,9 @@ I didn't get that far.
 ```
 MAILER_DSN=smtp://resend:re_xxxxx@smtp.resend.com:465
 ```
-Here if you want the site to send emails, you can set up a smtp mailer service. Resend looked good, but I never got this far anyway.
-You will need a real domain to do this as whatever smtp service you use will want you put put some of that email MX records and other stuff on the DNS of your custom domain.
+Here if you want the site to send emails, you can set up a smtp mailer service. Resend looked good, but I never got this far along in the process anyway.
+You will need a real domain to do this as whatever SMTP service you use will want you put put some of that email MX 
+records and other stuff on the DNS of your custom domain.
 
 
 
@@ -129,11 +129,12 @@ And SilverStripe needs that dev/build run manually if there are schema changes i
 ### step 4: Check if https is working
 
 That just step here, well at least it was for me. This might not be necessarily if you set up a custom domain to point to your App platform instance.
-But the https didn't quite work with Silverstripe and the platform. 
-Even with SilverStripe's force https option.
-After source diving for a bit, adjusting the alternate_base_url config value did the trick.
-Seems that configuration variable is supposed to be used for testing, but I'n this case it fixed the 
-https issue I was having. 
+Which I also didn't get to, as it was just me kicking the tires.
+But the olf HTTPS thing didn't quite work with Silverstripe and the platform. 
+Even with SilverStripe's force HTTPS option.
+After source diving I found that adjusting the `alternate_base_url` config value did the trick.
+Seems that configuration variable is supposed to be used for testing, but in this case it fixed the 
+HTTPS issue I was having. 
 So if you are following on, place the following on your _config.php file. 
 Replacing the domain with your own
 
@@ -150,11 +151,13 @@ if (!Director::isDev()) {
 }
 ```
 
+(Or in your apps _config.yml file)
+
 Hopefully you got that set up faster than I did. I had it running for a month and got charged about $40 NZD's for the privilege.
 Now of course just setting up a fresh droplet and installing your own LAMP stack on it would be cheaper, and is something I have done in the
 past. But this seems to be a great way to get a Silverstripe site running without to much hassle, and with not having to worry too much
 about keeping Linux/mySql/Apache up to date and configured well for security and speed.
-I don't know how well a App platforms hosted Silverstripe site will perform under load, all I did was kick the tires.
+I don't know how well a App platforms hosted Silverstripe site will perform under load,
 but Hopefully it's a cost efficient way of having a somewhat managed Silverstripe hosting.
 
 Cam out.
