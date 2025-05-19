@@ -11,10 +11,10 @@
     "upgrade": "npx @astrojs/upgrade"
   },
   "dependencies": {
-    "@astro-community/astro-embed-youtube": "^0.5.2",
+    "@astro-community/astro-embed-youtube": "^0.5.6",
     "@astrojs/mdx": "^4.2.6",
     "@astrojs/rss": "^4.0.11",
     "astro": "^5.7.13",
-    "open-props": "^1.6.3"
+    "open-props": "^1.7.15"
   }
 }
