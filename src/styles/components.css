@@ -1,0 +1,5 @@
+/* Component Styles */
+@import 'components/header.css';
+@import 'components/footer.css';
+@import 'components/post.css';
+@import 'pages/index.css';

@@ -2,15 +2,4 @@
 const { platform, link } = Astro.props;
 ---
 
-<a target="_blank" href={`${link}`}>{platform}</a>
-<style>
-  a {
-    display: inline-block;
-    padding: var(--size-4) var(--size-5);
-    color: var(--stone-2);
-  }
-  a:hover {
-    color: var(--stone-2);
-    background-image: var(--gradient-7);
-  }
-</style>
+<a class="social-link" target="_blank" href={`${link}`}>{platform}</a>

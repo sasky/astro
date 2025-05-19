@@ -1,0 +1,26 @@
+.footer {
+  display: flex;
+  gap: 1rem;
+  margin-top: auto;
+  padding: var(--size-10) 0 var(--size-2) 0;
+}
+
+.footer-nav {
+  display: inline-block;
+  margin: 0 0 var(--size-6) 0;
+  border-radius: var(--border-radius);
+  border: 2px solid var(--color-link);
+  box-shadow: var(--box-shadow-standard);
+}
+
+.social-link {
+  display: inline-block;
+  padding: var(--nav-item-padding);
+  color: var(--color-text);
+  transition: background-image var(--transition-standard);
+}
+
+.social-link:hover {
+  color: var(--color-text);
+  background-image: var(--gradient-7);
+}

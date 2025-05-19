@@ -7,26 +7,8 @@ const pageTitle = "";
 const metaDescription = "Personal and professional website of Cameron Grant";
 ---
 
-<style>
-  nav {
-    margin-top: var(--size-8);
-  }
-
-  nav ul {
-  }
-  nav li {
-    margin-bottom: var(--size-6);
-    list-style: none;
-    padding-left: 0;
-    margin-left: 0;
-    max-inline-size: initial;
-  }
-  nav li a {
-    display: block;
-  }
-</style>
 <BaseLayout pageTitle={pageTitle} metaDescription={metaDescription}>
-  <nav id="menu">
+  <nav id="menu" class="home-nav">
     <ul>
       {
         allPosts.map((post) => (

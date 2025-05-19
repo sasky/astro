@@ -1,0 +1,40 @@
+.home-nav {
+  margin-top: var(--size-8);
+}
+
+.home-nav ul {
+  padding: 0;
+  margin: 0;
+}
+
+.home-nav li {
+  margin-bottom: var(--size-6);
+  list-style: none;
+  padding-left: 0;
+  margin-left: 0;
+  max-inline-size: initial;
+}
+
+.home-nav li a {
+  display: block;
+  transition: color var(--transition-standard);
+}
+
+.home-nav li a:hover {
+  color: var(--color-link-hover);
+}
+
+.home-nav p {
+  margin-top: var(--size-2);
+  color: var(--stone-4);
+}
+
+@media (min-width: 768px) {
+  .home-nav li {
+    margin-bottom: var(--size-8);
+  }
+  
+  .home-nav li a {
+    font-size: var(--size-5);
+  }
+}

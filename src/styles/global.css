@@ -1,32 +1,19 @@
 @import "fonts.css";
-/* optional imports that use the props */
-/* @import "open-props/normalize"; */
-/* @import "open-props/buttons"; */
-
+@import "theme.css";
+@import "components.css";
 @import "open-props/style";
-/* just light or dark themes */
 @import "open-props/normalize/dark";
 @import "open-props/buttons/dark";
-/* @import "open-props/normalize/light";
-@import "open-props/buttons/light"; */
 
-/* individual imports */
-/* @import "open-props/colors";
-@import "open-props/easings";
-@import "open-props/animations";
-@import "open-props/sizes";
-@import "open-props/gradients"; */
-/* see PropPacks for the full list */
-
+/* Base styles */
 html {
-  /* font-family: "ibm_plex", sans-serif; */
-  font-family: "Hack", sans-serif;
+  font-family: var(--font-primary);
 }
 
 body {
   overflow-x: hidden;
   width: 100%;
-  padding: var(--size-5);
+  padding: var(--site-padding);
   line-height: 1.5;
   display: flex;
   flex-direction: column;
@@ -36,49 +23,48 @@ body {
 * {
   box-sizing: border-box;
 }
+
 main,
 footer {
   margin: 0 auto;
-  max-width: 120ch;
+  max-width: var(--content-max-width);
   position: relative;
 }
+
 main {
   width: 100%;
 }
 
-/* type Start */
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  max-inline-size: initial;
+  margin-top: var(--heading-spacing);
+  margin-bottom: var(--heading-spacing);
+}
 
 h1 {
-  /* font-family: "Hack", sans-serif; */
-  font-family: "ibm_plex", sans-serif;
-  max-inline-size: initial;
   text-align: center;
-}
-h2,
-h3,
-h4,
-h5,
-h6 {
-  /* font-family: "Hack", sans-serif; */
-  font-family: "ibm_plex", sans-serif;
-  max-inline-size: initial;
-  margin-top: var(--size-5);
-  margin-bottom: var(--size-5);
+  background: var(--color-heading-gradient-h1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 main h2 {
-  background: var(--gradient-5);
+  background: var(--color-heading-gradient-h2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
 main h3 {
-  background: var(--gradient-22);
+  background: var(--color-heading-gradient-h3);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
 time {
   display: block;
-  font-family: "ibm_plex", sans-serif;
+  font-family: var(--font-heading);
   max-inline-size: initial;
   text-align: center;
   font-size: var(--size-4);
@@ -88,38 +74,55 @@ time {
 p {
   max-inline-size: initial;
 }
+
 li {
-  /* padding-inline-start: var(--size-2); */
   margin-left: var(--size-3);
 }
-p,
-li {
+
+p, li {
   line-height: var(--size-6);
 }
-p,
-ul {
-  padding: 0 0 var(--size-5) 0;
+
+p, ul {
+  padding: 0 0 var(--element-spacing) 0;
   line-height: var(--size-7);
 }
+
+/* Links */
 a {
   text-decoration: underline;
   text-underline-offset: var(--size-1);
-  cursor: pointer !important;
-}
-a:hover {
-  color: var(--orange-5);
-  /* text-decoration-color: var(--orange-5); */
-}
-picture {
-  box-shadow: var(--shadow-5);
-}
-pre {
-  margin: 0 0 var(--size-5) 0;
+  cursor: pointer;
+  transition: color var(--transition-standard);
 }
 
-/* Utils */
+a:hover {
+  color: var(--color-link-hover);
+}
+
+/* Media elements */
+picture {
+  box-shadow: var(--box-shadow-image);
+}
+
+pre {
+  margin: 0 0 var(--element-spacing) 0;
+}
+
+/* Utility classes */
 .floated-right-image {
   float: right;
   margin-left: var(--size-3);
   margin-bottom: var(--size-3);
+}
+
+/* Media queries */
+@media (min-width: 678px) {
+  h1 {
+    font-size: var(--size-10);
+  }
+  
+  h2 {
+    font-size: var(--size-8);
+  }
 }
