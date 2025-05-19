@@ -1,8 +1,11 @@
 ---
 import Hamburger from "./Hamburger.astro";
-import { toAnchor } from "../scripts/utils";
+import { toAnchor ,endsWithDash} from "../scripts/utils";
+import { any } from "astro:schema";
 const isHome = Astro.url.pathname === "/";
-const anchorLink = isHome ? "menu" : toAnchor(Astro.url.pathname);
+const anchor = toAnchor(Astro.url.pathname);
+const trimmedAnchor = endsWithDash(anchor) ? anchor.slice(0, -1) : anchor;
+const anchorLink = isHome ? "menu" : trimmedAnchor;
 ---
 <header>
   {
