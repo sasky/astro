@@ -4,91 +4,15 @@ import { toAnchor } from "../scripts/utils";
 const isHome = Astro.url.pathname === "/";
 const anchorLink = isHome ? "menu" : toAnchor(Astro.url.pathname);
 ---
-
-<style>
-  header {
-    margin-bottom: var(--size-8);
-  }
-  nav {
-    width: var(--size-content-1);
-  }
-  a {
-  }
-  .flex {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    /* background-image: var(--gradient-12),var(--noise-3); */
-    filter: var(--noise-filter-1);
-    background-size: cover;
-    text-decoration: none;
-    color: var(--cyan-3);
-  }
-  .flex:hover {
-    color: var(--cyan-2);
-  }
-  .flex:hover .line {
-    background-color: var(--cyan-2);
-  }
-  .flex span {
-    text-transform: uppercase;
-    font-size: var(--size-4);
-    text-decoration: underline;
-    text-underline-offset: var(--size-1);
-  }
-
-  .hamburger {
-    display: inline-block;
-    /* padding-right: 20px; */
-    cursor: pointer;
-    display: inline-block;
-    cursor: pointer;
-    top: 5px;
-    position: relative;
-  }
-
-  .line {
-    display: block;
-    width: 40px;
-    height: 5px;
-    margin-bottom: 10px;
-    background-color: var(--cyan-3);
-  }
-  h1,
-  h2 {
-    text-transform: uppercase;
-  }
-  h1 {
-    font-size: var(--size-7);
-    background: var(--gradient-11);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    /* font-size: var(--font-size-8); */
-  }
-  h2 {
-    margin-top: 0;
-    text-align: center;
-    font-size: var(--size-5);
-  }
-  @media (min-width: 678px) {
-    h1 {
-      background-color: red;
-      font-size: var(--size-10);
-    }
-    h2 {
-      font-size: var(--size-8);
-    }
-  }
-</style>
 <header>
   {
     !isHome && (
-      <nav>
-        <a class="flex" href={"/#" + anchorLink}>
-          <div class="hamburger">
-            <span class="line" />
-            <span class="line" />
-            <span class="line" />
+      <nav class="header-nav">
+        <a class="header-link" href={"/#" + anchorLink}>
+          <div class="header-hamburger">
+            <span class="header-line" />
+            <span class="header-line" />
+            <span class="header-line" />
           </div>
           <span>menu</span>
         </a>
@@ -98,8 +22,8 @@ const anchorLink = isHome ? "menu" : toAnchor(Astro.url.pathname);
   {
     isHome && (
       <>
-        <h1>sasky.nz</h1>
-        <h2>Cameron Grant</h2>
+        <h1 class="header-title">sasky.nz</h1>
+        <h2 class="header-subtitle">Cameron Grant</h2>
       </>
     )
   }

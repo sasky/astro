@@ -1,0 +1,53 @@
+:root {
+  /* Typography */
+  --font-primary: "Hack", sans-serif;
+  --font-heading: "ibm_plex", sans-serif;
+  
+  /* Spacing */
+  --site-padding: var(--size-5);
+  --content-max-width: 120ch;
+  --element-spacing: var(--size-5);
+  --heading-spacing: var(--size-5);
+  
+  /* Colors */
+  --color-link: var(--cyan-3);
+  --color-link-hover: var(--orange-5);
+  --color-heading: var(--cyan-3);
+  --color-text: var(--stone-2);
+  --color-heading-gradient-h1: var(--gradient-11);
+  --color-heading-gradient-h2: var(--gradient-5);
+  --color-heading-gradient-h3: var(--gradient-22);
+  
+  /* UI Elements */
+  --nav-item-padding: var(--size-4) var(--size-5);
+  --border-radius: 5px;
+  --box-shadow-standard: var(--shadow-2);
+  --box-shadow-image: var(--shadow-5);
+  
+  /* Animations */
+  --transition-standard: 0.3s ease;
+}
+
+/* Dark Mode Specific Variables */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: var(--stone-9);
+    --color-text: var(--stone-2);
+  }
+}
+
+/* Light Mode Specific Variables (if needed in the future) */
+@media (prefers-color-scheme: light) {
+  :root {
+    /* Uncomment when needed */
+    /* --color-background: var(--stone-1); */
+    /* --color-text: var(--stone-9); */
+  }
+}
+
+/* Mobile-first Responsive Breakpoints */
+@media (min-width: 678px) {
+  :root {
+    --site-padding: var(--size-7);
+  }
+}

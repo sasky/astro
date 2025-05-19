@@ -2,24 +2,8 @@
 import Social from "./Social.astro";
 ---
 
-<style>
-  footer {
-    display: flex;
-    gap: 1rem;
-    margin-top: auto;
-    padding: var(--size-10) 0 var(--size-2) 0;
-  }
-  .footerNav {
-    display: inline-block;
-    margin: 0 0 var(--size-6) 0;
-    border-radius: 5px;
-    border: 2px solid var(--cyan-3);
-    box-shadow: var(--shadow-2);
-  }
-</style>
-
-<footer>
-  <nav class="footerNav">
+<footer class="footer">
+  <nav class="footer-nav">
     <Social platform="Mastodon" link="https://mastodon.social/@sasky" />
     <Social
       platform="Linkedin"
