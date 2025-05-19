@@ -1,10 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { toAnchor  } from "../scripts/utils";
+import { toAnchor } from "../scripts/utils";
 const allPosts = await Astro.glob("../pages/*.mdx");
 
- const pageTitle = "";
- const metaDescription = "Personal and professional website of Cameron Grant";
+const pageTitle = "";
+const metaDescription = "Personal and professional website of Cameron Grant";
 ---
 
 <style>
@@ -26,17 +26,19 @@ const allPosts = await Astro.glob("../pages/*.mdx");
   }
 </style>
 <BaseLayout pageTitle={pageTitle} metaDescription={metaDescription}>
-
-  <nav id="menu"> 
+  <nav id="menu">
     <ul>
       {
         allPosts.map((post) => (
           <li>
-            <a id={toAnchor(post.url || '')} href={post.url} data-astro-reload={!!post.frontmatter.pico8}>
-              
+            <a
+              id={toAnchor(post.url || "")}
+              href={post.url}
+              data-astro-reload={!!post.frontmatter.pico8}
+            >
               {post.frontmatter.title}
             </a>
-            {post.frontmatter.description}
+            <p>{post.frontmatter.description}</p>
           </li>
         ))
       }

@@ -99,10 +99,12 @@ li {
 p,
 ul {
   padding: 0 0 var(--size-5) 0;
+  line-height: var(--size-7);
 }
 a {
   text-decoration: underline;
   text-underline-offset: var(--size-1);
+  cursor: pointer !important;
 }
 a:hover {
   color: var(--orange-5);
