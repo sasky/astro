@@ -1,7 +1,7 @@
 ---
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 import "../styles/global.css";
 const { pageTitle, url, metaDescription } = Astro.props;
 const title = pageTitle ? pageTitle : "sasky.nz";
@@ -14,7 +14,7 @@ const title = pageTitle ? pageTitle : "sasky.nz";
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={metaDescription} />
-    <ViewTransitions />
+    <ClientRouter />
   </head>
   <body>
     <Header anchor={url} />

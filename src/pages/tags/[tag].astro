@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 export async function getStaticPaths() {
-  const allPosts:any[] = await Astro.glob("./../*.mdx");
+  const allPosts:any[] = Object.values(import.meta.glob("./../*.mdx", { eager: true }));
 
 
   const uniqueTags:any[] = [

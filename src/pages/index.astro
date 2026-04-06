@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { toAnchor } from "../scripts/utils";
-const allPosts = await Astro.glob("../pages/*.mdx");
+const allPosts = Object.values(import.meta.glob("../pages/*.mdx", { eager: true })) as any[];
 
 const pageTitle = "";
 const metaDescription = "Personal and professional website of Cameron Grant";
