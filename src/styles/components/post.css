@@ -9,7 +9,9 @@
   display: inline-block;
   padding: var(--nav-item-padding);
   color: var(--color-text);
-  transition: color var(--transition-standard), background-image var(--transition-standard);
+  transition:
+    color var(--transition-standard),
+    background-image var(--transition-standard);
 }
 
 .post-tags a:hover {
@@ -41,3 +43,8 @@
   max-width: 100%;
   overflow: hidden;
 }
+
+lite-youtube {
+  margin-bottom: var(--element-spacing);
+}
+
