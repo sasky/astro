@@ -5,7 +5,7 @@ export async function GET(context) {
     title: 'Sasky.nz' ,
     description: 'Cameron\'s website',
     site: context.site,
-    items: await pagesGlobToRssItems(import.meta.glob('./**/*.md')),
+    items: await pagesGlobToRssItems(import.meta.glob('./**/*.{md,mdx}')),
     customData: `<language>en-us</language>`,
   });
 }
