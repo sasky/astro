@@ -1,6 +1,8 @@
 import { experimental_AstroContainer as AstroContainer } from "astro/container";
 import { beforeAll, expect, test } from "vitest";
+import HpPrevNext from "../../src/components/hp/HpPrevNext.astro";
 import ListingBand from "../../src/components/hp/ListingBand.astro";
+import PostHeader from "../../src/components/hp/PostHeader.astro";
 import PostRow from "../../src/components/hp/PostRow.astro";
 import type { PostEntry } from "../../src/lib/get-posts";
 
@@ -65,4 +67,34 @@ test("ListingBand omits an empty intro", async () => {
 test("ListingBand without wash", async () => {
   expect(await container.renderToString(ListingBand, { props: band })).toContain("wash");
   expect(await container.renderToString(ListingBand, { props: { ...band, wash: false } })).not.toContain("wash");
+});
+
+test("HpPrevNext without an older post shows only All Life posts", async () => {
+  const html = await container.renderToString(HpPrevNext, { props: { section: "life" } });
+  expect(html.match(/<a\b/g)).toHaveLength(1);
+  expect(html).toContain('href="/life"');
+  expect(html).toContain("All Life posts");
+  expect(html).toContain("Life →");
+  expect(html).not.toContain("Older in Life");
+});
+
+test("HpPrevNext with an older post links it first", async () => {
+  const html = await container.renderToString(HpPrevNext, { props: { section: "life", older: concert } });
+  expect(html).toContain("← Older in Life");
+  expect(html).toContain("Concert vids");
+  expect(html.indexOf('href="/life/top-concertvids"')).toBeGreaterThan(-1);
+  expect(html.indexOf('href="/life/top-concertvids"')).toBeLessThan(html.indexOf('href="/life"'));
+});
+
+test("PostHeader breadcrumb and meta", async () => {
+  const { title, description, pubDate } = concert.data;
+  const html = await container.renderToString(PostHeader, {
+    props: { section: "life", title, description, pubDate, minutes: 6 },
+  });
+  const nav = html.match(/<nav[^>]*aria-label="Breadcrumb"[^>]*>([\s\S]*?)<\/nav>/)?.[1] ?? "";
+  expect(nav).toMatch(/href="\/"[^>]*>\s*sasky\.nz\s*</);
+  expect(nav).toMatch(/href="\/life"[^>]*>\s*Life\s*</);
+  expect(html).toMatch(/<h1[^>]*>\s*Concert vids\s*<\/h1>/);
+  expect(html).toContain('datetime="2024-05-17"');
+  expect(html).toContain("6 min read");
 });
