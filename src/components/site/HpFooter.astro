@@ -1,0 +1,151 @@
+---
+// HP footer (Home, Life, tags, 404). Values: Site-Life-List.dc.html.
+import { SOCIAL } from "../../data/social";
+
+const year = new Date().getUTCFullYear();
+const links = SOCIAL.filter(({ label }) => label !== "RSS");
+const rss = SOCIAL.find(({ label }) => label === "RSS")!;
+---
+
+<footer class="hp-footer">
+  <div class="hp-footer-row">
+    <div class="hp-footer-id">
+      <a class="hp-footer-wordmark" href="/"><span class="hp-footer-mark" aria-hidden="true"></span>sasky.nz</a>
+      <span class="hp-footer-copy">© {year} Cameron Grant</span>
+    </div>
+    <nav class="hp-footer-nav" aria-label="Contact and feed">
+      {
+        links.map(({ label, href }) => (
+          <a class="hp-footer-link" href={href}>
+            {label}
+          </a>
+        ))
+      }
+      <a class="hp-footer-rss" href={rss.href}><span class="hp-footer-rss-label">{rss.label}</span></a>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .hp-footer {
+    position: relative;
+    z-index: 1;
+    border-top: 2px solid #12163d;
+    background-color: rgba(246, 241, 231, 0.94);
+  }
+
+  .hp-footer-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 24px;
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 18px var(--gutter);
+    line-height: 1.2;
+  }
+
+  .hp-footer-id {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 20px;
+  }
+
+  .hp-footer-wordmark {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    color: #12163d;
+    font-family: var(--font-fraunces);
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+
+  .hp-footer-wordmark:hover {
+    color: #1f3fd6;
+  }
+
+  .hp-footer-mark {
+    display: block;
+    width: 10px;
+    height: 10px;
+    background-color: #ff6a1f;
+    box-shadow: 3px 3px 0 #2452ff;
+    transform: rotate(-8deg);
+  }
+
+  .hp-footer-copy {
+    color: #4a4e6e;
+    font-family: var(--font-jetbrains);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  .hp-footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 4px;
+    font-family: var(--font-jetbrains);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .hp-footer-link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 10px;
+    color: #12163d;
+    text-decoration: none;
+  }
+
+  .hp-footer-link:hover {
+    color: #1f3fd6;
+    box-shadow: inset 0 -3px 0 #ff6a1f;
+  }
+
+  .hp-footer-link:active {
+    background-color: rgba(255, 106, 31, 0.2);
+  }
+
+  .hp-footer-rss {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 0 0 10px;
+    text-decoration: none;
+  }
+
+  .hp-footer-rss-label {
+    display: flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 3px 12px;
+    border-radius: 3px;
+    background-color: #ff6a1f;
+    box-shadow: 0 2px 0 rgba(18, 22, 61, 0.25);
+    color: #12163d;
+    transform: rotate(-2deg);
+  }
+
+  .hp-footer-rss:hover .hp-footer-rss-label {
+    background-color: #12163d;
+    color: #ffffff;
+  }
+
+  @media (max-width: 760px) {
+    .hp-footer-row {
+      padding: 18px 20px;
+    }
+  }
+</style>

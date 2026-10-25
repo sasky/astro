@@ -6,17 +6,18 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 - **Account:** `~/Sasky/` repos use the `sasky` GitHub account (cam@sasky.nz). Check `gh auth status` and `git config user.email` before pushing.
 - **Every PR runs:** `npm run build`, `npm run check`, `npm test`, `npm run check:links`, `npm run check:redirects -- --dist` and `npm run test:e2e`.
 
-## Status (26 Oct 2026)
+## Status (26 Oct 2026, after Phase 3)
 
 | Phase | State | PR |
 |---|---|---|
 | 1. Tooling and baseline | Merged into `feature/redesign` | [#3](https://github.com/sasky/astro/pull/3) |
-| 2. Collections, routes, redirects | In review | [#4](https://github.com/sasky/astro/pull/4) |
-| 3. Foundations | Next: light brainstorm (layout props, theme CSS scoping), then plan | — |
-| 4–9 | Not started | — |
+| 2. Collections, routes, redirects | Merged into `feature/redesign` | [#4](https://github.com/sasky/astro/pull/4) |
+| 3. Foundations | In review | [#5](https://github.com/sasky/astro/pull/5) |
+| 4. HP pages | Next: brainstorm (hero composition, tag selector without JS), then plan | — |
+| 5–9 | Not started | — |
 
 **Waiting on Cam**
-- Review and merge #4.
+- Review and merge the Phase 3 PR.
 - **Content review**, any time before Phase 9 (the posts are now in `src/content/posts/`):
   - Pick tags for every post. The current ones are interim (Q1), and Classy has none.
   - NZ Music's computed excerpt is its link-only first paragraph ("Waiata 100. what is Atearoa's favourite song"). Set `excerpt:` in its frontmatter for the On listing if you want something else.
@@ -29,7 +30,20 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 - **Phase 4 or 6:** `excerpt()` doesn't yet skip list, blockquote or MDX-comment blocks, or strip backticks. Fix before an On post opens with a quote or list.
 - **Phase 7:** `/code/` (trailing slash) is served as a duplicate of `/code`. Canonical URLs cover it. The RSS feed also lacks an `atom:link rel="self"` (a validator warning).
 - **Phase 9:** check the redirects on a real Netlify preview of the PR into `main`. So far they're verified only on Netlify's local emulator.
-- **Minor:** same-date ties are only pinned through `sortNewest`.
+- **Phase 5:**
+  - Repeat the lasting chrome checks on the first Code page: top-bar geometry, tab order, inert texture and no theme leakage.
+  - Re-pin the reduced-motion test for the cursor; it was deleted with the Phase 3 demo pages.
+  - Gate the Code listing's prompt cursor under `prefers-reduced-motion` the same way.
+- **Phase 6:**
+  - Repeat the lasting chrome checks on the first On page.
+  - `OnLayout` always renders `<OnFooter placement="after">`. The On listing needs `placement="inside"`, so add a footer prop or slot.
+  - The On wordmark mark lacks the design's `margin: 0 1px`. Add a `--mark-margin` token.
+- **Phase 8:** check the Fraunces SOFT/WONK defaults against the design in the visual comparison.
+- **Minor:**
+  - Same-date ties are only pinned through `sortNewest`.
+  - There's no lasting test that Fraunces keeps its `opsz` axis.
+  - `HpFooter` finds RSS by its label.
+  - Legacy pages import `LegacyBaseLayout` under the local name `BaseLayout`.
 
 ## Standing rules
 
@@ -42,6 +56,8 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 - **URL shape:** no trailing slash. Section paths come from `SECTIONS[s].path` and post URLs from `postUrl()`. The On section is `/meditations`.
 - **Redirects are checked locally:** `npm run build`, then `npx netlify-cli dev --offline --dir dist --port 8888`, then `npm run check:redirects -- --url http://localhost:8888`.
 - **Dates:** `npm test` runs under `TZ=America/Los_Angeles`, so any date formatting that depends on the build machine's time zone fails.
+- **Theme isolation:** a theme's tokens live under `:root[data-theme="…"]` in its own CSS file, imported only by its layout. Shared components use tokens only, and theme link rules are wrapped in `:where()` so component styles win. The 404 test fails if Code or On styles or fonts reach an HP page.
+- **Page paths:** use `pagePath(Astro.url)` (it strips `.html`), never a raw `Astro.url`, for canonical URLs and the current section.
 - **Baseline screenshots** of the old site are in `qa/baseline/` (gitignored). Regenerate them from `main` with `npm run build && npm run baseline`.
 
 ## How each phase runs
@@ -60,7 +76,7 @@ Each phase starts with the superpowers sessions it needs, in this order:
 |---|---|---|---|
 | 1. Tooling and baseline | No | Native (used) | Config only, nothing to decide. |
 | 2. Collections, routes, redirects | No | Native (used) | URLs and redirects are settled; automated link, redirect and e2e checks plus one final review covered the risk. |
-| 3. Foundations | Light | Subagent-driven | Layout props and how theme CSS is scoped get reused by every later phase. |
+| 3. Foundations | Light (done) | Native (used) | Layout props and how theme CSS is scoped get reused by every later phase. |
 | 4. HP pages | Yes | Subagent-driven | Hero composition and the tag selector's no-JS behaviour. |
 | 5. Code pages | Light | Subagent-driven | Code-block caption bar, Pico-8 panel (G4), image grid (G3). |
 | 6. On pages | Yes | Subagent-driven | `onTips` plugin, prose for posts without tips (G1), On video cards (G2). |
@@ -95,12 +111,12 @@ PR: [#4](https://github.com/sasky/astro/pull/4)
 
 ### Phase 3: Foundations
 
-PR: _none yet_
+PR: [#5](https://github.com/sasky/astro/pull/5)
 
-- [ ] 3.1 Fonts through the Astro Fonts API (S)
-- [ ] 3.2 Base styles and theme tokens (M)
-- [ ] 3.3 Layouts and shared chrome: top bar, skip link, footers (M)
-- [ ] 3.4 404 page (S)
+- [x] 3.1 Fonts through the Astro Fonts API (S)
+- [x] 3.2 Base styles and theme tokens (M)
+- [x] 3.3 Layouts and shared chrome: top bar, skip link, footers (M)
+- [x] 3.4 404 page (S)
 
 ### Phase 4: HP pages (Home and Life)
 

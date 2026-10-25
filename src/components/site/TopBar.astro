@@ -1,0 +1,148 @@
+---
+// The shared top bar. Geometry is the same in every theme; colours, fonts
+// and the wordmark mark come from the theme's tokens (themes/*.css).
+import { SECTIONS, SECTION_ORDER, type Section } from "../../data/sections";
+import { pagePath, sectionForPath } from "../../lib/paths";
+
+interface Props {
+  /** Overrides the section worked out from the URL. */
+  current?: Section;
+  /** Overrides whether the page is that section's listing. */
+  isListing?: boolean;
+}
+
+const path = pagePath(Astro.url);
+const fromPath = sectionForPath(path);
+const current = Astro.props.current ?? fromPath?.section;
+const isListing = Astro.props.isListing ?? fromPath?.isListing ?? false;
+const isHome = path === "/";
+---
+
+<header class="site-bar">
+  <div class="site-bar-row">
+    <a class="site-wordmark" href="/" aria-current={isHome ? "page" : undefined}>
+      <span class="site-mark" aria-hidden="true"></span>sasky.nz
+    </a>
+    <nav class="site-nav" aria-label="Sections">
+      {
+        SECTION_ORDER.map((section) => (
+          <a
+            class="site-nav-link"
+            href={`/${SECTIONS[section].path}`}
+            aria-current={section === current ? (isListing ? "page" : "true") : undefined}
+          >
+            {SECTIONS[section].label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-bar {
+    position: relative;
+    z-index: 3;
+    border-bottom: var(--rule) solid var(--bar-rule);
+    background-color: var(--bar-bg);
+  }
+
+  .site-bar-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 24px;
+    max-width: var(--wrap);
+    min-height: var(--bar-h);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    line-height: 1.2;
+  }
+
+  .site-wordmark {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    color: var(--wordmark-color);
+    font-family: var(--wordmark-font);
+    font-size: 24px;
+    font-style: var(--wordmark-style);
+    font-weight: var(--wordmark-weight);
+    letter-spacing: var(--wordmark-tracking);
+    text-decoration: none;
+  }
+
+  .site-wordmark:hover {
+    color: var(--wordmark-hover-color);
+    text-shadow: var(--wordmark-hover-shadow);
+  }
+
+  .site-mark {
+    display: block;
+    width: var(--mark-w);
+    height: var(--mark-h);
+    background-color: var(--mark-bg);
+    box-shadow: var(--mark-shadow);
+    transform: rotate(var(--mark-rotate));
+  }
+
+  .site-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--nav-font);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: var(--nav-tracking);
+    text-transform: var(--nav-transform);
+  }
+
+  .site-nav-link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 14px;
+    color: var(--nav-color);
+    text-decoration: none;
+    transition:
+      background-color 0.12s ease,
+      color 0.12s ease;
+  }
+
+  .site-nav-link[aria-current] {
+    color: var(--nav-current-color);
+    box-shadow: inset 0 -3px 0 var(--nav-current-rule);
+  }
+
+  .site-nav-link:hover {
+    background-color: var(--nav-hover-bg);
+    color: var(--nav-hover-color);
+    box-shadow: inset 0 -3px 0 var(--nav-hover-rule);
+  }
+
+  .site-nav-link[aria-current]:hover {
+    box-shadow: inset 0 -3px 0 var(--nav-current-rule);
+  }
+
+  .site-nav-link:active {
+    background-color: var(--nav-active-bg);
+    color: var(--nav-active-color);
+  }
+
+  @media (max-width: 480px) {
+    .site-bar-row {
+      gap: 4px 12px;
+    }
+
+    .site-wordmark {
+      gap: 10px;
+      font-size: 20px;
+    }
+
+    .site-nav-link {
+      padding: 0 10px;
+    }
+  }
+</style>

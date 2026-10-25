@@ -1,0 +1,106 @@
+/*
+ * Shared base for the redesigned pages. Theme colours, fonts and textures
+ * live in themes/{hp,code,on}.css, each imported only by its own layout.
+ *
+ * Breakpoints (custom media isn't available, so they're written out):
+ *   480px  top bar tightens (16px gutters, smaller wordmark)
+ *   760px  HP stacks; Code and On listings and the On post go single-column
+ *   900px  Code post drops its table of contents
+ */
+
+:root {
+  --bar-h: 66px;
+  --wrap: 1120px;
+  --gutter: 24px;
+  --rule: 2px;
+}
+
+@media (max-width: 480px) {
+  :root {
+    --gutter: 16px;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background-color: var(--page-bg);
+  color: var(--ink);
+  font-family: var(--body-font);
+  font-size: var(--body-size);
+  line-height: var(--body-leading);
+}
+
+img,
+picture,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  overflow-wrap: break-word;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+:focus-visible {
+  outline: var(--focus-width, 2px) solid var(--focus);
+  outline-offset: 3px;
+}
+
+::selection {
+  background-color: var(--selection-bg);
+  color: var(--selection-ink);
+}
+
+/* Cross-document fade between pages (Q7), where the browser supports it. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

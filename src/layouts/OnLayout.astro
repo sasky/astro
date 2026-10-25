@@ -1,0 +1,53 @@
+---
+// On theme layout: the Sideshow handbill look for the meditations.
+import { Font } from "astro:assets";
+import BaseLayout from "./BaseLayout.astro";
+import SkipLink from "../components/site/SkipLink.astro";
+import Texture from "../components/site/Texture.astro";
+import TopBar from "../components/site/TopBar.astro";
+import OnFooter from "../components/site/OnFooter.astro";
+import "../styles/themes/on.css";
+
+interface Props {
+  title: string;
+  description: string;
+  ogType?: "website" | "article";
+  noindex?: boolean;
+  /** Texture strength (0–1); defaults to the theme's. */
+  texture?: number;
+}
+
+const { texture, ...meta } = Astro.props;
+---
+
+<BaseLayout theme="on" {...meta}>
+  <Fragment slot="head">
+    <Font cssVariable="--font-holtwood" preload={[{ subset: "latin" }]} />
+    <Font cssVariable="--font-alfa" />
+    <Font cssVariable="--font-rye" />
+    <Font cssVariable="--font-oswald" />
+  </Fragment>
+  <div class="page">
+    <SkipLink />
+    <Texture opacity={texture} />
+    <TopBar />
+    <main id="main" class="page-main"><slot /></main>
+    <OnFooter />
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow: clip;
+  }
+
+  .page-main {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+  }
+</style>

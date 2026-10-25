@@ -1,0 +1,65 @@
+---
+// A post's tags as links to their tag pages. Styled by the theme's --tag-*
+// tokens; Code shows tags as [tag]. Renders nothing for an untagged post.
+interface Props {
+  tags: string[];
+  theme: "hp" | "code" | "on";
+}
+
+const { tags, theme } = Astro.props;
+---
+
+{
+  tags.length > 0 && (
+    <ul class="tag-links" role="list">
+      {tags.map((tag) => (
+        <li>
+          <a class="tag-link" href={`/tags/${tag}`}>
+            <span class="tag-label">{theme === "code" ? `[${tag}]` : tag}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  .tag-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--tag-gap, 0 8px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .tag-link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--tag-color);
+    text-decoration: none;
+  }
+
+  .tag-label {
+    display: flex;
+    align-items: center;
+    min-height: var(--tag-min-h);
+    padding: var(--tag-padding);
+    border: var(--tag-border);
+    border-radius: var(--tag-radius);
+    font-family: var(--tag-font);
+    font-size: var(--tag-size);
+    font-weight: var(--tag-weight);
+    letter-spacing: var(--tag-tracking);
+    text-transform: var(--tag-transform);
+    transition: background-color 0.12s ease;
+  }
+
+  .tag-link:hover .tag-label {
+    background-color: var(--tag-hover-bg);
+    color: var(--tag-hover-color);
+    text-decoration: var(--tag-hover-decoration);
+    text-underline-offset: 3px;
+  }
+</style>

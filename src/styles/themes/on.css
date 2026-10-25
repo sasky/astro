@@ -1,0 +1,76 @@
+/*
+ * On theme (Sideshow handbill). Tokens only apply under data-theme="on", and
+ * this file is imported only by OnLayout. Values: Site-On-List.dc.html and
+ * Site-On-Post.dc.html.
+ */
+
+:root[data-theme="on"] {
+  --kraft: #d2ad6f;
+  --ink-on: #23170e;
+  --rust: #6b2c12;
+  --light: #f0dcae;
+
+  --page-bg: var(--kraft);
+  --ink: var(--ink-on);
+  --muted: #4a3218;
+  --focus: var(--ink-on);
+  --focus-width: 2px;
+  --selection-bg: var(--ink-on);
+  --selection-ink: var(--kraft);
+
+  --body-font: var(--font-oswald);
+  --display-font: var(--font-holtwood);
+  --mono-font: var(--font-oswald);
+  --body-size: 18px;
+  --body-leading: 1.5;
+
+  --bar-bg: rgba(35, 23, 14, 0.05);
+  --bar-rule: var(--ink-on);
+  --wordmark-font: var(--font-alfa);
+  --wordmark-weight: 400;
+  --wordmark-style: normal;
+  --wordmark-tracking: 0;
+  --wordmark-color: var(--ink-on);
+  --wordmark-hover-color: var(--rust);
+  --wordmark-hover-shadow: none;
+  --mark-w: 11px;
+  --mark-h: 11px;
+  --mark-bg: var(--ink-on);
+  --mark-shadow: none;
+  --mark-rotate: 45deg;
+  --nav-font: var(--font-oswald);
+  --nav-color: var(--ink-on);
+  --nav-transform: uppercase;
+  --nav-tracking: 0.12em;
+  --nav-current-color: var(--ink-on);
+  --nav-current-rule: var(--ink-on);
+  --nav-hover-color: var(--rust);
+  --nav-hover-rule: var(--rust);
+  --nav-hover-bg: transparent;
+  --nav-active-color: var(--light);
+  --nav-active-bg: var(--ink-on);
+
+  --texture-pattern:
+    radial-gradient(ellipse 30% 22% at 12% 18%, rgba(120, 70, 20, 0.2), transparent 70%),
+    radial-gradient(ellipse 26% 20% at 86% 30%, rgba(120, 70, 20, 0.16), transparent 70%),
+    radial-gradient(ellipse 30% 24% at 70% 82%, rgba(120, 70, 20, 0.18), transparent 70%),
+    radial-gradient(ellipse 24% 18% at 18% 76%, rgba(255, 235, 190, 0.18), transparent 70%),
+    linear-gradient(90deg, transparent 49.85%, rgba(60, 36, 10, 0.16) 50%, rgba(255, 240, 200, 0.14) 50.15%, transparent 50.4%),
+    linear-gradient(0deg, transparent 33.2%, rgba(60, 36, 10, 0.12) 33.33%, rgba(255, 240, 200, 0.12) 33.45%, transparent 33.7%),
+    linear-gradient(0deg, transparent 66.5%, rgba(60, 36, 10, 0.12) 66.66%, rgba(255, 240, 200, 0.12) 66.8%, transparent 67%),
+    radial-gradient(ellipse 110% 90% at 50% 50%, transparent 55%, rgba(80, 46, 12, 0.32) 100%);
+  --texture-opacity: 0.85;
+  --texture-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.01 0.3' numOctaves='2' seed='4'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='0.7'/%3E%3C/svg%3E");
+  --grain-factor: 0.2;
+  --grain-blend: multiply;
+}
+
+:where([data-theme="on"]) a {
+  color: var(--ink-on);
+  text-decoration-color: rgba(35, 23, 14, 0.55);
+  text-underline-offset: 3px;
+}
+
+:where([data-theme="on"]) a:hover {
+  color: var(--rust);
+}

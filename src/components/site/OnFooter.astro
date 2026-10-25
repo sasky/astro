@@ -1,0 +1,91 @@
+---
+// On footer: the correspondence row and the colophon. On the listing it sits
+// inside the bill ("inside"); on posts it follows the article ("after").
+// Values: Site-On-Post.dc.html.
+import { SOCIAL } from "../../data/social";
+import { toRoman } from "../../lib/format";
+
+interface Props {
+  placement?: "inside" | "after";
+}
+
+const { placement = "after" } = Astro.props;
+const year = toRoman(new Date().getUTCFullYear());
+---
+
+<footer class:list={["on-footer", `on-footer-${placement}`]}>
+  <div class="on-footer-correspondence">
+    <span>Correspondence welcomed by way of</span>
+    {
+      SOCIAL.map(({ label, href }) => (
+        <a class="on-footer-link" href={href}>
+          {label}
+        </a>
+      ))
+    }
+    <span>· Absolutely free of charge ·</span>
+  </div>
+  <p class="on-footer-colophon">
+    Set in Holtwood, Alfa Slab, Rye &amp; Oswald · Printed upon the World Wide Web · © {year} Cameron Grant
+  </p>
+</footer>
+
+<style>
+  .on-footer {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    color: #23170e;
+    font-family: var(--font-oswald);
+  }
+
+  .on-footer-after {
+    padding: 0 var(--gutter) 40px;
+  }
+
+  .on-footer-correspondence {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0 16px;
+    padding-top: 6px;
+    border-top: 2px dotted #23170e;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .on-footer-link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 4px;
+    color: #23170e;
+  }
+
+  .on-footer-link:hover {
+    color: #6b2c12;
+    text-decoration-thickness: 2px;
+  }
+
+  .on-footer-link:active {
+    background-color: #23170e;
+    color: #f0dcae;
+  }
+
+  .on-footer-colophon {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+</style>
