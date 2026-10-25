@@ -6,18 +6,17 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 - **Account:** `~/Sasky/` repos use the `sasky` GitHub account (cam@sasky.nz). Check `gh auth status` and `git config user.email` before pushing.
 - **Every PR runs:** `npm run build`, `npm run check`, `npm test`, `npm run check:links`, `npm run check:redirects -- --dist` and `npm run test:e2e`.
 
-## Status (26 Oct 2026, after Phase 3)
+## Status (26 Oct 2026)
 
 | Phase | State | PR |
 |---|---|---|
 | 1. Tooling and baseline | Merged into `feature/redesign` | [#3](https://github.com/sasky/astro/pull/3) |
 | 2. Collections, routes, redirects | Merged into `feature/redesign` | [#4](https://github.com/sasky/astro/pull/4) |
-| 3. Foundations | In review | [#5](https://github.com/sasky/astro/pull/5) |
+| 3. Foundations | Merged into `feature/redesign` | [#5](https://github.com/sasky/astro/pull/5) |
 | 4. HP pages | Next: brainstorm (hero composition, tag selector without JS), then plan | — |
 | 5–9 | Not started | — |
 
 **Waiting on Cam**
-- Review and merge the Phase 3 PR.
 - **Content review**, any time before Phase 9 (the posts are now in `src/content/posts/`):
   - Pick tags for every post. The current ones are interim (Q1), and Classy has none.
   - NZ Music's computed excerpt is its link-only first paragraph ("Waiata 100. what is Atearoa's favourite song"). Set `excerpt:` in its frontmatter for the On listing if you want something else.
@@ -44,6 +43,47 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
   - There's no lasting test that Fraunces keeps its `opsz` axis.
   - `HpFooter` finds RSS by its label.
   - Legacy pages import `LegacyBaseLayout` under the local name `BaseLayout`.
+
+## Resuming in a fresh session
+
+Read this file first, then [`redesign-plan.md`](redesign-plan.md) (the spec), then the design files in `design-handoff/`. The plans and designs for finished phases are in `docs/superpowers/plans/` and `docs/superpowers/specs/`. They're useful as examples of the format.
+
+**Where things stand**
+- **Branch:** `feature/redesign` holds Phases 1–3, merged. `main` is still the live old site.
+- **Live pages:** everything still renders through the temporary `src/components/legacy/` components and `src/layouts/legacy/LegacyBaseLayout.astro`, so the site looks old.
+- **Built and waiting:** the new `BaseLayout`, `HpLayout`, `CodeLayout` and `OnLayout`, and the shared components in `src/components/site/`. Only `src/pages/404.astro` uses them so far.
+- **Content:**
+  - Posts are in the `posts` collection (`src/content/posts/`), read through `getPosts()` in `src/lib/get-posts.ts`.
+  - The pure helpers are in `src/lib/` (`format`, `text`, `posts`, `paths`, `slug`).
+  - Copy and data are in `src/data/` (`sections`, `home`, `social`).
+
+**Next: Phase 4 (HP pages: Home and Life)**
+- **Brainstorm** (spec 6.2, `Site-Home.dc.html`, `TagSelector.dc.html`, `Site-Life-List.dc.html`, `Site-Life-Post.dc.html`):
+  - the hero composition, which combines the portrait cutout and masks from `design-handoff/design/assets/`, the wash and the Dymo;
+  - the tag selector without JavaScript (spec 5.11);
+  - the YouTube card (spec 5.15; it replaces `astro-embed-youtube`);
+  - which legacy pages switch over: Home, `/life`, `/life/[slug]`, `/tags/[tag]`.
+- **Also due in Phase 4:**
+  - the `#about` and `#tags` anchors on Home;
+  - the concert post edits (spec 5.10);
+  - the Life section intro from `src/data/sections.ts`;
+  - consider extracting a shared `ListingBand` and moving the 404 onto it.
+
+**How Cam likes to work**
+- **Each phase:** a brainstorm only when there are open design choices, then a plan, then native execution with one fresh reviewer at the end. Then a PR into `feature/redesign`, which Cam merges.
+- **Review:** in-between states are reviewed as code only; no browser review needed.
+- **Redirects** are verified locally with Netlify's emulator, not on deploy previews.
+- **Content** (tags, copy slips, section intros) waits for Cam's own review; don't change post copy.
+- **This file** gets updated at the end of every phase.
+
+**Gotchas found so far**
+- **`build.format: 'file'`** makes `Astro.url.pathname` end in `.html`. Use `pagePath()`.
+- **`astro preview` backgrounds itself under AI agents.** Playwright's config passes `--ignore-lock` to keep it in the foreground.
+- **Astro bundles a component's scoped CSS into every page that imports it.** Keep shared components token-only.
+- **`<Font preload>` with no filter preloads every face.** Always pass a filter, such as `preload={[{ subset: "latin" }]}`.
+- **`overflow: hidden` on a wrapper breaks `position: sticky`.** Use `overflow: clip`.
+- **Component tests** use `experimental_AstroContainer` from `astro/container` (see `tests/unit/topbar.test.ts`).
+- **Temporary demo pages** go under a route that doesn't start with `_`, because Astro skips those. Delete them before the PR.
 
 ## Standing rules
 
