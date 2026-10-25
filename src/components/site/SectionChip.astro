@@ -1,0 +1,44 @@
+---
+// Section label on tag lists: Code navy, Life blue, On orange.
+import { SECTIONS, type Section } from "../../data/sections";
+
+interface Props {
+  section: Section;
+}
+
+const { section } = Astro.props;
+---
+
+<span class:list={["chip", `chip-${section}`]}>{SECTIONS[section].label}</span>
+
+<style>
+  .chip {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 104px;
+    min-height: 28px;
+    border-radius: 3px;
+    font-family: var(--font-jetbrains);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .chip-code {
+    background-color: #12163d;
+    color: #ffffff;
+  }
+
+  .chip-life {
+    background-color: #2452ff;
+    color: #ffffff;
+  }
+
+  .chip-on {
+    background-color: #ff6a1f;
+    color: #12163d;
+  }
+</style>
