@@ -37,6 +37,13 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
   - Repeat the lasting chrome checks on the first On page.
   - Set the On `--vid-*` tokens in `on.css` (G2). `YouTube.astro` falls back to HP colours until then, which is what the legacy NZ Music page shows now.
   - The On door on Home already uses `Manicule`; reuse it on the On pages.
+  - Add `--vid-grain` and `--vid-play-shadow` tokens so the G2 card can drop the grid grain.
+  - Until then, legacy NZ Music cards sit flush against the next paragraph: `post.css` still targets `lite-youtube`, and open-props zeroes figure margins.
+  - `home.spec.ts` "doors show computed counts" reads the newest On title from the legacy `/meditations` list (`main li a`). Update the selector, or read it from `/rss.xml`.
+- **Phase 8 (test tightening, from the Phase 4 review):**
+  - Make the modifier-click video test assert that the default action ran, and add a Shift case.
+  - At 390 the hero `srcset` should pick the 480w file.
+  - Add `expectOnlyThemeCss` on the Life post.
 - **Phase 7:**
   - `tags/[tag].astro` is still legacy. Rebuild it on `HpLayout` with `ListingBand` (`variant="message"` suits `#tag`) and `PostRow chip`.
   - Legacy Code and On post headers link to `/#code-…` anchors that the new Home doesn't have. They land at the top of Home until Phases 5 and 6 replace those headers.
