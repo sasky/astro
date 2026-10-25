@@ -4,7 +4,45 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 
 - **Branches:** each phase is built on `redesign/phase-N-<name>` and merged by PR into `feature/redesign`. Phase 9 opens the PR from `feature/redesign` into `main`.
 - **Account:** `~/Sasky/` repos use the `sasky` GitHub account (cam@sasky.nz). Check `gh auth status` and `git config user.email` before pushing.
-- **Every PR runs:** `npm run build`, `npm run check`, `npm test` and `npm run check:links` (from Phase 1 on).
+- **Every PR runs:** `npm run build`, `npm run check`, `npm test`, `npm run check:links`, `npm run check:redirects -- --dist` and `npm run test:e2e`.
+
+## Status (26 Oct 2026)
+
+| Phase | State | PR |
+|---|---|---|
+| 1. Tooling and baseline | Merged into `feature/redesign` | [#3](https://github.com/sasky/astro/pull/3) |
+| 2. Collections, routes, redirects | In review | [#4](https://github.com/sasky/astro/pull/4) |
+| 3. Foundations | Next: light brainstorm (layout props, theme CSS scoping), then plan | — |
+| 4–9 | Not started | — |
+
+**Waiting on Cam**
+- Review and merge #4.
+- **Content review**, any time before Phase 9 (the posts are now in `src/content/posts/`):
+  - Pick tags for every post. The current ones are interim (Q1), and Classy has none.
+  - NZ Music's computed excerpt is its link-only first paragraph ("Waiata 100. what is Atearoa's favourite song"). Set `excerpt:` in its frontmatter for the On listing if you want something else.
+  - Copy slips: "Atearoa" (NZ Music), "indented audience" (Silverstripe), the "Scott J Mason (2014" embed title missing its `)`.
+  - Optional: title-case the Moment post's title (Q5).
+  - Refine the draft section intros in `src/data/sections.ts` (marked `TODO(Cam)`).
+
+**Carried forward**
+- **Phase 4:** `/about → /#about` and `/tags → /#tags` land on a Home without those anchors until Phase 4 builds them.
+- **Phase 4 or 6:** `excerpt()` doesn't yet skip list, blockquote or MDX-comment blocks, or strip backticks. Fix before an On post opens with a quote or list.
+- **Phase 7:** `/code/` (trailing slash) is served as a duplicate of `/code`. Canonical URLs cover it. The RSS feed also lacks an `atom:link rel="self"` (a validator warning).
+- **Phase 9:** check the redirects on a real Netlify preview of the PR into `main`. So far they're verified only on Netlify's local emulator.
+- **Minor:** same-date ties are only pinned through `sortNewest`.
+
+## Standing rules
+
+- **URLs are lowercase kebab-case** (`a-z`, `0-9`, single `-`; no capitals or `_`). Post filenames are the slugs. Three checks enforce it:
+  - the content schema rejects bad tags;
+  - a unit test rejects bad post filenames;
+  - `check:links` fails on any built page link that breaks the rule.
+
+  Old URLs that break it (such as `/top_ten_tips_on_class`) appear only as redirect sources in `public/_redirects`.
+- **URL shape:** no trailing slash. Section paths come from `SECTIONS[s].path` and post URLs from `postUrl()`. The On section is `/meditations`.
+- **Redirects are checked locally:** `npm run build`, then `npx netlify-cli dev --offline --dir dist --port 8888`, then `npm run check:redirects -- --url http://localhost:8888`.
+- **Dates:** `npm test` runs under `TZ=America/Los_Angeles`, so any date formatting that depends on the build machine's time zone fails.
+- **Baseline screenshots** of the old site are in `qa/baseline/` (gitignored). Regenerate them from `main` with `npm run build && npm run baseline`.
 
 ## How each phase runs
 
@@ -20,8 +58,8 @@ Each phase starts with the superpowers sessions it needs, in this order:
 
 | Phase | Brainstorm? | Suggested execution | Why |
 |---|---|---|---|
-| 1. Tooling and baseline | No | Native | Config only, nothing to decide. |
-| 2. Collections, routes, redirects | No | Subagent-driven | URLs and redirects are settled, but a mistake breaks live links. |
+| 1. Tooling and baseline | No | Native (used) | Config only, nothing to decide. |
+| 2. Collections, routes, redirects | No | Native (used) | URLs and redirects are settled; automated link, redirect and e2e checks plus one final review covered the risk. |
 | 3. Foundations | Light | Subagent-driven | Layout props and how theme CSS is scoped get reused by every later phase. |
 | 4. HP pages | Yes | Subagent-driven | Hero composition and the tag selector's no-JS behaviour. |
 | 5. Code pages | Light | Subagent-driven | Code-block caption bar, Pico-8 panel (G4), image grid (G3). |
@@ -53,6 +91,7 @@ PR: [#4](https://github.com/sasky/astro/pull/4)
 - [x] 2.3 `/code`, `/life` and `/meditations` routes in the old look (M)
 - [x] 2.4 Routing config: no trailing slash, `format: 'file'` (S)
 - [x] 2.5 `_redirects` and the redirect check script; verified on Netlify's local emulator (S)
+- [x] Lowercase kebab-case URL rule, enforced by the schema, a unit test and `check:links` (added in review)
 
 ### Phase 3: Foundations
 
