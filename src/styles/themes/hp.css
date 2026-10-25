@@ -76,6 +76,19 @@
   --tag-hover-bg: var(--navy);
   --tag-hover-color: #ffffff;
   --tag-hover-decoration: none;
+
+  /* YouTube cards (components/mdx/YouTube.astro). */
+  --vid-bg: var(--navy);
+  --vid-frame: var(--navy);
+  --vid-shadow: var(--blue);
+  --vid-shadow-hover: var(--orange);
+  --vid-play-bg: var(--orange);
+  --vid-play-fg: var(--navy);
+  --vid-label-bg: #ffffff;
+  --vid-label-fg: var(--navy);
+  --vid-label-font: var(--font-jetbrains);
+  --vid-caption-color: var(--muted);
+  --vid-caption-font: var(--font-jetbrains);
 }
 
 :where([data-theme="hp"]) a {
