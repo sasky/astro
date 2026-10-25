@@ -48,11 +48,11 @@ PR: [#3](https://github.com/sasky/astro/pull/3)
 
 PR: _none yet_
 
-- [ ] 2.1 Pure helpers (`format`, `text`, `posts`) with tests first (M)
-- [ ] 2.2 Move the posts into the `posts` collection (M)
-- [ ] 2.3 `/code`, `/life` and `/meditations` routes in the old look (M)
-- [ ] 2.4 Routing config: no trailing slash, `format: 'file'` (S)
-- [ ] 2.5 `_redirects` and the redirect check script; verify on a deploy preview (S)
+- [x] 2.1 Pure helpers (`format`, `text`, `posts`) with tests first (M)
+- [x] 2.2 Move the posts into the `posts` collection (M)
+- [x] 2.3 `/code`, `/life` and `/meditations` routes in the old look (M)
+- [x] 2.4 Routing config: no trailing slash, `format: 'file'` (S)
+- [x] 2.5 `_redirects` and the redirect check script; verified on Netlify's local emulator (S)
 
 ### Phase 3: Foundations
 
