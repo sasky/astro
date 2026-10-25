@@ -1,6 +1,7 @@
 import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
+import { SLUG } from "./lib/slug";
 
 const posts = defineCollection({
   loader: glob({ pattern: "*.mdx", base: "./src/content/posts" }),
@@ -12,7 +13,7 @@ const posts = defineCollection({
       pubDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),
       section: z.enum(["code", "life", "on"]),
-      tags: z.array(z.string()).default([]),
+      tags: z.array(z.string().regex(SLUG, "Tags must be lowercase kebab-case (a-z, 0-9, -)")).default([]),
       draft: z.boolean().default(false), // excluded from prod builds
       pico8: z.string().optional(), // cart name in public/pico8/
       image: z.object({ src: image(), alt: z.string() }).optional(),
