@@ -1,0 +1,81 @@
+/*
+ * HP theme (Home, Life, tags, 404). Tokens only apply under data-theme="hp",
+ * and this file is imported only by HpLayout. Values: Site-Life-List.dc.html
+ * and design-handoff/README.md.
+ */
+
+:root[data-theme="hp"] {
+  --blue: #2452ff;
+  --orange: #ff6a1f;
+  --navy: #12163d;
+  --link: #1f3fd6;
+  --card: #fffdf8;
+
+  --page-bg: #f6f1e7;
+  --ink: #12163d;
+  --lede: #2a2f5c;
+  --muted: #4a4e6e;
+  --focus: #1f3fd6;
+  --focus-width: 3px;
+  --selection-bg: var(--orange);
+  --selection-ink: var(--navy);
+
+  --body-font: var(--font-source-sans);
+  --display-font: var(--font-fraunces);
+  --mono-font: var(--font-jetbrains);
+  --body-size: 17px;
+  --body-leading: 1.6;
+
+  --bar-bg: rgba(246, 241, 231, 0.94);
+  --bar-rule: var(--navy);
+  --wordmark-font: var(--font-fraunces);
+  --wordmark-weight: 900;
+  --wordmark-style: italic;
+  --wordmark-tracking: -0.02em;
+  --wordmark-color: var(--navy);
+  --wordmark-hover-color: var(--link);
+  --wordmark-hover-shadow: none;
+  --mark-w: 13px;
+  --mark-h: 13px;
+  --mark-bg: var(--orange);
+  --mark-shadow: 4px 4px 0 var(--blue);
+  --mark-rotate: -8deg;
+  --nav-font: var(--font-source-sans);
+  --nav-color: var(--navy);
+  --nav-transform: none;
+  --nav-tracking: normal;
+  --nav-current-color: var(--link);
+  --nav-current-rule: var(--orange);
+  --nav-hover-color: var(--link);
+  --nav-hover-rule: var(--orange);
+  --nav-hover-bg: transparent;
+  --nav-active-color: var(--link);
+  --nav-active-bg: rgba(255, 106, 31, 0.2);
+
+  --texture-pattern:
+    repeating-linear-gradient(0deg, rgba(36, 82, 255, 0.11) 0px, rgba(36, 82, 255, 0.11) 1px, transparent 1px, transparent 28px),
+    repeating-linear-gradient(90deg, rgba(36, 82, 255, 0.11) 0px, rgba(36, 82, 255, 0.11) 1px, transparent 1px, transparent 28px),
+    radial-gradient(ellipse 50% 40% at 6% 12%, rgba(120, 90, 40, 0.07), transparent 70%),
+    radial-gradient(ellipse 40% 50% at 96% 88%, rgba(120, 90, 40, 0.08), transparent 70%);
+  --texture-opacity: 0.8;
+  --texture-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  --grain-factor: 0.12;
+  --grain-blend: multiply;
+}
+
+[data-theme="hp"] a {
+  color: var(--link);
+  text-decoration-color: rgba(255, 106, 31, 0.85);
+  text-underline-offset: 4px;
+  text-decoration-thickness: 2px;
+}
+
+[data-theme="hp"] a:hover {
+  color: var(--navy);
+  text-decoration-color: var(--navy);
+}
+
+[data-theme="hp"] a:active {
+  color: var(--navy);
+  background-color: rgba(255, 106, 31, 0.25);
+}
