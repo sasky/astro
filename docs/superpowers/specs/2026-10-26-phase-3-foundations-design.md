@@ -95,7 +95,7 @@ These would make Phase 3 a failure even if it builds:
   - the HP texture at .8.
 
   It gets `<meta name="robots" content="noindex">` instead of a canonical URL. With no design to compare against, Phase 8 checks it for consistency with the HP pages only.
-- **The font subsets are `latin` and `latin-ext`.** This differs from spec 5.7, which says `latin` only: NZ Music has "MĀ" in a video title, and the macron isn't in `latin`. Browsers only download a subset when a page uses one of its characters, so this costs nothing elsewhere. Flag it in the PR.
+- **The font subsets are `latin` and `latin-ext`.** This differs from spec 5.7, which says `latin` only: NZ Music has "MĀ" in a video title, and the macron isn't in `latin`. Browsers only download a subset when a page uses one of its characters, so this costs nothing elsewhere, provided preloads are limited to the `latin` subset (they are: each layout preloads only its lead face's `latin` files). Flag it in the PR.
 
 ## Constraints
 
