@@ -5,7 +5,18 @@
 import { Font } from "astro:assets";
 import AboutSection from "../components/hp/AboutSection.astro";
 import Hero from "../components/hp/Hero.astro";
+import SectionDoors from "../components/hp/SectionDoors.astro";
+import { SECTION_ORDER } from "../data/sections";
 import HpLayout from "../layouts/HpLayout.astro";
+import { getPosts } from "../lib/get-posts";
+import { sectionStats } from "../lib/posts";
+
+const doors = await Promise.all(
+  SECTION_ORDER.map(async (section) => {
+    const { count, latest } = sectionStats(await getPosts(section));
+    return { section, count, latest };
+  }),
+);
 ---
 
 <HpLayout title="sasky.nz — Home" description="Personal and professional website of Cameron Grant">
@@ -16,6 +27,7 @@ import HpLayout from "../layouts/HpLayout.astro";
   <Hero />
   <div class="home-sections">
     <AboutSection />
+    <SectionDoors doors={doors} />
   </div>
 </HpLayout>
 

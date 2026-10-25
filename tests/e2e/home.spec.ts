@@ -61,3 +61,38 @@ test("390 layout stacks the hero", async ({ page }) => {
   await expect(page.locator(".hero-label-float")).toBeHidden();
   await expect(page.locator(".hero-label-inline")).toBeVisible();
 });
+
+test("doors show computed counts and latest posts", async ({ page }) => {
+  await page.goto("/meditations");
+  const newestOn = (await page.locator("main li a").first().textContent())!.trim();
+  await page.goto("/");
+  const doors = page.locator("a.door");
+  await expect(doors).toHaveCount(3);
+  expect(await doors.evaluateAll((els) => els.map((el) => el.getAttribute("href")))).toEqual([
+    "/code",
+    "/life",
+    "/meditations",
+  ]);
+  await expect(page.locator("a.door .door-count")).toHaveText(["2 posts", "1 post", "4 meditations"]);
+  await expect(doors.nth(2).locator(".door-latest-title")).toHaveText(newestOn);
+  for (const [i, prefix] of ["Code: ", "Life: ", "On: "].entries()) {
+    await expect(doors.nth(i)).toHaveAccessibleName(new RegExp(`^${prefix}.*Enter`));
+  }
+});
+
+test("door previews are hidden from assistive tech", async ({ page }) => {
+  await page.goto("/");
+  const previews = page.locator(".door-preview");
+  await expect(previews).toHaveCount(3);
+  for (const preview of await previews.all()) await expect(preview).toHaveAttribute("aria-hidden", "true");
+});
+
+test("reduced motion: no blink, no lift", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/");
+  expect(await page.locator(".cursor").evaluate((el) => getComputedStyle(el).animationName)).toBe("none");
+  const door = page.locator("a.door").first();
+  await door.hover();
+  expect(await door.evaluate((el) => getComputedStyle(el).transform)).toBe("none");
+});

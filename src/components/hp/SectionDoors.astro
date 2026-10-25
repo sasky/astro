@@ -1,0 +1,57 @@
+---
+// Home "Sections": a door per section that side-scrolls on small screens.
+// Values: section[aria-labelledby="doors-h"] in Site-Home.dc.html.
+import Door from "./Door.astro";
+import type { Section } from "../../data/sections";
+import type { PostEntry } from "../../lib/get-posts";
+
+interface Props {
+  doors: { section: Section; count: number; latest?: PostEntry }[];
+}
+
+const { doors } = Astro.props;
+---
+
+<section class="doors-section" aria-labelledby="doors-h">
+  <h2 id="doors-h">Sections</h2>
+  <div class="doors">
+    {doors.map((door) => <Door {...door} />)}
+  </div>
+</section>
+
+<style>
+  .doors-section {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  h2 {
+    margin: 0;
+    color: var(--navy);
+    font-family: var(--display-font);
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  /* The negative margin and matching padding leave room for the door
+     shadows and count labels inside the scroller. */
+  .doors {
+    display: flex;
+    gap: 32px;
+    margin: -20px -14px 0 -6px;
+    padding: 20px 14px 30px 6px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-color: rgba(18, 22, 61, 0.4) transparent;
+    scrollbar-width: thin;
+  }
+
+  @media (max-width: 760px) {
+    h2 {
+      font-size: 38px;
+    }
+  }
+</style>
