@@ -65,7 +65,7 @@
   --grain-blend: normal;
 }
 
-[data-theme="code"] a {
+:where([data-theme="code"]) a {
   color: var(--ink);
 }
 

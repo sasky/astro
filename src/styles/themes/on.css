@@ -65,12 +65,12 @@
   --grain-blend: multiply;
 }
 
-[data-theme="on"] a {
+:where([data-theme="on"]) a {
   color: var(--ink-on);
   text-decoration-color: rgba(35, 23, 14, 0.55);
   text-underline-offset: 3px;
 }
 
-[data-theme="on"] a:hover {
+:where([data-theme="on"]) a:hover {
   color: var(--rust);
 }

@@ -43,3 +43,35 @@ test("404 loads only HP theme styles and fonts", async ({ page, request }) => {
   expect(families.length).toBeGreaterThan(0);
   for (const family of families) expect(family).toMatch(/Fraunces|Source Sans 3|JetBrains Mono/);
 });
+
+test("sticky elements stick inside the layout", async ({ page }) => {
+  await page.goto(missing);
+  await page.evaluate(() => {
+    const main = document.querySelector("main")!;
+    const sticky = Object.assign(document.createElement("div"), { id: "sticky-probe", textContent: "probe" });
+    sticky.style.cssText = "position: sticky; top: 24px";
+    const spacer = document.createElement("div");
+    spacer.style.height = "3000px";
+    main.append(sticky, spacer);
+    window.scrollTo(0, 1500);
+  });
+  const top = await page.locator("#sticky-probe").evaluate((el) => el.getBoundingClientRect().top);
+  expect(Math.abs(top - 24)).toBeLessThanOrEqual(1);
+});
+
+test("HP preloads at most two font files", async ({ page }) => {
+  await page.goto(missing);
+  expect(await page.locator('link[rel="preload"][as="font"]').count()).toBeLessThanOrEqual(2);
+});
+
+test("the skip link stays readable on hover", async ({ page }) => {
+  await page.goto(missing);
+  await page.keyboard.press("Tab");
+  const skip = page.locator(".skip-link");
+  await skip.hover();
+  const [color, background] = await skip.evaluate((el) => {
+    const style = getComputedStyle(el);
+    return [style.color, style.backgroundColor];
+  });
+  expect(color).not.toBe(background);
+});

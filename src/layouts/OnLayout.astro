@@ -22,7 +22,7 @@ const { texture, ...meta } = Astro.props;
 
 <BaseLayout theme="on" {...meta}>
   <Fragment slot="head">
-    <Font cssVariable="--font-holtwood" preload />
+    <Font cssVariable="--font-holtwood" preload={[{ subset: "latin" }]} />
     <Font cssVariable="--font-alfa" />
     <Font cssVariable="--font-rye" />
     <Font cssVariable="--font-oswald" />
@@ -42,7 +42,7 @@ const { texture, ...meta } = Astro.props;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    overflow: hidden;
+    overflow: clip;
   }
 
   .page-main {

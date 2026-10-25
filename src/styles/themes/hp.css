@@ -78,19 +78,19 @@
   --tag-hover-decoration: none;
 }
 
-[data-theme="hp"] a {
+:where([data-theme="hp"]) a {
   color: var(--link);
   text-decoration-color: rgba(255, 106, 31, 0.85);
   text-underline-offset: 4px;
   text-decoration-thickness: 2px;
 }
 
-[data-theme="hp"] a:hover {
+:where([data-theme="hp"]) a:hover {
   color: var(--navy);
   text-decoration-color: var(--navy);
 }
 
-[data-theme="hp"] a:active {
+:where([data-theme="hp"]) a:active {
   color: var(--navy);
   background-color: rgba(255, 106, 31, 0.25);
 }

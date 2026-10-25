@@ -22,7 +22,7 @@ const { texture, ...meta } = Astro.props;
 
 <BaseLayout theme="code" {...meta}>
   <Fragment slot="head">
-    <Font cssVariable="--font-jetbrains" preload />
+    <Font cssVariable="--font-jetbrains" preload={[{ subset: "latin", style: "normal", weight: 400 }]} />
   </Fragment>
   <div class="page">
     <SkipLink />
@@ -39,7 +39,7 @@ const { texture, ...meta } = Astro.props;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    overflow: hidden;
+    overflow: clip;
   }
 
   .page-main {
