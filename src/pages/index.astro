@@ -1,29 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { toAnchor } from "../scripts/utils";
-const allPosts = Object.values(import.meta.glob("../pages/*.mdx", { eager: true })) as any[];
+import LegacyPostList from "../components/legacy/LegacyPostList.astro";
+import { getPosts } from "../lib/get-posts";
 
-const pageTitle = "";
+const posts = await getPosts();
 const metaDescription = "Personal and professional website of Cameron Grant";
 ---
 
-<BaseLayout pageTitle={pageTitle} metaDescription={metaDescription}>
-  <nav id="menu" class="home-nav">
-    <ul>
-      {
-        allPosts.map((post) => (
-          <li>
-            <a
-              id={toAnchor(post.url || "")}
-              href={post.url}
-              data-astro-reload={!!post.frontmatter.pico8}
-            >
-              {post.frontmatter.title}
-            </a>
-            <p>{post.frontmatter.description}</p>
-          </li>
-        ))
-      }
-    </ul>
-  </nav>
+<BaseLayout pageTitle="" metaDescription={metaDescription}>
+  <LegacyPostList posts={posts} />
 </BaseLayout>

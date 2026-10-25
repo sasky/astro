@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import LegacyPostList from "../../components/legacy/LegacyPostList.astro";
+import { SECTIONS } from "../../data/sections";
+import { getPosts } from "../../lib/get-posts";
+
+const section = SECTIONS.on;
+const posts = await getPosts("on");
+---
+
+<BaseLayout pageTitle={section.title} metaDescription={section.blurb}>
+  <LegacyPostList posts={posts} />
+</BaseLayout>

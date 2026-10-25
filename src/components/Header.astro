@@ -2,8 +2,10 @@
 import Hamburger from "./Hamburger.astro";
 import { toAnchor ,endsWithDash} from "../scripts/utils";
 import { any } from "astro:schema";
-const isHome = Astro.url.pathname === "/";
-const anchor = toAnchor(Astro.url.pathname);
+// With build.format "file", the pathname ends in .html (/index.html, /code.html).
+const path = Astro.url.pathname.replace(/(\/index)?\.html$/, "") || "/";
+const isHome = path === "/";
+const anchor = toAnchor(path);
 const trimmedAnchor = endsWithDash(anchor) ? anchor.slice(0, -1) : anchor;
 const anchorLink = isHome ? "menu" : trimmedAnchor;
 ---

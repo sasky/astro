@@ -3,7 +3,8 @@ import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, test } from "vitest";
-import { findBrokenLinks, resolveInDist } from "../../scripts/check-links.mjs";
+import { fileURLToPath } from "node:url";
+import { findBrokenLinks, findMessyLinks, resolveInDist } from "../../scripts/check-links.mjs";
 
 const dist = new URL("../fixtures/dist-links/", import.meta.url).pathname;
 
@@ -39,4 +40,18 @@ test("fails when dist has no HTML", () => {
   const empty = mkdtempSync(join(tmpdir(), "dist-empty-"));
   const run = spawnSync(process.execPath, ["scripts/check-links.mjs", empty], { encoding: "utf8" });
   expect(run.status).toBe(2);
+});
+
+test("trailing slash only matches a directory index", () => {
+  expect(resolveInDist(dist, "/code/")).toBeNull();
+  expect(resolveInDist(dist, "/about/")).toMatch(/about\/index\.html$/);
+});
+
+test("malformed percent-encoding is unresolvable, not a crash", () => {
+  expect(resolveInDist(dist, "/100%")).toBeNull();
+});
+
+test("findMessyLinks reports page links that aren't lowercase kebab-case", async () => {
+  const caseDist = fileURLToPath(new URL("../fixtures/dist-case/", import.meta.url));
+  expect(await findMessyLinks(caseDist)).toEqual([{ page: "index.html", url: "/Code/Bad_Page" }]);
 });
