@@ -13,7 +13,7 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 | 1. Tooling and baseline | Merged into `feature/redesign` | [#3](https://github.com/sasky/astro/pull/3) |
 | 2. Collections, routes, redirects | Merged into `feature/redesign` | [#4](https://github.com/sasky/astro/pull/4) |
 | 3. Foundations | Merged into `feature/redesign` | [#5](https://github.com/sasky/astro/pull/5) |
-| 4. HP pages | Built on `redesign/phase-4-hp-pages`, PR open for Cam | _PR link below_ |
+| 4. HP pages | PR open for Cam's review | [#6](https://github.com/sasky/astro/pull/6) |
 | 5–9 | Not started | — |
 
 **Waiting on Cam**
@@ -176,7 +176,7 @@ PR: [#5](https://github.com/sasky/astro/pull/5)
 
 ### Phase 4: HP pages (Home and Life)
 
-PR: _none yet_
+PR: [#6](https://github.com/sasky/astro/pull/6)
 
 - [x] 4.1 YouTube component (S)
 - [x] 4.2 Home: hero, about, section doors, browse by tag (L)
