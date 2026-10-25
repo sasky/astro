@@ -36,13 +36,13 @@ Sizes: **S** is under 2 hours, **M** is half a day, **L** is a day or more. Task
 
 ### Phase 1: Tooling and baseline
 
-PR: _none yet_
+PR: [#3](https://github.com/sasky/astro/pull/3)
 
-- [ ] 1.1 Dev tooling: `astro check`, Vitest, Playwright and axe, link checker (S)
-- [ ] 1.2 Baseline screenshots of every current route at 1280 and 390 (S)
-- [ ] 1.3 Housekeeping (S)
+- [x] 1.1 Dev tooling: `astro check`, Vitest, Playwright, link checker (S)
+- [x] 1.2 Baseline screenshots of every current route at 1280 and 390 (S)
+- [x] 1.3 Housekeeping (S)
   - [x] Commit `design-handoff/`; delete the zip and duplicate prompt
-  - [ ] Add `qa/` to `.gitignore`
+  - [x] Add `qa/` to `.gitignore`
 
 ### Phase 2: Content collections, routes and redirects (old look, new URLs)
 
@@ -101,7 +101,7 @@ PR: _none yet_
 PR: _none yet_
 
 - [ ] 8.1 Visual comparison against the designs at 1280 and 390 (M)
-- [ ] 8.2 Accessibility (M)
+- [ ] 8.2 Accessibility, adding `@axe-core/playwright` (M)
 - [ ] 8.3 Performance (S)
 
 ### Phase 9: Cleanup and launch
