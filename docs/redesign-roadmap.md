@@ -12,7 +12,7 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 |---|---|---|
 | 1. Tooling and baseline | Merged into `feature/redesign` | [#3](https://github.com/sasky/astro/pull/3) |
 | 2. Collections, routes, redirects | Merged into `feature/redesign` | [#4](https://github.com/sasky/astro/pull/4) |
-| 3. Foundations | In review | PR_LINK |
+| 3. Foundations | In review | [#5](https://github.com/sasky/astro/pull/5) |
 | 4. HP pages | Next: brainstorm (hero composition, tag selector without JS), then plan | — |
 | 5–9 | Not started | — |
 
@@ -111,7 +111,7 @@ PR: [#4](https://github.com/sasky/astro/pull/4)
 
 ### Phase 3: Foundations
 
-PR: _none yet_
+PR: [#5](https://github.com/sasky/astro/pull/5)
 
 - [x] 3.1 Fonts through the Astro Fonts API (S)
 - [x] 3.2 Base styles and theme tokens (M)
