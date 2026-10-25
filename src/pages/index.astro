@@ -6,10 +6,11 @@ import { Font } from "astro:assets";
 import AboutSection from "../components/hp/AboutSection.astro";
 import Hero from "../components/hp/Hero.astro";
 import SectionDoors from "../components/hp/SectionDoors.astro";
+import TagSelector from "../components/hp/TagSelector.astro";
 import { SECTION_ORDER } from "../data/sections";
 import HpLayout from "../layouts/HpLayout.astro";
 import { getPosts } from "../lib/get-posts";
-import { sectionStats } from "../lib/posts";
+import { buildTagIndex, sectionStats } from "../lib/posts";
 
 const doors = await Promise.all(
   SECTION_ORDER.map(async (section) => {
@@ -28,6 +29,7 @@ const doors = await Promise.all(
   <div class="home-sections">
     <AboutSection />
     <SectionDoors doors={doors} />
+    <TagSelector index={buildTagIndex(await getPosts())} />
   </div>
 </HpLayout>
 

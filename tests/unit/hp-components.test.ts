@@ -4,6 +4,7 @@ import HpPrevNext from "../../src/components/hp/HpPrevNext.astro";
 import ListingBand from "../../src/components/hp/ListingBand.astro";
 import PostHeader from "../../src/components/hp/PostHeader.astro";
 import PostRow from "../../src/components/hp/PostRow.astro";
+import TagSelector from "../../src/components/hp/TagSelector.astro";
 import type { PostEntry } from "../../src/lib/get-posts";
 
 let container: AstroContainer;
@@ -97,4 +98,53 @@ test("PostHeader breadcrumb and meta", async () => {
   expect(html).toMatch(/<h1[^>]*>\s*Concert vids\s*<\/h1>/);
   expect(html).toContain('datetime="2024-05-17"');
   expect(html).toContain("6 min read");
+});
+
+const nzMusic = withData({ ...concert, id: "on-new-zealand-music" } as PostEntry, {
+  title: "On New Zealand Music",
+  section: "on",
+  pubDate: new Date("2026-06-20"),
+});
+const hideNSeek = withData({ ...concert, id: "hide-n-seek-game" } as PostEntry, {
+  title: "Hide n Seek",
+  section: "code",
+  pubDate: new Date("2024-01-29"),
+});
+const tagIndex = [
+  { tag: "music", count: 2, posts: [nzMusic, concert] },
+  { tag: "pico8", count: 1, posts: [hideNSeek] },
+];
+const listFor = (html: string, tag: string) =>
+  html.match(new RegExp(`<ul[^>]*data-tag-list="${tag}"[^>]*>[\\s\\S]*?</ul>`))?.[0] ?? "";
+
+test("TagSelector without JS: links, default list visible", async () => {
+  const html = await container.renderToString(TagSelector, { props: { index: tagIndex } });
+  expect(html).toContain('href="/tags/music"');
+  expect(html).toContain('href="/tags/pico8"');
+  expect(listFor(html, "music")).not.toMatch(/^<ul[^>]*\shidden/);
+  expect(listFor(html, "pico8")).toMatch(/^<ul[^>]*\shidden/);
+  expect(html).toMatch(/class="tg-summary"[^>]*>\s*2 posts tagged music\s*</);
+});
+
+test("TagSelector singular summary", async () => {
+  const html = await container.renderToString(TagSelector, { props: { index: tagIndex } });
+  expect(html).toContain('data-summary="1 post tagged pico8"');
+  expect(html).toContain('aria-label="pico8, 1 post"');
+});
+
+test("TagSelector rows show the section chip, title and date", async () => {
+  const music = listFor(await container.renderToString(TagSelector, { props: { index: tagIndex } }), "music");
+  expect(music).toMatch(/chip-on[^>]*>\s*On\s*</);
+  expect(music).toMatch(/chip-life[^>]*>\s*Life\s*</);
+  expect(music).toContain('href="/meditations/on-new-zealand-music"');
+  expect(music).toContain('href="/life/top-concertvids"');
+  expect(music).toContain('datetime="2026-06-20"');
+});
+
+test("TagSelector renders no ids inside the lists", async () => {
+  const html = await container.renderToString(TagSelector, { props: { index: tagIndex } });
+  for (const tag of ["music", "pico8"]) {
+    expect(listFor(html, tag)).not.toBe("");
+    expect(listFor(html, tag)).not.toMatch(/\sid="/);
+  }
 });

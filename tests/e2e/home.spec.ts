@@ -96,3 +96,55 @@ test("reduced motion: no blink, no lift", async ({ page }) => {
   await door.hover();
   expect(await door.evaluate((el) => getComputedStyle(el).transform)).toBe("none");
 });
+
+test("picking a tag updates pressed state, list and summary", async ({ page }) => {
+  await page.goto("/");
+  const chips = page.locator(".tg-chip");
+  await expect(chips.first()).toHaveJSProperty("tagName", "BUTTON");
+  const second = chips.nth(1);
+  const tag = (await second.getAttribute("data-tag"))!;
+  await second.click();
+  await expect(page.locator('.tg-chip[aria-pressed="true"]')).toHaveCount(1);
+  await expect(second).toHaveAttribute("aria-pressed", "true");
+  const visible = page.locator("ul.tg-list:visible");
+  await expect(visible).toHaveCount(1);
+  await expect(visible).toHaveAttribute("data-tag-list", tag);
+  await expect(page.locator(".tg-summary")).toHaveText((await visible.getAttribute("data-summary"))!);
+
+  await chips.first().focus();
+  await page.keyboard.press("Enter");
+  await expect(chips.first()).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("ul.tg-list:visible")).toHaveAttribute(
+    "data-tag-list",
+    (await chips.first().getAttribute("data-tag"))!,
+  );
+});
+
+test.describe("without JS", () => {
+  test.use({ javaScriptEnabled: false });
+
+  test("default list visible, chips link to tag pages", async ({ page }) => {
+    await page.goto("/");
+    const chips = page.locator(".tg-chip");
+    for (const chip of await chips.all()) {
+      expect(await chip.evaluate((el) => el.tagName)).toBe("A");
+      expect(await chip.getAttribute("href")).toMatch(/^\/tags\/[a-z0-9-]+$/);
+    }
+    const visible = page.locator("ul.tg-list:visible");
+    await expect(visible).toHaveCount(1);
+    await expect(visible).toHaveAttribute("data-tag-list", (await chips.first().getAttribute("data-tag"))!);
+    const response = await page.goto((await chips.nth(1).getAttribute("href"))!);
+    expect(response!.status()).toBe(200);
+  });
+});
+
+test("no duplicate ids on Home", async ({ page }) => {
+  await page.goto("/");
+  const ids = await page.locator("[id]").evaluateAll((els) => els.map((el) => el.id));
+  expect(ids.filter((id, i) => ids.indexOf(id) !== i)).toEqual([]);
+});
+
+test("#tags anchor exists", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("#tags")).toBeAttached();
+});
