@@ -1,0 +1,63 @@
+// Home (HP theme), spec 6.2.
+import { expect, test } from "@playwright/test";
+import { about } from "../../src/data/home";
+import { expectInertTexture, expectOnlyThemeCss, expectTabOrder, expectTopBarGeometry } from "./helpers/chrome";
+
+test("Home hero", async ({ page }) => {
+  await page.goto("/");
+  await expect(page).toHaveTitle("sasky.nz — Home");
+  await expect(page.locator("h1")).toHaveCount(1);
+  await expect(page.locator("h1")).toHaveText("Hello, welcome to my little corner of the internet");
+  await expect(page.locator("h1 em")).toHaveText("little corner");
+  await expect(page.locator(".hero .lede")).toHaveText("Hello, I’m Cameron. International man of leisure");
+});
+
+test("About lists every hobby and statement", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("#about")).toBeAttached();
+  await expect(page.locator("#about .hobbies li")).toHaveCount(about.hobbies.length);
+  await expect(page.locator("#about .statements li")).toHaveCount(4);
+});
+
+test("hero portrait has a srcset and stays within the needed width", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/");
+  const img = page.locator(".hero img");
+  const srcset = (await img.getAttribute("srcset")) ?? "";
+  for (const width of ["480w", "760w", "1000w", "1527w"]) expect(srcset).toContain(width);
+  await expect(img).toHaveAttribute("loading", "eager");
+  await expect(img).toHaveAttribute("fetchpriority", "high");
+  await expect(img).toHaveAttribute("alt", "");
+  expect(await img.evaluate((el: HTMLImageElement) => el.naturalWidth)).toBeLessThanOrEqual(1527);
+});
+
+test("Home loads only HP styles plus the door fonts", async ({ page, request }) => {
+  await page.goto("/");
+  await expectOnlyThemeCss(page, request, "hp", /Fraunces|Source Sans 3|JetBrains Mono|Holtwood One SC|Oswald/);
+  expect(await page.locator('link[rel="preload"][as="font"]').count()).toBeLessThanOrEqual(2);
+});
+
+test("Home top bar", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/");
+  await expectTopBarGeometry(page, 24);
+  await expect(page.locator(".site-wordmark")).toHaveAttribute("aria-current", "page");
+  await expectTabOrder(page);
+  await expectInertTexture(page);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await expectTopBarGeometry(page, 16);
+});
+
+test("Home has no horizontal overflow at 390", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+});
+
+test("390 layout stacks the hero", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await expect(page.locator(".hero-label-float")).toBeHidden();
+  await expect(page.locator(".hero-label-inline")).toBeVisible();
+});

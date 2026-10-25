@@ -1,12 +1,38 @@
 ---
-import BaseLayout from "../layouts/legacy/LegacyBaseLayout.astro";
-import LegacyPostList from "../components/legacy/LegacyPostList.astro";
-import { getPosts } from "../lib/get-posts";
-
-const posts = await getPosts();
-const metaDescription = "Personal and professional website of Cameron Grant";
+// Home (HP theme). Values: Site-Home.dc.html. The section doors preview the
+// Code and On themes, so Home also loads Holtwood One SC and Oswald (not
+// preloaded); JetBrains Mono is already part of HP.
+import { Font } from "astro:assets";
+import AboutSection from "../components/hp/AboutSection.astro";
+import Hero from "../components/hp/Hero.astro";
+import HpLayout from "../layouts/HpLayout.astro";
 ---
 
-<BaseLayout pageTitle="" metaDescription={metaDescription}>
-  <LegacyPostList posts={posts} />
-</BaseLayout>
+<HpLayout title="sasky.nz — Home" description="Personal and professional website of Cameron Grant">
+  <Fragment slot="head">
+    <Font cssVariable="--font-holtwood" />
+    <Font cssVariable="--font-oswald" />
+  </Fragment>
+  <Hero />
+  <div class="home-sections">
+    <AboutSection />
+  </div>
+</HpLayout>
+
+<style>
+  .home-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 96px;
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 64px var(--gutter) 112px;
+  }
+
+  @media (max-width: 760px) {
+    .home-sections {
+      gap: 72px;
+      padding: 48px 20px 80px;
+    }
+  }
+</style>
