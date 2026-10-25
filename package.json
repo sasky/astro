@@ -10,7 +10,8 @@
     "astro": "astro",
     "upgrade": "npx @astrojs/upgrade",
     "check": "astro check",
-    "test": "vitest run"
+    "test": "vitest run",
+    "check:links": "node scripts/check-links.mjs dist"
   },
   "engines": {
     "node": ">=24.21.0"
