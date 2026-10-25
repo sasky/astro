@@ -1,0 +1,97 @@
+---
+// Not found (HP theme). There's no design file for it, so it borrows the
+// Life listing's header band (Site-Life-List.dc.html) without the blue wash.
+import Dymo from "../components/site/Dymo.astro";
+import { SECTIONS } from "../data/sections";
+import HpLayout from "../layouts/HpLayout.astro";
+
+const section = (key: keyof typeof SECTIONS) => ({ href: `/${SECTIONS[key].path}`, label: SECTIONS[key].label });
+const [code, life, on] = [section("code"), section("life"), section("on")];
+---
+
+<HpLayout
+  title="Page not found — sasky.nz"
+  description="This page doesn't exist. It may have moved when the site was reorganised."
+  noindex
+  texture={0.8}
+>
+  <section class="band" aria-labelledby="not-found">
+    <svg class="plus" aria-hidden="true">
+      <defs>
+        <pattern id="nf-plus" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M20 13v14M13 20h14" stroke="#ff6a1f" stroke-opacity="0.6" stroke-width="2"></path>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#nf-plus)"></rect>
+    </svg>
+    <div class="band-in">
+      <Dymo tone="navy" as="p">404</Dymo>
+      <h1 id="not-found">This page has wandered off</h1>
+      <p class="lede">
+        It might have moved when the site was reorganised. Try <a href={code.href}>{code.label}</a>,{" "}
+        <a href={life.href}>{life.label}</a> or <a href={on.href}>{on.label}</a>, or head <a href="/">home</a>.
+      </p>
+    </div>
+  </section>
+</HpLayout>
+
+<style>
+  .band {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .plus {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 54%;
+    height: 100%;
+    opacity: 0.55;
+  }
+
+  .band-in {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 88px var(--gutter) 72px;
+  }
+
+  h1 {
+    max-width: 12ch;
+    margin: 0;
+    color: var(--navy);
+    font-family: var(--display-font);
+    font-size: clamp(48px, 9vw, 96px);
+    font-weight: 800;
+    /* Looser than the one-word Life heading, so the words stay apart. */
+    letter-spacing: -0.03em;
+    word-spacing: 0.06em;
+    line-height: 0.95;
+    text-wrap: balance;
+  }
+
+  .lede {
+    max-width: 560px;
+    margin: 0;
+    color: var(--lede);
+    font-family: var(--display-font);
+    font-size: 28px;
+    font-style: italic;
+    line-height: 1.3;
+  }
+
+  @media (max-width: 760px) {
+    .band-in {
+      padding: 52px 20px 44px;
+    }
+
+    .lede {
+      font-size: 22px;
+    }
+  }
+</style>
