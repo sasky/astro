@@ -23,10 +23,22 @@ function filesIn(distDir) {
 }
 
 // Returns the file a root-relative URL path serves from distDir, or null.
-// Handles both build formats: `/x` → `x`, `x.html` or `x/index.html`.
+// Handles both build formats: `/x` → `x`, `x.html` or `x/index.html`; `/x/`
+// only → `x/index.html`. A malformed %-escape resolves to nothing.
 export function resolveInDist(distDir, urlPath) {
-  const clean = posix.normalize(decodeURIComponent(urlPath.split(/[?#]/)[0])).replace(/^\/+|\/+$/g, "");
-  const candidates = clean === "" ? ["index.html"] : [clean, `${clean}.html`, `${clean}/index.html`];
+  let path;
+  try {
+    path = posix.normalize(decodeURIComponent(urlPath.split(/[?#]/)[0]));
+  } catch {
+    return null;
+  }
+  const clean = path.replace(/^\/+|\/+$/g, "");
+  const candidates =
+    clean === ""
+      ? ["index.html"]
+      : path.endsWith("/")
+        ? [`${clean}/index.html`]
+        : [clean, `${clean}.html`, `${clean}/index.html`];
   const found = candidates.find((candidate) => filesIn(distDir).has(candidate));
   return found ? join(distDir, found) : null;
 }

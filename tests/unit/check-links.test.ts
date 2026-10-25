@@ -40,3 +40,12 @@ test("fails when dist has no HTML", () => {
   const run = spawnSync(process.execPath, ["scripts/check-links.mjs", empty], { encoding: "utf8" });
   expect(run.status).toBe(2);
 });
+
+test("trailing slash only matches a directory index", () => {
+  expect(resolveInDist(dist, "/code/")).toBeNull();
+  expect(resolveInDist(dist, "/about/")).toMatch(/about\/index\.html$/);
+});
+
+test("malformed percent-encoding is unresolvable, not a crash", () => {
+  expect(resolveInDist(dist, "/100%")).toBeNull();
+});
