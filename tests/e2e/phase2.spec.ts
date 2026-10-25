@@ -21,7 +21,7 @@ test("Hide n Seek loads its cart when started", async ({ page }) => {
 test("RSS has the 7 posts and no About", async ({ request }) => {
   const xml = await (await request.get("/rss.xml")).text();
   expect(xml.match(/<item>/g)).toHaveLength(7);
-  expect(xml).toContain("https://sasky.nz/meditations/on-being-classy");
+  expect(xml).toContain("<link>https://sasky.nz/meditations/on-being-classy</link>");
   expect(xml).not.toContain("/about");
 });
 
@@ -31,4 +31,16 @@ test("tag page lists posts across sections", async ({ page }) => {
     "On New Zealand Music",
     "Concert youtube vids to temporarily restore one's faith in humanity",
   ]);
+});
+
+test("Home keeps its site title", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("h1.header-title")).toHaveText("sasky.nz");
+});
+
+test("a post's menu link returns to its entry on Home", async ({ page }) => {
+  await page.goto("/code/hide-n-seek-game");
+  await expect(page.locator("a.header-link")).toHaveAttribute("href", "/#code-hide-n-seek-game");
+  await page.goto("/");
+  await expect(page.locator("#code-hide-n-seek-game")).toBeAttached();
 });

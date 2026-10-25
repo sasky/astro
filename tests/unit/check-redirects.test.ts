@@ -15,10 +15,11 @@ test("parseRedirects skips comments and blank lines", () => {
 
 test("public/_redirects maps every old URL", () => {
   const rules = parseRedirects(readFileSync("public/_redirects", "utf8"));
-  expect(rules).toHaveLength(9);
+  expect(rules).toHaveLength(10);
   expect(rules.every((r) => r.status === 301)).toBe(true);
   expect(rules).toContainEqual(rule("/top_ten_tips_on_class", "/meditations/on-being-classy"));
-  for (const { to } of rules) expect(to).toMatch(/^\/(code|life|meditations)\/[a-z0-9-]+$|^\/#(about|tags)$/);
+  expect(rules).toContainEqual(rule("/tags/life", "/life"));
+  for (const { to } of rules) expect(to).toMatch(/^\/(code|life|meditations)(\/[a-z0-9-]+)?$|^\/#(about|tags)$/);
 });
 
 test("checkDist reports old paths still served and missing targets", () => {

@@ -25,3 +25,9 @@ test("firstSentence", () => {
   expect(firstSentence("What? Yes.")).toBe("What?");
   expect(firstSentence("No stop")).toBe("No stop");
 });
+
+test("firstSentence ends at a full stop inside closing quotes", () => {
+  expect(
+    firstSentence('Pharrell, to my ears, does not sound particularly happy singing his song "Happy." It has me musing.'),
+  ).toBe('Pharrell, to my ears, does not sound particularly happy singing his song "Happy."');
+});

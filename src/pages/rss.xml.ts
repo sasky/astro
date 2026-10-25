@@ -16,5 +16,7 @@ export async function GET(context: APIContext) {
       link: postUrl(post),
     })),
     customData: "<language>en-nz</language>",
+    // Item links match the site's no-trailing-slash URLs.
+    trailingSlash: false,
   });
 }

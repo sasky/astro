@@ -30,8 +30,8 @@ export function excerpt(body: string): string {
   return prose ? plainText(prose) : "";
 }
 
-/** Up to and including the first `.`, `!` or `?` that ends a sentence. */
+/** Up to and including the first `.`, `!` or `?` that ends a sentence, with any closing quote or bracket. */
 export function firstSentence(s: string): string {
-  const match = s.match(/^.*?[.!?](?=\s|$)/s);
+  const match = s.match(/^.*?[.!?]["'”’)\]]*(?=\s|$)/s);
   return (match ? match[0] : s).trim();
 }
