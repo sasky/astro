@@ -6,6 +6,8 @@ export type Section = "code" | "life" | "on";
 export interface SectionInfo {
   path: string;
   label: string;
+  /** What a post is called in counts: "2 posts", "4 meditations". */
+  unit: string;
   blurb: string;
   title: string;
   subtitle?: string;
@@ -18,6 +20,7 @@ export const SECTIONS: Record<Section, SectionInfo> = {
   code: {
     path: "code",
     label: "Code",
+    unit: "post",
     blurb: "Code, hosting & small games",
     title: "Code",
     // TODO(Cam): refine
@@ -27,6 +30,7 @@ export const SECTIONS: Record<Section, SectionInfo> = {
   life: {
     path: "life",
     label: "Life",
+    unit: "post",
     blurb: "Music, family & other non-code things",
     title: "Life",
     // TODO(Cam): refine
@@ -36,6 +40,7 @@ export const SECTIONS: Record<Section, SectionInfo> = {
   on: {
     path: "meditations",
     label: "On",
+    unit: "meditation",
     blurb: "Satire, humour & philosophy",
     title: "Pseudo Philosophy Meditations",
     subtitle: "A Series of Essays Satirical, Humorous & Philosophical!",

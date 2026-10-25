@@ -2,6 +2,7 @@ import { expect, test } from "vitest";
 import type { Section } from "../../src/data/sections";
 import {
   buildTagIndex,
+  countLabel,
   neighbours,
   postUrl,
   sectionStats,
@@ -82,4 +83,10 @@ test("postUrl uses the section path", () => {
   expect(postUrl(make("on-happiness", "on", "2026-09-22"))).toBe("/meditations/on-happiness");
   expect(postUrl(make("hide-n-seek-game", "code", "2024-01-29"))).toBe("/code/hide-n-seek-game");
   expect(postUrl(make("top-concertvids", "life", "2024-05-17"))).toBe("/life/top-concertvids");
+});
+
+test("countLabel uses the section's unit", () => {
+  expect(countLabel("on", 4)).toBe("4 meditations");
+  expect(countLabel("life", 1)).toBe("1 post");
+  expect(countLabel("code", 2)).toBe("2 posts");
 });
