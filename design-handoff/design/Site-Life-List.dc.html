@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Life — sasky.nz</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&amp;family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f6f1e7}
+a{color:#1f3fd6;text-decoration-color:rgba(255,106,31,.85);text-underline-offset:4px;text-decoration-thickness:2px}
+a:hover{color:#12163d;text-decoration-color:#12163d}
+a:active{color:#12163d;background-color:rgba(255,106,31,.25)}
+a:focus-visible,button:focus-visible{outline:3px solid #1f3fd6;outline-offset:3px}
+::selection{background:#ff6a1f;color:#12163d}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.graph{background-image:repeating-linear-gradient(0deg,rgba(36,82,255,.11) 0px,rgba(36,82,255,.11) 1px,transparent 1px,transparent 28px),repeating-linear-gradient(90deg,rgba(36,82,255,.11) 0px,rgba(36,82,255,.11) 1px,transparent 1px,transparent 28px),radial-gradient(ellipse 50% 40% at 6% 12%,rgba(120,90,40,.07),transparent 70%),radial-gradient(ellipse 40% 50% at 96% 88%,rgba(120,90,40,.08),transparent 70%)}
+.wash{-webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.12) 26%,rgba(0,0,0,.55) 58%,#000 100%);mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.12) 26%,rgba(0,0,0,.55) 58%,#000 100%)}
+.wash-grain{background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.07) 0px,rgba(255,255,255,.07) 1px,transparent 1px,transparent 28px),repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0px,rgba(255,255,255,.07) 1px,transparent 1px,transparent 28px)}
+.navlink:hover{color:#1f3fd6 !important;box-shadow:inset 0 -3px 0 var(--orange,#ff6a1f)}
+.navlink:active{background-color:rgba(255,106,31,.2)}
+.wordmark:hover{color:#1f3fd6 !important}
+.tag:hover .tag-l{background-color:#12163d !important;color:#ffffff !important}
+.flink:hover{color:#1f3fd6 !important;box-shadow:inset 0 -3px 0 var(--orange,#ff6a1f)}
+.flink:active{background-color:rgba(255,106,31,.2)}
+.rss:hover .rss-label{background-color:#12163d !important;color:#ffffff !important}
+.row{transition:background-color .12s ease}
+.row:hover{background-color:rgba(36,82,255,.06)}
+.row:hover .row-t{text-decoration:underline;text-decoration-color:var(--orange,#ff6a1f);text-decoration-thickness:3px;text-underline-offset:5px}
+.row:active{background-color:rgba(255,106,31,.12)}
+@media (max-width:760px){
+.head-in{padding:52px 20px 44px !important}
+.h1{font-size:72px !important}
+.lede{font-size:22px !important}
+.head-wash{width:100% !important}
+.life-main{padding:40px 20px 72px !important}
+.entry{grid-template-columns:minmax(0,1fr) !important;gap:8px !important;padding:22px 4px !important}
+.entry-t{font-size:25px !important}
+.foot-row{padding:18px 20px !important}
+}
+@media (max-width:480px){
+.bar-row{padding:0 16px !important;gap:4px 12px !important}
+.wordmark{font-size:20px !important;gap:10px !important}
+.navlink{padding:0 10px !important}
+}
+</style>
+</helmet>
+<div style="--blue: {{blue}}; --orange: {{orange}}; position: relative; min-height: 100vh; display: flex; flex-direction: column; background-color: #f6f1e7; color: #12163d; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-size: 17px; line-height: 1.6; overflow: hidden">
+<div aria-hidden="true" class="graph" style="position: absolute; inset: 0; pointer-events: none; opacity: {{texture}}"></div>
+<svg aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; mix-blend-mode: multiply; opacity: {{grain}}"><filter id="hp-grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#hp-grain)"></rect></svg>
+
+<header style="position: relative; z-index: 3; border-bottom: 2px solid #12163d; background-color: rgba(246,241,231,.94)">
+<div class="bar-row" style="max-width: 1120px; margin: 0 auto; padding: 0 24px; min-height: 66px; box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; line-height: 1.2">
+<a href="Site-Home.dc.html" class="wordmark" style="display: flex; align-items: center; gap: 12px; min-height: 44px; font-size: 24px; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-weight: 900; font-style: italic; letter-spacing: -0.02em; color: #12163d; text-decoration: none"><span aria-hidden="true" style="display: block; width: 13px; height: 13px; background-color: {{orange}}; box-shadow: 4px 4px 0 {{blue}}; transform: rotate(-8deg)"></span>sasky.nz</a>
+<nav aria-label="Sections" style="display: flex; align-items: center; gap: 4px; font-size: 16px; font-weight: 600; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif">
+<a href="Site-Code-List.dc.html" class="navlink" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; color: #12163d; text-decoration: none">Code</a>
+<a href="Site-Life-List.dc.html" class="navlink" aria-current="page" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; color: #1f3fd6; box-shadow: inset 0 -3px 0 {{orange}}; text-decoration: none">Life</a>
+<a href="Site-On-List.dc.html" class="navlink" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; color: #12163d; text-decoration: none">On</a>
+</nav>
+</div>
+</header>
+
+<section aria-labelledby="life-h" style="position: relative; z-index: 1; border-bottom: 2px solid #12163d; overflow: hidden">
+<div aria-hidden="true" style="position: absolute; inset: 0">
+<svg style="position: absolute; left: 0; top: 0; width: 54%; height: 100%; opacity: {{crosses}}"><defs><pattern id="life-plus" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M20 13v14M13 20h14" stroke="{{orange}}" stroke-opacity="0.6" stroke-width="2"></path></pattern></defs><rect width="100%" height="100%" fill="url(#life-plus)"></rect></svg>
+<div class="wash head-wash" style="position: absolute; top: 0; right: 0; bottom: 0; width: 58%; background-color: {{blue}}; opacity: {{field}}"><div class="wash-grain" style="position: absolute; inset: 0"></div></div>
+</div>
+<div class="head-in" style="position: relative; max-width: 1120px; margin: 0 auto; padding: 88px 24px 72px; box-sizing: border-box; display: flex; flex-direction: column; align-items: flex-start; gap: 20px">
+<p style="margin: 0; display: flex; align-items: center; min-height: 32px; padding: 4px 12px; box-sizing: border-box; border-radius: 3px; background-color: #12163d; box-shadow: 0 2px 0 rgba(18,22,61,.25); transform: rotate(-1.5deg); font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #ffffff">1 post · since May 2024</p>
+<h1 id="life-h" class="h1" style="margin: 0; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 120px; line-height: 0.9; font-weight: 800; letter-spacing: -0.045em; color: #12163d">Life</h1>
+<p class="lede" style="margin: 0; max-width: 560px; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 28px; line-height: 1.3; font-style: italic; color: #2a2f5c">Music, family &amp; other non-code things</p>
+<p style="margin: 0; max-width: 52ch; font-size: 18px; line-height: 1.6; color: #4a4e6e">[Intro copy for the Life section: a sentence or two.]</p>
+</div>
+</section>
+
+<main class="life-main" style="position: relative; z-index: 1; flex-grow: 1; width: 100%; max-width: 1120px; margin: 0 auto; padding: 64px 24px 112px; box-sizing: border-box">
+<section aria-labelledby="all" style="display: flex; flex-direction: column; max-width: 900px">
+<h2 id="all" style="margin: 0 0 16px; font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4a4e6e">Every Life post, newest first</h2>
+<div style="display: flex; flex-direction: column; border-top: 2px solid #12163d">
+
+<article class="entry row" style="display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 32px; padding: 28px 12px; border-bottom: 2px dashed rgba(18,22,61,.22)">
+<div style="display: flex; flex-direction: column; gap: 2px; padding-top: 7px; font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 13px; font-weight: 500; color: #4a4e6e">
+<time datetime="2024-05-17" style="font-weight: 700; color: #12163d">17 May 2024</time>
+<span>6 min read</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<h3 class="entry-t" style="margin: 0; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 30px; line-height: 1.15; font-weight: 800; letter-spacing: -0.02em"><a href="Site-Life-Post.dc.html" class="row-t" style="color: #12163d; text-decoration: none">Concert youtube vids to temporarily restore one’s faith in humanity</a></h3>
+<p style="margin: 0; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 20px; line-height: 1.45; font-style: italic; color: #2a2f5c">Briefly glimpsing into the collective one-ness of our species, through the power of Youtube vids</p>
+<div style="display: flex; flex-wrap: wrap; gap: 0 8px"><a href="#" class="tag" style="display: flex; align-items: center; min-height: 44px; text-decoration: none"><span class="tag-l" style="display: flex; align-items: center; min-height: 28px; padding: 2px 10px; box-sizing: border-box; border: 2px solid #12163d; border-radius: 3px; font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #12163d; transition: background-color .12s ease">life</span></a></div>
+</div>
+</article>
+
+<article class="entry" style="display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 32px; padding: 28px 12px; border-bottom: 2px dashed rgba(18,22,61,.22)">
+<div style="padding-top: 7px; font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 13px; font-weight: 500; color: #8a8da8">[date]</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<h3 class="entry-t" style="margin: 0; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 30px; line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; color: #8a8da8">[Next Life post]</h3>
+<p style="margin: 0; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 20px; line-height: 1.45; font-style: italic; color: #8a8da8">[Its intro line]</p>
+</div>
+</article>
+
+<article class="entry" style="display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 32px; padding: 28px 12px; border-bottom: 2px dashed rgba(18,22,61,.22)">
+<div style="padding-top: 7px; font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 13px; font-weight: 500; color: #8a8da8">[date]</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<h3 class="entry-t" style="margin: 0; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 30px; line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; color: #8a8da8">[Next Life post]</h3>
+<p style="margin: 0; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 20px; line-height: 1.45; font-style: italic; color: #8a8da8">[Its intro line]</p>
+</div>
+</article>
+
+</div>
+</section>
+</main>
+
+<footer style="position: relative; z-index: 1; border-top: 2px solid #12163d; background-color: rgba(246,241,231,.94)">
+<div class="foot-row" style="max-width: 1120px; margin: 0 auto; padding: 18px 24px; box-sizing: border-box; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 24px; line-height: 1.2">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px">
+<a href="Site-Home.dc.html" class="wordmark" style="display: flex; align-items: center; gap: 10px; min-height: 44px; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 20px; font-weight: 900; font-style: italic; letter-spacing: -0.02em; color: #12163d; text-decoration: none"><span aria-hidden="true" style="display: block; width: 10px; height: 10px; background-color: {{orange}}; box-shadow: 3px 3px 0 {{blue}}; transform: rotate(-8deg)"></span>sasky.nz</a>
+<span style="font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; color: #4a4e6e">© 2026 Cameron Grant</span>
+</div>
+<nav aria-label="Contact and feed" style="display: flex; flex-wrap: wrap; align-items: center; gap: 0 4px; font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase">
+<a href="https://mastodon.social/@sasky" class="flink" style="display: flex; align-items: center; min-height: 44px; padding: 0 10px; color: #12163d; text-decoration: none">Mastodon</a>
+<a href="https://www.linkedin.com/in/cameron-grant-5802b45b/" class="flink" style="display: flex; align-items: center; min-height: 44px; padding: 0 10px; color: #12163d; text-decoration: none">LinkedIn</a>
+<a href="https://github.com/sasky/" class="flink" style="display: flex; align-items: center; min-height: 44px; padding: 0 10px; color: #12163d; text-decoration: none">GitHub</a>
+<a href="/rss.xml" class="rss" style="display: flex; align-items: center; min-height: 44px; padding: 0 0 0 10px; text-decoration: none"><span class="rss-label" style="display: flex; align-items: center; min-height: 30px; padding: 3px 12px; box-sizing: border-box; border-radius: 3px; background-color: {{orange}}; box-shadow: 0 2px 0 rgba(18,22,61,.25); transform: rotate(-2deg); color: #12163d">RSS</span></a>
+</nav>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"blue":{"editor":"color","default":"#2452ff","options":["#2452ff","#1f8bff","#3b2bff"]},"orange":{"editor":"color","default":"#ff6a1f","options":["#ff6a1f","#ff8a00","#ff4d2e"]},"field":{"editor":"range","default":0.85,"min":0,"max":1,"step":0.05},"crosses":{"editor":"range","default":0.55,"min":0,"max":1,"step":0.05},"texture":{"editor":"range","default":0.8,"min":0,"max":1,"step":0.05},"$preview":{"width":1280,"height":1700}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const t = this.props.texture ?? 0.8;
+    return {
+      blue: this.props.blue ?? '#2452ff',
+      orange: this.props.orange ?? '#ff6a1f',
+      field: this.props.field ?? 0.85,
+      crosses: this.props.crosses ?? 0.55,
+      texture: t,
+      grain: Math.round(t * 0.12 * 1000) / 1000
+    };
+  }
+}
+</script>
+</body>
+</html>

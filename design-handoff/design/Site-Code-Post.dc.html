@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cheap and easy Silverstripe hosting — Code — sasky.nz</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;0,800;1,400&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0b0f0d}
+a{color:#c8d6cb}
+a:focus-visible,button:focus-visible{outline:2px solid #f2b45a;outline-offset:3px}
+button:hover{color:#eef5f0 !important;background-color:#14201a !important}
+button:active{color:#07110b !important;background-color:#6ee7a0 !important}
+::selection{background:#6ee7a0;color:#07110b}
+.tx-term{background-image:repeating-linear-gradient(to bottom,rgba(190,255,215,.045) 0px,rgba(190,255,215,.045) 1px,transparent 1px,transparent 3px),radial-gradient(ellipse 70% 700px at 50% 0%,rgba(110,231,160,.12),transparent 70%),linear-gradient(90deg,rgba(0,0,0,.45),transparent 22%,transparent 78%,rgba(0,0,0,.45)),linear-gradient(to top,rgba(0,0,0,.4),transparent 520px),linear-gradient(to bottom,rgba(0,0,0,.18),transparent 260px)}
+.lnk,.prose a{color:#6cb6ff;text-decoration:underline;text-decoration-color:rgba(108,182,255,.45);text-underline-offset:3px;text-decoration-thickness:1px;transition:color .12s ease,background-color .12s ease}
+.lnk:hover,.prose a:hover{color:#b5dbff;text-decoration-color:currentColor;background-color:rgba(108,182,255,.12)}
+.lnk:active,.prose a:active{color:#07110b;background-color:#6cb6ff;text-decoration-color:#07110b}
+.prose p{margin:0}
+.prose code{background-color:#14201a;border:1px solid #24382d;padding:1px 6px;color:#f2b45a;font-size:.92em;font-family:inherit}
+.code{counter-reset:ln}
+.code>span{display:block;position:relative;padding-left:3.4em;white-space:pre;counter-increment:ln}
+.code>span::before{content:counter(ln);position:absolute;left:0;width:2.4em;text-align:right;color:#3d5446}
+.toc a{color:#9fb3a5;text-decoration:none}
+.toc a:hover{color:#eef5f0}
+.toc a:active{color:#07110b;background-color:#6ee7a0}
+.toc{position:sticky;top:24px}
+.navlink{transition:background-color .12s ease,color .12s ease}
+.navlink:hover{background-color:#14201a;color:#eef5f0 !important}
+.navlink:active{background-color:#1b2b22}
+.wordmark:hover{text-shadow:0 0 14px rgba(110,231,160,.55)}
+.tag:hover{color:#ffd08f !important;text-decoration:underline !important;text-underline-offset:3px}
+.card{transition:background-color .12s ease}
+.card:hover{background-color:rgba(110,231,160,.05)}
+.card:hover .card-t{text-decoration:underline;text-underline-offset:4px}
+.card:active{background-color:rgba(110,231,160,.1)}
+.flink:hover{color:#eef5f0 !important}
+@media (max-width:900px){
+.post-grid{grid-template-columns:minmax(0,1fr) !important}
+.toc-wrap{display:none !important}
+.title{font-size:30px !important}
+.hide-sm{display:none !important}
+}
+.cursor{animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.cursor{animation:none}}
+@media (max-width:900px){.code-main{padding:40px 20px 72px !important}}
+@media (max-width:480px){
+.bar-row{padding:0 16px !important;gap:4px 12px !important}
+.wordmark{font-size:20px !important;gap:10px !important}
+.navlink{padding:0 10px !important}
+}
+</style>
+</helmet>
+<div style="position: relative; min-height: 100vh; display: flex; flex-direction: column; background-color: #0b0f0d; color: #c8d6cb; font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 15px; line-height: 1.7; overflow: hidden">
+<div aria-hidden="true" class="tx-term" style="position: absolute; inset: 0; pointer-events: none; opacity: {{texture}}"></div>
+<svg aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: {{grain}}"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#grain)"></rect></svg>
+
+<header style="position: relative; z-index: 3; border-bottom: 2px solid #1d2e25; background-color: #101a15">
+<div class="bar-row" style="max-width: 1120px; margin: 0 auto; padding: 0 24px; min-height: 66px; box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; line-height: 1.2">
+<a href="Site-Home.dc.html" class="wordmark" style="display: flex; align-items: center; gap: 12px; min-height: 44px; font-size: 24px; font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 800; letter-spacing: -0.02em; color: #eef5f0; text-decoration: none"><span aria-hidden="true" class="cursor" style="display: block; width: 13px; height: 22px; background-color: {{accent}}"></span>sasky.nz</a>
+<nav aria-label="Sections" style="display: flex; align-items: center; gap: 4px; font-size: 16px; font-weight: 600; font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; text-transform: lowercase">
+<a href="Site-Code-List.dc.html" class="navlink" aria-current="true" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; color: {{accent}}; box-shadow: inset 0 -3px 0 {{accent}}; text-decoration: none">Code</a>
+<a href="Site-Life-List.dc.html" class="navlink" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; color: #9fb3a5; text-decoration: none">Life</a>
+<a href="Site-On-List.dc.html" class="navlink" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; color: #9fb3a5; text-decoration: none">On</a>
+</nav>
+</div>
+</header>
+
+<main class="code-main" style="position: relative; z-index: 1; flex-grow: 1; width: 100%; max-width: 1120px; margin: 0 auto; padding: 56px 32px 96px; box-sizing: border-box; display: flex; flex-direction: column; gap: 40px">
+
+<header style="display: flex; flex-direction: column; gap: 18px; padding-bottom: 32px; border-bottom: 1px dashed #24382d">
+<div style="display: flex; flex-wrap: wrap; font-size: 14px"><span style="color: {{accent}}; font-weight: 700">cam@sasky</span><span style="color: #7d8f82">:</span><nav aria-label="Breadcrumb" style="display: inline-flex"><a href="Site-Home.dc.html" class="lnk">~</a><span style="color: #8cc8ff">/</span><a href="Site-Code-List.dc.html" class="lnk">code</a></nav><span style="color: #7d8f82">$&nbsp;</span><span style="color: #eef5f0">cat silverstripe-app-platform.md</span></div>
+<h1 class="title" style="margin: 0; max-width: 24ch; font-size: 44px; line-height: 1.18; font-weight: 800; letter-spacing: -0.01em; color: #eef5f0; text-wrap: balance"><span style="color: {{accent}}">#&nbsp;</span>Cheap and easy Silverstripe hosting</h1>
+<p style="margin: 0; max-width: 64ch; font-size: 17px; font-style: italic; color: #9fb3a5">&gt; Using Digital Ocean's App platform to host a managed Silverstripe site on the cheap</p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0 28px; font-size: 13px">
+<span><span style="color: #7d8f82">date&nbsp;</span><time datetime="2024-04-01" style="color: #eef5f0">1 April 2024</time></span>
+<span><span style="color: #7d8f82">read&nbsp;</span><span style="color: #eef5f0">6 min read</span></span>
+<span style="display: flex; align-items: center; gap: 12px"><span style="color: #7d8f82">tags</span><a href="#" class="tag" style="display: flex; align-items: center; min-height: 44px; color: #f2b45a; text-decoration: none">[silverstripe]</a><a href="#" class="tag" style="display: flex; align-items: center; min-height: 44px; color: #f2b45a; text-decoration: none">[learning]</a></span>
+</div>
+</header>
+
+<div class="post-grid" style="display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 64px; align-items: start">
+
+<article class="prose" style="display: flex; flex-direction: column; gap: 22px; max-width: 70ch; font-size: 16px; line-height: 1.8">
+
+<h2 id="setup" style="margin: 0; font-size: 26px; line-height: 1.3; font-weight: 800; color: #eef5f0"><span style="color: {{accent}}">##&nbsp;</span>Setup steps</h2>
+
+<p>The indented audience of this post is those that know what Silverstripe is, and how to install it locally. But just in case you do not know what I'm banging on about I'll give a quick SilverStripe primer.</p>
+
+<p>SilverStripe is a open source MVC style CMS and Framework written in PHP, and using a Mysql Database. Think of the Framework as similar to Laravel, but a bit more shit. And the CMS bit as like Wordpress, also a bit more shit. Not that I have much love for Wordpress, but's that another story.</p>
+
+<p>So, where was I.... There is a sweet spot there which is actually quite nice, that I haven't seen done in other projects in this space. SilverStripe is conceptually similar to MVC style frameworks like Laravel for PHP, Rail's for Ruby, Django for python and perhaps Phoenix for Elixir. I have often wondered if you use such frameworks for client work in a fast moving web agency setting? My naive understanding is that these frameworks do have compatible CMS's but they are added later as a nicety, not being core to the Framework exactly. SilverStripe has evolved from the get go with a CMS, and as such, is tightly integrated ecosystem.</p>
+
+<p>As much as us devs love getting swept up in the new hotness like writing our web content in markdown, pushing to Github then having our fancy Jam stack'ish venture funded SAAS build and deploy our static'ish sites to the 'edge'.</p>
+
+<p>Clients ain't having that nonsense, they just want something as similar to Microsoft Word as possible. Clients seek familiarity, they want to edit some text, add a title or two, and see those changes instantly appear on their website.</p>
+
+<p>So enter Silverstripe, it's sweet spot is for building non trivial data driven websites using custom design's. It's great at building out relational data schemas (like one to many, many to many etc), quickly. Then the backend UI almost works out of the box which allowing clients to edit those data structures. I'm probably doing a terrible job at selling you; dear reader; on the merits of Silverstripe. But If I have sparked your interest, <a href="https://www.silverstripe.org/learn/lessons/v4/">I think the lessons page in the docs would be a good next step.</a></p>
+
+<p>If I sound a little bitter, I may be. I have spent probably 90% of my dev career working on Silverstripe websites of all sizes and complexities. I would like to move on from Silverstripe at this stage. But gosh darn, It's still such a great solution for many of the projects that come my way. Just when I think I'm out I keep getting pulled back in</p>
+
+<p>So anyhoo</p>
+
+<h3 id="step-1" style="margin: 18px 0 0; font-size: 19px; line-height: 1.4; font-weight: 700; color: #eef5f0"><span style="color: #4f6b5a">###&nbsp;</span>Step 1: install and run Silverstripe locally</h3>
+
+<figure style="margin: 4px 0; border: 1px solid #24382d; background-color: #070a09">
+<figcaption style="display: flex; justify-content: space-between; align-items: stretch; border-bottom: 1px solid #24382d; background-color: #0d1511; font-size: 12px; color: #7d8f82">
+<span style="display: flex; align-items: center; padding: 0 14px">── bash</span>
+<button type="button" style="display: flex; align-items: center; min-height: 44px; padding: 0 16px; border: 0; border-left: 1px solid #24382d; background-color: transparent; color: #9fb3a5; font-family: inherit; font-size: 12px; cursor: pointer">copy</button>
+</figcaption>
+<div class="code" style="padding: 16px 20px 16px 8px; font-size: 13.5px; line-height: 1.75; overflow-x: auto; color: #c8d6cb">
+<span><span style="color: #8cc8ff">composer</span> create-project silverstripe/installer my-website</span>
+</div>
+</figure>
+
+<p>If you are on a Mac, and need to install Php/Apache/Mysql working locally, my go to guide is from the folks a <a href="https://getgrav.org/blog/macos-sonoma-apache-multiple-php-versions">Get Grav</a></p>
+
+<p>There is much more info on installing SilverStripe on the <a href="https://docs.silverstripe.org/en/5/getting_started/composer/">Silverstripe docs</a></p>
+
+<p>Once Silverstripe is working good locally, and have the repo in Github, move on to step two.</p>
+
+<h3 id="step-2" style="margin: 18px 0 0; font-size: 19px; line-height: 1.4; font-weight: 700; color: #eef5f0"><span style="color: #4f6b5a">###&nbsp;</span>Step 2: Set up Digital Ocean</h3>
+
+<p>Create an account on <a href="https://www.digitalocean.com/">Digital Ocean</a> if you don't already have one. Create a project called the name of you website Then smash that 'Create App' button on the App Platform page, and create a app You may want to create one of their projects first to keep it all organised. You will also need to create a managed mySql instance. This is because the App platform does not give you Mysql unfortunately. it gives you it's more idealised cousin Postgres.</p>
+
+<p>And in case you are thinking, oh shit, that's not a problem because I'm sure Silverstripe has a Postgres module, I'll just composer install that bad boy and happy days. <span style="color: #f2b45a">Down that path, there be dragons,</span> I tried the best part of a couple of hours getting that to work, but no dice. Didn't help that I didn't have Postgres installed locally and couldn't be arsed to. But further digging, the port number in the Postgres module seems to be unconfigurable, and you need a exotic port for the App platform. Nothing a fork and pull request couldn't fix. But I took the step back at that point and asked if there was a faster way. Turns out there was, and that was just spinning up a managed Mysql database outside of the App platforms offerings. So go ahead and spin up a managed Mysql instance.</p>
+
+<h3 id="step-3" style="margin: 18px 0 0; font-size: 19px; line-height: 1.4; font-weight: 700; color: #eef5f0"><span style="color: #4f6b5a">###&nbsp;</span>Step 3: Set up environment variables</h3>
+
+<p>Once you have everything set up in Digital ocean. You will need to plug in some Environment variables into the app platform Here a run down on them</p>
+
+<figure style="margin: 4px 0; border: 1px solid #24382d; background-color: #070a09">
+<figcaption style="display: flex; justify-content: space-between; align-items: stretch; border-bottom: 1px solid #24382d; background-color: #0d1511; font-size: 12px; color: #7d8f82">
+<span style="display: flex; align-items: center; padding: 0 14px">── .env · database</span>
+<button type="button" style="display: flex; align-items: center; min-height: 44px; padding: 0 16px; border: 0; border-left: 1px solid #24382d; background-color: transparent; color: #9fb3a5; font-family: inherit; font-size: 12px; cursor: pointer">copy</button>
+</figcaption>
+<div class="code" style="padding: 16px 20px 16px 8px; font-size: 13.5px; line-height: 1.75; overflow-x: auto; color: #c8d6cb">
+<span><span style="color: #8cc8ff">SS_DATABASE_CLASS</span><span style="color: #5d7466">=</span><span style="color: #a6e3a1">MySQLDatabase</span></span>
+<span><span style="color: #8cc8ff">SS_DATABASE_SERVER</span><span style="color: #5d7466">=</span><span style="color: #a6e3a1">db-mysql-syd1-xxxx-do-user-266434-0.c.db.ondigitalocean.com</span></span>
+<span><span style="color: #8cc8ff">SS_DATABASE_PORT</span><span style="color: #5d7466">=</span><span style="color: #a6e3a1">xxxx</span></span>
+<span><span style="color: #8cc8ff">SS_DATABASE_USERNAME</span><span style="color: #5d7466">=</span><span style="color: #a6e3a1">doadmin</span></span>
+<span><span style="color: #8cc8ff">SS_DATABASE_PASSWORD</span><span style="color: #5d7466">=</span><span style="color: #a6e3a1">xxxxxx</span></span>
+<span><span style="color: #8cc8ff">SS_DATABASE_NAME</span><span style="color: #5d7466">=</span><span style="color: #a6e3a1">defaultdb</span></span>
+</div>
+</figure>
+
+<p>The database credentials form the managed Mysql instance you set up earlier. (replace the xxxx's with you own creds of course )</p>
+
+<figure style="margin: 4px 0; border: 1px solid #24382d; background-color: #070a09">
+<figcaption style="display: flex; justify-content: space-between; align-items: stretch; border-bottom: 1px solid #24382d; background-color: #0d1511; font-size: 12px; color: #7d8f82">
+<span style="display: flex; align-items: center; padding: 0 14px">── .env · silverstripe</span>
+<button type="button" style="display: flex; align-items: center; min-height: 44px; padding: 0 16px; border: 0; border-left: 1px solid #24382d; background-color: transparent; color: #9fb3a5; font-family: inherit; font-size: 12px; cursor: pointer">copy</button>
+</figcaption>
+<div class="code" style="padding: 16px 20px 16px 8px; font-size: 13.5px; line-height: 1.75; overflow-x: auto; color: #c8d6cb">
+<span><span style="color: #8cc8ff">SS_ENVIRONMENT_TYPE</span><span style="color: #5d7466">=</span><span style="color: #a6e3a1">live</span></span>
+<span><span style="color: #8cc8ff">SS_FLUSH_ON_DEPLOY</span><span style="color: #5d7466">=</span><span style="color: #f2b45a">true</span></span>
+<span><span style="color: #8cc8ff">SS_DEFAULT_ADMIN_USERNAME</span><span style="color: #5d7466">=</span><span style="color: #a6e3a1">admin</span></span>
+<span><span style="color: #8cc8ff">SS_DEFAULT_ADMIN_PASSWORD</span><span style="color: #5d7466">=</span><span style="color: #a6e3a1">xxxxxx</span></span>
+<span><span style="color: #8cc8ff">SS_DATABASE_TIMEZONE</span><span style="color: #5d7466">=</span><span style="color: #a6e3a1">Pacific/Auckland</span></span>
+<span><span style="color: #8cc8ff">TZ</span><span style="color: #5d7466">=</span><span style="color: #a6e3a1">Pacific/Auckland</span></span>
+<span><span style="color: #8cc8ff">SS_BASE_URL</span><span style="color: #5d7466">=</span><span style="color: #a6e3a1">https://elp-bookings-c35eo.ondigitalocean.app</span></span>
+</div>
+</figure>
+
+<p>Some SilverStripe specific stuff, usually I only use the <code>SS_DEFAULT_ADMIN</code> on dev, but I needed a quick way to get into the admin area of Silverstripe after deploy. The Base URL was just the spun up URL that the App platform gave me, guess you would change that as part of the steps of pointing a custom domain to it. I didn't get that far.</p>
+
+<figure style="margin: 4px 0; border: 1px solid #24382d; background-color: #070a09">
+<figcaption style="display: flex; justify-content: space-between; align-items: stretch; border-bottom: 1px solid #24382d; background-color: #0d1511; font-size: 12px; color: #7d8f82">
+<span style="display: flex; align-items: center; padding: 0 14px">── .env · mail</span>
+<button type="button" style="display: flex; align-items: center; min-height: 44px; padding: 0 16px; border: 0; border-left: 1px solid #24382d; background-color: transparent; color: #9fb3a5; font-family: inherit; font-size: 12px; cursor: pointer">copy</button>
+</figcaption>
+<div class="code" style="padding: 16px 20px 16px 8px; font-size: 13.5px; line-height: 1.75; overflow-x: auto; color: #c8d6cb">
+<span><span style="color: #8cc8ff">MAILER_DSN</span><span style="color: #5d7466">=</span><span style="color: #a6e3a1">smtp://resend:xxxxxx@smtp.resend.com:465</span></span>
+</div>
+</figure>
+
+<p>Here if you want the site to send emails, you can set up a smtp mailer service. Resend looked good, but I never got this far along in the process anyway. You will need a real domain to do this as whatever SMTP service you use will want you put put some of that email MX records and other stuff on the DNS of your custom domain.</p>
+
+<figure style="margin: 4px 0; border: 1px solid #24382d; background-color: #070a09">
+<figcaption style="display: flex; justify-content: space-between; align-items: stretch; border-bottom: 1px solid #24382d; background-color: #0d1511; font-size: 12px; color: #7d8f82">
+<span style="display: flex; align-items: center; padding: 0 14px">── build command</span>
+<button type="button" style="display: flex; align-items: center; min-height: 44px; padding: 0 16px; border: 0; border-left: 1px solid #24382d; background-color: transparent; color: #9fb3a5; font-family: inherit; font-size: 12px; cursor: pointer">copy</button>
+</figcaption>
+<div class="code" style="padding: 16px 20px 16px 8px; font-size: 13.5px; line-height: 1.75; overflow-x: auto; color: #c8d6cb">
+<span><span style="color: #8cc8ff">vendor/bin/sake</span> dev/build <span style="color: #a6e3a1">"flush=1"</span></span>
+</div>
+</figure>
+
+<p>You should also put the above command in the build command option, this will run after each deploy. And SilverStripe needs that dev/build run manually if there are schema changes in you're Silverstripe project.</p>
+
+<h3 id="step-4" style="margin: 18px 0 0; font-size: 19px; line-height: 1.4; font-weight: 700; color: #eef5f0"><span style="color: #4f6b5a">###&nbsp;</span>Step 4: Check if https is working</h3>
+
+<p>That just step here, well at least it was for me. This might not be necessarily if you set up a custom domain to point to your App platform instance. Which I also didn't get to, as it was just me kicking the tires. But the olf HTTPS thing didn't quite work with Silverstripe and the platform. Even with SilverStripe's force HTTPS option. After source diving I found that adjusting the <code>alternate_base_url</code> config value did the trick. Seems that configuration variable is supposed to be used for testing, but in this case it fixed the HTTPS issue I was having. So if you are following on, place the following on your <code>_config.php</code> file. Replacing the domain with your own</p>
+
+<figure style="margin: 4px 0; border: 1px solid #24382d; background-color: #070a09">
+<figcaption style="display: flex; justify-content: space-between; align-items: stretch; border-bottom: 1px solid #24382d; background-color: #0d1511; font-size: 12px; color: #7d8f82">
+<span style="display: flex; align-items: center; padding: 0 14px">── app/_config.php</span>
+<button type="button" style="display: flex; align-items: center; min-height: 44px; padding: 0 16px; border: 0; border-left: 1px solid #24382d; background-color: transparent; color: #9fb3a5; font-family: inherit; font-size: 12px; cursor: pointer">copy</button>
+</figcaption>
+<div class="code" style="padding: 16px 20px 16px 8px; font-size: 13.5px; line-height: 1.75; overflow-x: auto; color: #c8d6cb">
+<span><span style="color: #5f7a6a; font-style: italic">// app/_config.php</span></span>
+<span>&nbsp;</span>
+<span><span style="color: #f2b45a">&lt;?php</span></span>
+<span>&nbsp;</span>
+<span><span style="color: #f2b45a">use</span> <span style="color: #8cc8ff">SilverStripe\Control\Director</span>;</span>
+<span>&nbsp;</span>
+<span><span style="color: #f2b45a">if</span> (!<span style="color: #8cc8ff">Director</span>::isDev()) {</span>
+<span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #8cc8ff">Director</span>::config()-&gt;set(<span style="color: #a6e3a1">'alternate_base_url'</span>, <span style="color: #a6e3a1">'https://xxxx-c35eo.ondigitalocean.app'</span>);</span>
+<span>}</span>
+</div>
+</figure>
+
+<p>(Or in your apps <code>_config.yml</code> file)</p>
+
+<p>Hopefully you got that set up faster than I did. I had it running for a month and got charged about $40 NZD's for the privilege. Now of course just setting up a fresh droplet and installing your own LAMP stack on it would be cheaper, and is something I have done in the past. But this seems to be a great way to get a Silverstripe site running without to much hassle, and with not having to worry too much about keeping Linux/mySql/Apache up to date and configured well for security and speed. I don't know how well a App platforms hosted Silverstripe site will perform under load, but Hopefully it's a cost efficient way of having a somewhat managed Silverstripe hosting.</p>
+
+<p style="color: #eef5f0; font-weight: 700">Cam out.</p>
+
+<div aria-hidden="true" style="display: flex; align-items: center; gap: 16px; margin-top: 16px; font-size: 12px; color: #4f6b5a"><span style="flex-grow: 1; border-top: 1px dashed #24382d"></span><span>EOF</span><span style="flex-grow: 1; border-top: 1px dashed #24382d"></span></div>
+</article>
+
+<aside class="toc-wrap" aria-label="On this page">
+<div class="toc" style="display: flex; flex-direction: column; gap: 16px; padding: 20px; border: 1px dashed #24382d; background-color: rgba(11,15,13,.6); font-size: 13px; line-height: 1.5">
+<div style="color: #7d8f82">$ grep '^#' post.md</div>
+<nav style="display: flex; flex-direction: column; gap: 4px">
+<a href="#setup" style="display: flex; align-items: center; min-height: 36px; color: #eef5f0">## Setup steps</a>
+<a href="#step-1" style="display: flex; align-items: center; min-height: 36px">### 1 · install locally</a>
+<a href="#step-2" style="display: flex; align-items: center; min-height: 36px">### 2 · Digital Ocean</a>
+<a href="#step-3" style="display: flex; align-items: center; min-height: 36px">### 3 · env variables</a>
+<a href="#step-4" style="display: flex; align-items: center; min-height: 36px">### 4 · check https</a>
+</nav>
+<a href="Site-Code-List.dc.html" class="lnk" style="display: flex; align-items: center; min-height: 44px; padding-top: 6px; border-top: 1px dashed #24382d">← cd ~/code</a>
+</div>
+</aside>
+</div>
+
+<nav aria-label="More in Code" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px; padding-top: 16px">
+<a href="#" class="card" style="display: flex; flex-direction: column; gap: 6px; padding: 22px 24px; border: 1px dashed #24382d; text-decoration: none; color: #c8d6cb">
+<span style="font-size: 12px; color: #7d8f82">← older in ~/code · 29 January 2024</span>
+<span class="card-t" style="font-size: 18px; font-weight: 800; color: #eef5f0">Hide n Seek</span>
+<span style="color: #7d8f82"># Building a game for my girls</span>
+</a>
+<a href="Site-Code-List.dc.html" class="card" style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px; padding: 22px 24px; border: 1px dashed #24382d; text-decoration: none; color: #c8d6cb; text-align: right">
+<span style="font-size: 12px; color: #7d8f82">cd ~/code →</span>
+<span class="card-t" style="font-size: 18px; font-weight: 800; color: #eef5f0">All Code posts</span>
+<span style="color: #7d8f82"># newest post, nothing newer yet</span>
+</a>
+</nav>
+</main>
+
+<footer style="position: relative; z-index: 1; border-top: 1px solid #1d2e25; background-color: #0d1511">
+<div style="max-width: 1120px; margin: 0 auto; padding: 10px 32px; box-sizing: border-box; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 20px; font-size: 12px; color: #7d8f82">
+<span style="color: {{accent}}; font-weight: 700">-- NORMAL --</span>
+<nav aria-label="Contact and feed" style="display: flex; flex-wrap: wrap; gap: 0 4px"><a href="https://mastodon.social/@sasky" class="flink" style="display: flex; align-items: center; min-height: 44px; padding: 0 8px; color: #9fb3a5">mastodon</a><a href="https://www.linkedin.com/in/cameron-grant-5802b45b/" class="flink" style="display: flex; align-items: center; min-height: 44px; padding: 0 8px; color: #9fb3a5">linkedin</a><a href="https://github.com/sasky/" class="flink" style="display: flex; align-items: center; min-height: 44px; padding: 0 8px; color: #9fb3a5">github</a><a href="/rss.xml" class="flink" style="display: flex; align-items: center; min-height: 44px; padding: 0 8px; color: #f2b45a">rss</a></nav>
+<span>© 2026 Cameron Grant</span>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#6ee7a0","options":["#6ee7a0","#ffb454","#7cc4ff"]},"texture":{"editor":"range","default":0.75,"min":0,"max":1,"step":0.05},"$preview":{"width":1280,"height":5900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const t = this.props.texture ?? 0.75;
+    return {
+      accent: this.props.accent ?? '#6ee7a0',
+      texture: t,
+      grain: Math.round(t * 0.13 * 1000) / 1000
+    };
+  }
+}
+</script>
+</body>
+</html>
