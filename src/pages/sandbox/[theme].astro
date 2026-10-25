@@ -1,0 +1,21 @@
+---
+// Temporary demo pages for checking the three theme layouts. Deleted before
+// the Phase 3 PR merges.
+import type { GetStaticPaths } from "astro";
+import CodeLayout from "../../layouts/CodeLayout.astro";
+import HpLayout from "../../layouts/HpLayout.astro";
+import OnLayout from "../../layouts/OnLayout.astro";
+
+export const getStaticPaths = (() =>
+  ["hp", "code", "on"].map((theme) => ({ params: { theme } }))) satisfies GetStaticPaths;
+
+const layouts = { hp: HpLayout, code: CodeLayout, on: OnLayout };
+const Layout = layouts[Astro.params.theme as keyof typeof layouts];
+---
+
+<Layout title={`Sandbox ${Astro.params.theme}`} description="Theme layout demo" noindex>
+  <section style="padding: 48px var(--gutter)">
+    <h1>Sandbox: {Astro.params.theme}</h1>
+    <p>Demo content for the {Astro.params.theme} layout.</p>
+  </section>
+</Layout>
