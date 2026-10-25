@@ -3,5 +3,10 @@
   "exclude": ["dist", "public/pico8"],
   "compilerOptions": {
     "jsx": "react-jsx",
+    "paths": {
+      "@components/*": ["./src/components/*"],
+      "@images/*": ["./src/images/*"],
+      "@assets/*": ["./src/assets/*"]
+    }
   }
 }
