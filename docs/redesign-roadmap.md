@@ -46,7 +46,7 @@ PR: [#3](https://github.com/sasky/astro/pull/3)
 
 ### Phase 2: Content collections, routes and redirects (old look, new URLs)
 
-PR: _none yet_
+PR: [#4](https://github.com/sasky/astro/pull/4)
 
 - [x] 2.1 Pure helpers (`format`, `text`, `posts`) with tests first (M)
 - [x] 2.2 Move the posts into the `posts` collection (M)
