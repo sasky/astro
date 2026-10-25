@@ -1,3 +1,7 @@
+import { spawnSync } from "node:child_process";
+import { mkdtempSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { expect, test } from "vitest";
 import { findBrokenLinks, resolveInDist } from "../../scripts/check-links.mjs";
 
@@ -24,4 +28,15 @@ test("strips query, hash and decodes", () => {
 
 test("missing path resolves to null", () => {
   expect(resolveInDist(dist, "/nope")).toBeNull();
+});
+
+test("matches case exactly, as Netlify does", () => {
+  expect(resolveInDist(dist, "/About")).toBeNull();
+  expect(resolveInDist(dist, "/CODE")).toBeNull();
+});
+
+test("fails when dist has no HTML", () => {
+  const empty = mkdtempSync(join(tmpdir(), "dist-empty-"));
+  const run = spawnSync(process.execPath, ["scripts/check-links.mjs", empty], { encoding: "utf8" });
+  expect(run.status).toBe(2);
 });
