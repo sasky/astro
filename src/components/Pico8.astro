@@ -7,7 +7,7 @@ let { pico8src } = Astro.props;
     const pico8JSSrc = document.getElementById('body_0')?.getAttribute('data-pico8src');
     // setting a JS Global for the pico8Loader code to find
     // hacky but works
-    window.pico8src = pico8JSSrc; 
+    (window as Window & { pico8src?: string | null }).pico8src = pico8JSSrc;
 </script>
 <script is:inline src="/pico8/pico8Loader.js" ></script>
 

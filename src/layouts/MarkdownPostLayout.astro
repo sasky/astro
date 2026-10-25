@@ -35,7 +35,7 @@ const dateDDMMYYYY = new Date(dateYMD).toLocaleDateString("en-GB");
 >
   <time datetime={dateYMD}>{dateDDMMYYYY}</time>
   <nav class="tags">
-    {frontmatter.tags.map((tag) => <a href={`/tags/${tag}`}>{tag}</a>)}
+    {frontmatter.tags.map((tag: string) => <a href={`/tags/${tag}`}>{tag}</a>)}
   </nav>
   <p><em>{frontmatter.description}</em></p>
 
