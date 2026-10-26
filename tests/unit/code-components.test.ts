@@ -162,3 +162,8 @@ test("decorative prefixes in Code descriptions are hidden from screen readers", 
   });
   expect(quiet(header, "desc", "&gt;")).toBe(true);
 });
+
+test("the copy button's description is the caption without its ── prefix", async () => {
+  const html = await container.renderToString(CodeBlock, { props: { "data-title": "composer.json" }, slots: { default: "<code>x</code>" } });
+  expect(quiet(html, "code-title", "──")).toBe(true);
+});

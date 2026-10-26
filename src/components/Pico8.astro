@@ -200,6 +200,11 @@ const { pico8src } = Astro.props;
         aspect-ratio: 1;
         margin: 0 auto;
     }
+    /* Fill the square before the loader sizes it, so the page doesn't shift. */
+    #p8_container {
+        width: 100%;
+        height: 100%;
+    }
 
     .p8_menu_button{
         opacity:0.3;

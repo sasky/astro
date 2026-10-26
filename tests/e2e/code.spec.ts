@@ -350,3 +350,16 @@ test("the Code footer keeps its 32px sides at 390, as on the board", async ({ pa
   await page.goto("/code");
   expect(await page.locator(".code-footer-row").evaluate((el) => getComputedStyle(el).paddingLeft)).toBe("32px");
 });
+
+// The Pico-8 loader sizes #p8_container to fill its square frame shortly after
+// load; the box must already be that size, or the page shifts (CLS 0.07 on phones).
+test("the Pico-8 player reserves its square before the loader runs", async ({ page }) => {
+  await page.setViewportSize({ width: 412, height: 823 });
+  await page.route("**/pico8/pico8Loader.js", (route) => route.abort());
+  await page.goto("/code/hide-n-seek-game");
+  const [frame, container] = await Promise.all(
+    ["#p8_frame", "#p8_container"].map(async (selector) => (await page.locator(selector).boundingBox())!),
+  );
+  expect(Math.abs(container.width - frame.width)).toBeLessThanOrEqual(2);
+  expect(Math.abs(container.height - frame.height)).toBeLessThanOrEqual(2);
+});
