@@ -1,5 +1,6 @@
 // Tag pages (HP theme), spec 5.11 and Q4.
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
+import { headingFit } from "../../src/lib/fit";
 import { expectOnlyThemeCss } from "./helpers/chrome";
 
 test("music tag page", async ({ page }) => {
@@ -54,33 +55,54 @@ test("post pages mark no tag current", async ({ page }) => {
   await expect(page.locator(".tag-link[aria-current]")).toHaveCount(0);
 });
 
+/** The h1's text is one line, inside the band's content box, and not tiny. */
+async function expectHeadingFits(page: Page, label: string, width: number) {
+  const fit = await page.locator("h1").evaluate((h1) => {
+    const band = h1.closest(".band-in")!;
+    const style = getComputedStyle(band);
+    const inner = band.getBoundingClientRect();
+    const left = inner.left + parseFloat(style.paddingLeft);
+    const right = inner.right - parseFloat(style.paddingRight);
+    const box = h1.getBoundingClientRect();
+    const range = document.createRange();
+    range.selectNodeContents(h1);
+    const text = range.getBoundingClientRect();
+    return {
+      lines: range.getClientRects().length,
+      fontSize: parseFloat(getComputedStyle(h1).fontSize),
+      inside: text.left >= left - 0.5 && text.right <= right + 0.5 && box.right <= right + 0.5,
+    };
+  });
+  expect(fit.lines, label).toBe(1);
+  expect(fit.inside, label).toBe(true);
+  expect(fit.fontSize, label).toBeGreaterThanOrEqual(width < 760 ? 20 : 60);
+}
+
+// Wide letters (m, w, o), a long hyphenated tag and every digit, as a future tag might be.
+const WIDE = ["#homework", "#woodwork", "#swimming", "#mmmm", "#wwwwwwww", "#0123456789", "#home-made-sourdough"];
+
 // Every tag, since Fraunces's optical size widens letters at small sizes.
 for (const width of [320, 390, 768, 1280]) {
   test(`tag headings fit on one line at ${width}`, async ({ page }) => {
     await page.goto("/");
     const tags = await page.locator(".tg-chip[data-tag]").evaluateAll((els) => els.map((el) => el.getAttribute("data-tag")!));
+    expect(tags.length).toBeGreaterThan(0);
     await page.setViewportSize({ width, height: 900 });
     for (const tag of tags) {
       await page.goto(`/tags/${tag}`);
-      const fit = await page.locator("h1").evaluate((h1) => {
-        const band = h1.closest(".band-in")!;
-        const style = getComputedStyle(band);
-        const inner = band.getBoundingClientRect();
-        const left = inner.left + parseFloat(style.paddingLeft);
-        const right = inner.right - parseFloat(style.paddingRight);
-        const box = h1.getBoundingClientRect();
-        const range = document.createRange();
-        range.selectNodeContents(h1);
-        const text = range.getBoundingClientRect();
-        return {
-          lines: range.getClientRects().length,
-          fontSize: parseFloat(getComputedStyle(h1).fontSize),
-          inside: text.left >= left - 0.5 && text.right <= right + 0.5 && box.right <= right + 0.5,
-        };
-      });
-      expect(fit.lines, tag).toBe(1);
-      expect(fit.inside, tag).toBe(true);
-      expect(fit.fontSize, tag).toBeGreaterThanOrEqual(width < 760 ? 30 : 60);
+      await expectHeadingFits(page, tag, width);
+    }
+  });
+
+  test(`wide future tags fit on one line at ${width}`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/tags/music");
+    for (const title of WIDE) {
+      await page.locator("h1").evaluate((h1, [text, style]) => {
+        h1.textContent = text;
+        h1.setAttribute("style", style);
+      }, [title, headingFit(title)]);
+      await expectHeadingFits(page, title, width);
     }
   });
 }

@@ -3,6 +3,7 @@
 // heading, a lede and an optional intro. Values: Site-Life-List.dc.html.
 // The 404 uses it with no wash and the "message" heading.
 import Dymo from "../site/Dymo.astro";
+import { headingFit } from "../../lib/fit";
 
 interface Props {
   headingId: string;
@@ -41,7 +42,7 @@ const hasLede = lede || Astro.slots.has("lede");
   </div>
   <div class="band-in">
     <Dymo tone="navy" as="p">{label}</Dymo>
-    <h1 id={headingId} style={variant === "section" ? `--chars: ${[...title].length}` : undefined}>{title}</h1>
+    <h1 id={headingId} style={variant === "section" ? headingFit(title) : undefined}>{title}</h1>
     {
       hasLede && (
         <p class="lede">
@@ -115,9 +116,9 @@ const hasLede = lede || Astro.slots.has("lede");
     font-weight: 800;
   }
 
-  /* One word, sized to fit its length: "Life" stays 120px, "#silverstripe" shrinks. */
+  /* One word, sized to fit its measured width (--em, from headingFit): "Life" stays 120px, "#silverstripe" shrinks. */
   .band-section h1 {
-    font-size: min(120px, calc(100cqi / (var(--chars) * 0.56)));
+    font-size: min(120px, calc(100cqi / var(--em)));
     letter-spacing: -0.045em;
     line-height: 0.9;
   }
@@ -156,7 +157,7 @@ const hasLede = lede || Astro.slots.has("lede");
     }
 
     .band-section h1 {
-      font-size: min(72px, calc(100cqi / (var(--chars) * 0.56)));
+      font-size: min(72px, calc(100cqi / var(--em)));
     }
 
     .lede {

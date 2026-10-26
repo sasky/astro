@@ -74,7 +74,7 @@ test("ListingBand section heading carries its length", async () => {
   const html = await container.renderToString(ListingBand, {
     props: { headingId: "t", label: "2 posts", title: "#silverstripe" },
   });
-  expect(html).toMatch(/<h1[^>]*style="--chars: ?13"/);
+  expect(html).toMatch(/<h1[^>]*style="--em: [\d.]+"/);
 });
 
 test("PostRow passes the current tag to its tags", async () => {
