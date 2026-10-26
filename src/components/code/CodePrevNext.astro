@@ -14,34 +14,38 @@ interface Props {
 const { older, newer } = Astro.props;
 ---
 
-<nav class="more-nav" aria-label="More in Code">
-  {
-    older && (
-      <a class="card" href={postUrl(older)}>
-        <span class="card-k">← older in ~/code · {formatDateLong(older.data.pubDate)}</span>
-        <span class="card-t">{older.data.title}</span>
-        <span class="card-d"># {older.data.description}</span>
-      </a>
-    )
-  }
-  {
-    newer ? (
-      <a class="card card-end" href={postUrl(newer)}>
-        <span class="card-k">newer in ~/code · {formatDateLong(newer.data.pubDate)} →</span>
-        <span class="card-t">{newer.data.title}</span>
-        <span class="card-d"># {newer.data.description}</span>
-      </a>
-    ) : (
-      older && (
+{
+  (older || newer) && (
+    <nav class="more-nav" aria-label="More in Code">
+      {older && (
+        <a class="card" href={postUrl(older)}>
+          <span class="card-k">← older in ~/code · {formatDateLong(older.data.pubDate)}</span>
+          <span class="card-t">{older.data.title}</span>
+          <span class="card-d">
+            <span aria-hidden="true">#&nbsp;</span>
+            {older.data.description}
+          </span>
+        </a>
+      )}
+      {newer ? (
+        <a class="card card-end" href={postUrl(newer)}>
+          <span class="card-k">newer in ~/code · {formatDateLong(newer.data.pubDate)} →</span>
+          <span class="card-t">{newer.data.title}</span>
+          <span class="card-d">
+            <span aria-hidden="true">#&nbsp;</span>
+            {newer.data.description}
+          </span>
+        </a>
+      ) : (
         <a class="card card-end" href="/code">
           <span class="card-k">cd ~/code →</span>
           <span class="card-t">All Code posts</span>
-          <span class="card-d"># newest post, nothing newer yet</span>
+          <span class="card-d"><span aria-hidden="true">#&nbsp;</span>newest post, nothing newer yet</span>
         </a>
-      )
-    )
-  }
-</nav>
+      )}
+    </nav>
+  )
+}
 
 <style>
   .more-nav {

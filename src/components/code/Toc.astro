@@ -40,6 +40,9 @@ const entries = Astro.props.headings.filter(({ depth }) => depth === 2 || depth 
   .toc {
     position: sticky;
     top: 24px;
+    /* Scroll inside when the list is taller than the window (24px above and below). */
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 16px;

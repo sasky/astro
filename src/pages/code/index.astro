@@ -18,8 +18,8 @@ const { count, since } = sectionStats(posts);
     <header class="readme">
       <Prompt path="~/code" cmd="cat README.md" link />
       <h1><span class="hash" aria-hidden="true">#&nbsp;</span>{section.title}</h1>
-      <p class="blurb">&gt; {section.blurb}</p>
-      {section.intro && <p class="intro">&lt;!-- {section.intro} --&gt;</p>}
+      <p class="blurb"><span aria-hidden="true">&gt;&nbsp;</span>{section.blurb}</p>
+      {section.intro && <p class="intro"><span aria-hidden="true">&lt;!--&nbsp;</span>{section.intro}<span aria-hidden="true">&nbsp;--&gt;</span></p>}
       <div class="stats">
         <span><span class="stat-k">total&nbsp;</span><span class="stat-v">{countLabel("code", count)}</span></span>
         {
@@ -35,7 +35,7 @@ const { count, since } = sectionStats(posts);
 
     <section class="list" aria-labelledby="all">
       <Prompt path="~/code" cmd="ls -lt" />
-      <h2 id="all"># every code post, newest first</h2>
+      <h2 id="all"><span aria-hidden="true">#&nbsp;</span>every code post, newest first</h2>
       <div class="entries">
         {posts.map((post) => <CodeListEntry post={post} />)}
       </div>

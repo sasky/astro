@@ -1,5 +1,6 @@
 import { experimental_AstroContainer as AstroContainer } from "astro/container";
 import { beforeAll, expect, test } from "vitest";
+import CodeBlock from "../../src/components/code/CodeBlock.astro";
 import CodeListEntry from "../../src/components/code/CodeListEntry.astro";
 import CodePostHeader from "../../src/components/code/CodePostHeader.astro";
 import CodePrevNext from "../../src/components/code/CodePrevNext.astro";
@@ -8,6 +9,9 @@ import Prompt from "../../src/components/code/Prompt.astro";
 import type { PostEntry } from "../../src/lib/get-posts";
 
 let container: AstroContainer;
+
+/** The text a reader sees: tags dropped, no-break spaces as spaces. */
+const visible = (html: string) => html.replace(/<[^>]+>/g, "").replace(/&nbsp;|\u00a0/g, " ").replace(/\s+/g, " ");
 
 // 1320 words is 6 minutes at 220 wpm.
 const silverstripe = {
@@ -55,7 +59,7 @@ test("CodeListEntry", async () => {
   expect(html).toContain("-rw-r--r--");
   expect(html).toContain('href="/code/silverstripe-app-platform"');
   expect(html).toContain("Cheap and easy Silverstripe hosting");
-  expect(html).toContain("# Using Digital Ocean&#39;s App platform");
+  expect(visible(html)).toContain("# Using Digital Ocean&#39;s App platform");
   expect(html).toMatch(/href="\/tags\/silverstripe"[^>]*>\s*(<span[^>]*>)?\s*\[silverstripe\]/);
 });
 
@@ -104,9 +108,9 @@ test("CodePrevNext older and newest", async () => {
   const html = await container.renderToString(CodePrevNext, { props: { older: hideNSeek } });
   expect(html).toContain("← older in ~/code · 29 January 2024");
   expect(html).toContain("Hide n Seek");
-  expect(html).toContain("# Building a game for my girls");
+  expect(visible(html)).toContain("# Building a game for my girls");
   expect(html).toContain("All Code posts");
-  expect(html).toContain("# newest post, nothing newer yet");
+  expect(visible(html)).toContain("# newest post, nothing newer yet");
   expect(html.indexOf('href="/code/hide-n-seek-game"')).toBeLessThan(html.indexOf('href="/code"'));
 });
 
@@ -125,8 +129,36 @@ test("CodePostHeader", async () => {
   expect(html).toContain('aria-label="Breadcrumb"');
   expect(html).toContain("cat silverstripe-app-platform.md");
   expect(html).toMatch(/<h1[^>]*>[\s\S]*Cheap and easy Silverstripe hosting\s*<\/h1>/);
-  expect(html).toContain("&gt; Using Digital Ocean&#39;s App platform");
+  expect(visible(html)).toContain("&gt; Using Digital Ocean&#39;s App platform");
   expect(html).toMatch(/datetime="2024-04-01"[^>]*>\s*1 April 2024\s*</);
   expect(html).toContain("6 min read");
   expect(html).toContain("[silverstripe]");
+});
+
+test("CodePrevNext renders nothing when the post has no neighbours", async () => {
+  expect((await container.renderToString(CodePrevNext, { props: {} })).trim()).toBe("");
+});
+
+test("CodeBlock's copy button starts hidden and is described by its caption", async () => {
+  const render = () => container.renderToString(CodeBlock, { props: { "data-title": "composer.json" }, slots: { default: "<code>x</code>" } });
+  const [first, second] = [await render(), await render()];
+  const id = first.match(/<span[^>]*class="code-title"[^>]*id="([^"]+)"/)?.[1] ?? first.match(/id="([^"]+)"[^>]*class="code-title"/)?.[1];
+  expect(id).toBeTruthy();
+  expect(first).toMatch(new RegExp(`<button[^>]*aria-describedby="${id}"`));
+  expect(first).toMatch(/<button[^>]*\bhidden\b/);
+  expect(second).not.toContain(`id="${id}"`);
+});
+
+const quiet = (html: string, cls: string, prefix: string) =>
+  new RegExp(`class="${cls}"[^>]*>\\s*<span[^>]*aria-hidden="true"[^>]*>${prefix}`).test(html);
+
+test("decorative prefixes in Code descriptions are hidden from screen readers", async () => {
+  expect(quiet(await container.renderToString(CodeListEntry, { props: { post: silverstripe } }), "entry-desc", "#")).toBe(true);
+  const cards = await container.renderToString(CodePrevNext, { props: { older: hideNSeek, newer: silverstripe } });
+  expect(cards.match(/class="card-d"[^>]*>\s*<span[^>]*aria-hidden="true"[^>]*>#/g)).toHaveLength(2);
+  const { title, description, pubDate, tags } = silverstripe.data;
+  const header = await container.renderToString(CodePostHeader, {
+    props: { slug: silverstripe.id, title, description, pubDate, minutes: 6, tags },
+  });
+  expect(quiet(header, "desc", "&gt;")).toBe(true);
 });

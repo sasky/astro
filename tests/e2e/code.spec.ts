@@ -263,3 +263,76 @@ test("prompt links are at least 44px tall", async ({ page }) => {
     }
   }
 });
+
+const phpBlock = () => readFileSync("src/content/posts/silverstripe-app-platform.mdx", "utf8").match(/```php[^\n]*\n([\s\S]*?)\n```/)![1];
+
+const noClipboardApi = () => Object.defineProperty(Navigator.prototype, "clipboard", { get: () => undefined });
+const refusingClipboard = () =>
+  (Clipboard.prototype.writeText = () => Promise.reject(new DOMException("denied", "NotAllowedError")));
+
+for (const [name, init] of [
+  ["missing", noClipboardApi],
+  ["refusing", refusingClipboard],
+] as const) {
+  test(`copy falls back to the copy command when the clipboard is ${name}`, async ({ page }) => {
+    await page.addInitScript(init);
+    await page.addInitScript(() =>
+      window.addEventListener("copy", (event) => ((window as any).copied = event.clipboardData!.getData("text/plain"))),
+    );
+    await page.goto(silverstripe);
+    const button = page.locator("figure.code-block").last().locator("button.copy");
+    await button.click();
+    await expect(button).toHaveText("copied");
+    expect(await page.evaluate(() => (window as any).copied)).toBe(phpBlock());
+  });
+}
+
+test("copy selects the code when no copy method works", async ({ page }) => {
+  await page.addInitScript(noClipboardApi);
+  await page.addInitScript(() => (document.execCommand = () => false));
+  await page.goto(silverstripe);
+  const block = page.locator("figure.code-block").last();
+  await block.locator("button.copy").click();
+  await expect(block.locator("button.copy")).toHaveText("selected");
+  const covered = await block.locator("pre code").evaluate((code) => {
+    const range = getSelection()!.getRangeAt(0);
+    const all = document.createRange();
+    all.selectNodeContents(code);
+    return range.compareBoundaryPoints(Range.START_TO_START, all) === 0 && range.compareBoundaryPoints(Range.END_TO_END, all) === 0;
+  });
+  expect(covered).toBe(true);
+});
+
+test("a second copy restarts the 2s label", async ({ page }) => {
+  // A clipboard that settles at once, so the fake clock decides the order.
+  await page.addInitScript(() => (Clipboard.prototype.writeText = () => Promise.resolve()));
+  await page.clock.install();
+  await page.goto(silverstripe);
+  const button = page.locator("figure.code-block").first().locator("button.copy");
+  await button.click();
+  await expect(button).toHaveText("copied");
+  await page.clock.runFor(1500);
+  await button.click();
+  await page.clock.runFor(1000);
+  await expect(button).toHaveText("copied");
+  await page.clock.runFor(1100);
+  await expect(button).toHaveText("copy");
+});
+
+test("copy buttons show with JS", async ({ page }) => {
+  await page.goto(silverstripe);
+  await expect(page.locator("button.copy").first()).toBeVisible();
+});
+
+test("the TOC fits a short window and scrolls inside", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 360 });
+  await page.goto(silverstripe);
+  await page.mouse.wheel(0, 1200);
+  const toc = page.locator(".toc");
+  await expect(async () => {
+    const box = (await toc.boundingBox())!;
+    expect(box.y).toBeGreaterThanOrEqual(0);
+    expect(box.y + box.height).toBeLessThanOrEqual(360);
+  }).toPass();
+  expect(await toc.evaluate((el) => getComputedStyle(el).overflowY)).toBe("auto");
+});
