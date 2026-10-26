@@ -13,8 +13,9 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 | 1. Tooling and baseline | Merged into `feature/redesign` | [#3](https://github.com/sasky/astro/pull/3) |
 | 2. Collections, routes, redirects | Merged into `feature/redesign` | [#4](https://github.com/sasky/astro/pull/4) |
 | 3. Foundations | Merged into `feature/redesign` | [#5](https://github.com/sasky/astro/pull/5) |
-| 4. HP pages | PR open for Cam's review | [#6](https://github.com/sasky/astro/pull/6) |
-| 5–9 | Not started | — |
+| 4. HP pages | Merged into `feature/redesign` | [#6](https://github.com/sasky/astro/pull/6) |
+| 5. Code pages | Next: plan (calls listed for Cam's review) | — |
+| 6–9 | Not started | — |
 
 **Waiting on Cam**
 - **Content review**, any time before Phase 9 (the posts are now in `src/content/posts/`):
@@ -61,7 +62,7 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 Read this file first, then [`redesign-plan.md`](redesign-plan.md) (the spec), then the design files in `design-handoff/`. The plans and designs for finished phases are in `docs/superpowers/plans/` and `docs/superpowers/specs/`. They're useful as examples of the format.
 
 **Where things stand**
-- **Branch:** `feature/redesign` holds Phases 1–3, merged; Phase 4 is on `redesign/phase-4-hp-pages` until its PR merges. `main` is still the live old site.
+- **Branch:** `feature/redesign` holds Phases 1–4, merged. `main` is still the live old site.
 - **Live pages:**
   - **On the new HP theme:** Home, `/life`, `/life/[slug]` and the 404.
   - **Still legacy:** Code, On and `/tags/[tag]`, through `src/components/legacy/` and `src/layouts/legacy/LegacyBaseLayout.astro`.
