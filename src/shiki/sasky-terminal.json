@@ -1,0 +1,38 @@
+{
+  "name": "sasky-terminal",
+  "type": "dark",
+  "colors": {
+    "editor.background": "#070a09",
+    "editor.foreground": "#c8d6cb"
+  },
+  "tokenColors": [
+    {
+      "scope": ["comment", "punctuation.definition.comment"],
+      "settings": { "foreground": "#5f7a6a", "fontStyle": "italic" }
+    },
+    {
+      "scope": [
+        "entity.name.command",
+        "variable.key",
+        "variable.other.env",
+        "support.class",
+        "support.other.namespace",
+        "entity.name.type",
+        "punctuation.separator.inheritance"
+      ],
+      "settings": { "foreground": "#8cc8ff" }
+    },
+    {
+      "scope": ["string.quoted", "property.value", "punctuation.definition.string"],
+      "settings": { "foreground": "#a6e3a1" }
+    },
+    {
+      "scope": ["keyword.control", "keyword.other", "storage", "constant.language"],
+      "settings": { "foreground": "#f2b45a" }
+    },
+    {
+      "scope": ["keyword.operator.assignment"],
+      "settings": { "foreground": "#5d7466" }
+    }
+  ]
+}

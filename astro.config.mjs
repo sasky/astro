@@ -1,5 +1,7 @@
 import { defineConfig, fontProviders } from "astro/config";
 import mdx from "@astrojs/mdx";
+import { metaToData } from "./src/shiki/meta-to-data";
+import terminal from "./src/shiki/sasky-terminal.json" with { type: "json" };
 
 const subsets = ["latin", "latin-ext"];
 const common = { provider: fontProviders.fontsource(), subsets, formats: ["woff2"], display: "swap" };
@@ -47,10 +49,9 @@ export default defineConfig({
       fallbacks: ["sans-serif"],
     },
   ],
-  integrations: [
-    mdx({
-      syntaxHighlight: "shiki",
-      shikiConfig: { theme: "dracula" },
-    }),
-  ],
+  // Code highlighting (spec 5.14); MDX inherits it.
+  markdown: {
+    shikiConfig: { theme: terminal, transformers: [metaToData] },
+  },
+  integrations: [mdx()],
 });
