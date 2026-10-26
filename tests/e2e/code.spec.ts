@@ -232,3 +232,11 @@ test("comics in a 3-column grid, 2 at 390", async ({ page }) => {
   await page.goto(hideNSeek);
   expect(await tracks()).toBe(2);
 });
+
+test("no console errors on Code pages", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("console", (message) => message.type() === "error" && errors.push(message.text()));
+  page.on("pageerror", (error) => errors.push(error.message));
+  for (const path of ["/code", silverstripe, hideNSeek]) await page.goto(path, { waitUntil: "networkidle" });
+  expect(errors).toEqual([]);
+});
