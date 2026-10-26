@@ -32,6 +32,11 @@ const entries = Astro.props.headings.filter(({ depth }) => depth === 2 || depth 
 }
 
 <style>
+  /* Stretch to the grid row, so the sticky box has room to stick. */
+  .toc-wrap {
+    align-self: stretch;
+  }
+
   .toc {
     position: sticky;
     top: 24px;
