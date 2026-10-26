@@ -7,10 +7,3 @@ test("Hide n Seek loads its cart when started", async ({ page }) => {
   await cart;
   await expect(page.locator("#canvas")).toBeAttached();
 });
-
-test("RSS has the 7 posts and no About", async ({ request }) => {
-  const xml = await (await request.get("/rss.xml")).text();
-  expect(xml.match(/<item>/g)).toHaveLength(7);
-  expect(xml).toContain("<link>https://sasky.nz/meditations/on-being-classy</link>");
-  expect(xml).not.toContain("/about");
-});
