@@ -1,0 +1,103 @@
+---
+// "More in Code" at the foot of a Code post (G7): the older post when there
+// is one, then the newer post, or "All Code posts" when this is the newest.
+// Values: nav[aria-label="More in Code"] in Site-Code-Post.dc.html.
+import { formatDateLong } from "../../lib/format";
+import type { PostEntry } from "../../lib/get-posts";
+import { postUrl } from "../../lib/posts";
+
+interface Props {
+  older?: PostEntry;
+  newer?: PostEntry;
+}
+
+const { older, newer } = Astro.props;
+---
+
+<nav class="more-nav" aria-label="More in Code">
+  {
+    older && (
+      <a class="card" href={postUrl(older)}>
+        <span class="card-k">← older in ~/code · {formatDateLong(older.data.pubDate)}</span>
+        <span class="card-t">{older.data.title}</span>
+        <span class="card-d"># {older.data.description}</span>
+      </a>
+    )
+  }
+  {
+    newer ? (
+      <a class="card card-end" href={postUrl(newer)}>
+        <span class="card-k">newer in ~/code · {formatDateLong(newer.data.pubDate)} →</span>
+        <span class="card-t">{newer.data.title}</span>
+        <span class="card-d"># {newer.data.description}</span>
+      </a>
+    ) : (
+      older && (
+        <a class="card card-end" href="/code">
+          <span class="card-k">cd ~/code →</span>
+          <span class="card-t">All Code posts</span>
+          <span class="card-d"># newest post, nothing newer yet</span>
+        </a>
+      )
+    )
+  }
+</nav>
+
+<style>
+  .more-nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: 16px;
+    padding-top: 16px;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 22px 24px;
+    border: 1px dashed var(--rule-dashed);
+    color: var(--ink);
+    text-decoration: none;
+    transition: background-color 0.12s ease;
+  }
+
+  .card:hover {
+    background-color: rgba(110, 231, 160, 0.05);
+  }
+
+  .card:active {
+    background-color: rgba(110, 231, 160, 0.1);
+  }
+
+  .card-end {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .card-k {
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .card-t {
+    color: var(--bright);
+    font-size: 18px;
+    font-weight: 800;
+  }
+
+  .card:hover .card-t {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .card-d {
+    color: var(--muted);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card {
+      transition: none;
+    }
+  }
+</style>

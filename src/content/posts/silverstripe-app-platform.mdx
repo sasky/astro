@@ -47,7 +47,7 @@ So anyhoo
 
 ### Step 1: install and run Silverstripe locally
 
-```
+```bash
 composer create-project silverstripe/installer my-website
 ```
 
@@ -71,7 +71,7 @@ it gives you it's more idealised cousin Postgres.
 
 And in case you are thinking, oh shit, that's not a problem because
 I'm sure Silverstripe has a Postgres module, I'll just composer install that bad boy and happy days.
-Down that path, there be dragons, I tried the best part of a couple of hours getting that to work, but no dice.
+<mark>Down that path, there be dragons,</mark> I tried the best part of a couple of hours getting that to work, but no dice.
 Didn't help that I didn't have Postgres installed locally and couldn't be arsed to. 
 But further digging, the port number in the Postgres module seems to be unconfigurable, and you need a exotic port for the App platform.
 Nothing a fork and pull request couldn't fix. But I took the step back at that point and asked if there was a faster way.
@@ -83,7 +83,7 @@ So go ahead and spin up a managed Mysql instance.
 Once you have everything set up in Digital ocean. You will need to plug in some Environment variables into the app platform
 Here a run down on them
 
-```
+```dotenv title=".env · database"
 SS_DATABASE_CLASS=MySQLDatabase
 SS_DATABASE_SERVER=db-mysql-syd1-xxxx-do-user-266434-0.c.db.ondigitalocean.com
 SS_DATABASE_PORT=xxxx
@@ -94,7 +94,7 @@ SS_DATABASE_NAME=defaultdb
 
 The database credentials form the managed Mysql instance you set up earlier. (replace the xxxx's with you own creds of course )
 
-```
+```dotenv title=".env · silverstripe"
 SS_ENVIRONMENT_TYPE=live
 SS_FLUSH_ON_DEPLOY=true
 SS_DEFAULT_ADMIN_USERNAME=admin
@@ -108,7 +108,7 @@ Some SilverStripe specific stuff, usually I only use the SS_DEFAULT_ADMIN on dev
 The Base URL was just the spun up URL that the App platform gave me, guess you would change that as part of the steps of pointing a custom domain to it.
 I didn't get that far.
 
-```
+```dotenv title=".env · mail"
 MAILER_DSN=smtp://resend:re_xxxxx@smtp.resend.com:465
 ```
 Here if you want the site to send emails, you can set up a smtp mailer service. Resend looked good, but I never got this far along in the process anyway.
@@ -117,8 +117,8 @@ records and other stuff on the DNS of your custom domain.
 
 
 
-```
-build command: vendor/bin/sake dev/build "flush=1"
+```bash title="build command"
+vendor/bin/sake dev/build "flush=1"
 ```
 You should also put the above command in the build command option, this will run after each deploy.
 And SilverStripe needs that dev/build run manually if there are schema changes in you're Silverstripe project.
@@ -137,8 +137,7 @@ HTTPS issue I was having.
 So if you are following on, place the following on your _config.php file. 
 Replacing the domain with your own
 
-```php 
-
+```php title="app/_config.php"
 // app/_config.php
 
 <?php
@@ -159,5 +158,5 @@ about keeping Linux/mySql/Apache up to date and configured well for security and
 I don't know how well a App platforms hosted Silverstripe site will perform under load,
 but Hopefully it's a cost efficient way of having a somewhat managed Silverstripe hosting.
 
-Cam out.
+**Cam out.**
 

@@ -63,10 +63,55 @@
   --texture-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
   --grain-factor: 0.13;
   --grain-blend: normal;
+
+  /* TagLinks: amber [tag] text links. */
+  --tag-color: var(--amber);
+  --tag-font: var(--font-jetbrains);
+  --tag-size: 13px;
+  --tag-weight: 400;
+  --tag-tracking: normal;
+  --tag-transform: none;
+  --tag-min-h: auto;
+  --tag-padding: 0;
+  --tag-border: 0;
+  --tag-radius: 0;
+  --tag-hover-bg: transparent;
+  --tag-hover-color: #ffd08f;
+  --tag-hover-decoration: underline;
+  --tag-gap: 0 16px;
+}
+
+/* A terminal shows characters as typed: no "-->" arrows or "--" dashes. */
+:root[data-theme="code"] {
+  font-variant-ligatures: none;
 }
 
 :where([data-theme="code"]) a {
   color: var(--ink);
+}
+
+/* Blue terminal links: prompts, breadcrumbs and post prose. */
+:where([data-theme="code"]) :is(.lnk, .prose-code a) {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-color: rgba(108, 182, 255, 0.45);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition:
+    color 0.12s ease,
+    background-color 0.12s ease;
+}
+
+:where([data-theme="code"]) :is(.lnk, .prose-code a):hover {
+  color: #b5dbff;
+  text-decoration-color: currentColor;
+  background-color: rgba(108, 182, 255, 0.12);
+}
+
+:where([data-theme="code"]) :is(.lnk, .prose-code a):active {
+  color: #07110b;
+  text-decoration-color: #07110b;
+  background-color: var(--link);
 }
 
 /* The wordmark's cursor blinks, unless the reader prefers reduced motion. */
@@ -80,4 +125,68 @@
   50% {
     opacity: 0;
   }
+}
+
+/* Code post body (Site-Code-Post.dc.html .prose). */
+:where([data-theme="code"]) .prose-code {
+  max-width: 70ch;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+:where([data-theme="code"]) .prose-code > * {
+  margin-block: 0;
+}
+
+:where([data-theme="code"]) .prose-code > * + * {
+  margin-top: 22px;
+}
+
+/* Code blocks and image grids: the board's 22px gap plus the figure's 4px. */
+:where([data-theme="code"]) .prose-code > :is(figure, .image-collection) {
+  margin-block: 26px;
+}
+
+:where([data-theme="code"]) .prose-code h2 {
+  color: var(--bright);
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+:where([data-theme="code"]) .prose-code h2::before {
+  content: "## " / "";
+  color: var(--accent);
+}
+
+:where([data-theme="code"]) .prose-code h3 {
+  margin-top: 40px;
+  color: var(--bright);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+:where([data-theme="code"]) .prose-code h3::before {
+  content: "### " / "";
+  color: #4f6b5a;
+}
+
+:where([data-theme="code"]) .prose-code :not(pre) > code {
+  padding: 1px 6px;
+  border: 1px solid var(--rule-dashed);
+  background-color: #14201a;
+  color: var(--amber);
+  font-family: inherit;
+  font-size: 0.92em;
+}
+
+:where([data-theme="code"]) .prose-code strong {
+  color: var(--bright);
+  font-weight: 700;
+}
+
+:where([data-theme="code"]) .prose-code mark {
+  background-color: transparent;
+  color: var(--amber);
 }
