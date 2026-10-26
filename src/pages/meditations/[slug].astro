@@ -1,14 +1,128 @@
 ---
+// On post (handbill theme). Values: Site-On-Post.dc.html.
 import type { GetStaticPaths } from "astro";
-import LegacyPost from "../../components/legacy/LegacyPost.astro";
+import { render } from "astro:content";
+import Bill from "../../components/on/Bill.astro";
+import DoubleRule from "../../components/on/DoubleRule.astro";
+import FurtherMeditations from "../../components/on/FurtherMeditations.astro";
+import OnPostHeader from "../../components/on/OnPostHeader.astro";
+import Manicule from "../../components/site/Manicule.astro";
+import TagLinks from "../../components/site/TagLinks.astro";
+import { SECTIONS } from "../../data/sections";
+import OnLayout from "../../layouts/OnLayout.astro";
 import { getPosts } from "../../lib/get-posts";
+import { neighbours, seriesNumber } from "../../lib/posts";
 
 export const getStaticPaths = (async () => {
   const posts = await getPosts("on");
-  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+  const numbered = (post?: (typeof posts)[number]) => post && { post, number: seriesNumber(posts, post.id) };
+  return posts.map((post) => {
+    const { older, newer } = neighbours(posts, post.id);
+    return {
+      params: { slug: post.id },
+      props: { post, number: seriesNumber(posts, post.id), older: numbered(older), newer: numbered(newer) },
+    };
+  });
 }) satisfies GetStaticPaths;
 
-const { post } = Astro.props;
+const { post, number, older, newer } = Astro.props;
+const { title, description, metaDescription, pubDate, tags } = post.data;
+const { Content } = await render(post);
 ---
 
-<LegacyPost post={post} />
+<OnLayout
+  title={`${title} — ${SECTIONS.on.title} — sasky.nz`}
+  description={metaDescription ?? description}
+  ogType="article"
+>
+  <div class="on-wrap">
+    <Bill as="article" class="post-bill">
+      <OnPostHeader number={number} title={title} description={description} pubDate={pubDate} />
+      <div class="prose-on">
+        <Content />
+      </div>
+      <div class="finis-rule"><DoubleRule order="thick-thin" /></div>
+      <p class="finis">
+        <span class="finis-hand"><Manicule dir="right" /></span>
+        <span class="finis-text">Finis</span>
+        <span class="finis-hand"><Manicule dir="left" /></span>
+      </p>
+      {
+        tags.length > 0 && (
+          <div class="filed">
+            <span>Filed under</span>
+            <TagLinks tags={tags} theme="on" />
+          </div>
+        )
+      }
+    </Bill>
+    <FurtherMeditations older={older} newer={newer} />
+  </div>
+</OnLayout>
+
+<style>
+  .on-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    max-width: 1000px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 44px 28px 22px;
+  }
+
+  .on-wrap :global(.post-bill .bill) {
+    padding-bottom: 34px;
+  }
+
+  .finis-rule {
+    align-self: stretch;
+    margin-top: 6px;
+  }
+
+  .finis {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin: 0;
+    padding: 4px 0;
+  }
+
+  /* Manicule is 1.6em wide: 21px matches the board's 34px ☞ glyph. */
+  .finis-hand {
+    display: flex;
+    font-size: 21px;
+  }
+
+  .finis-text {
+    padding-left: 0.3em;
+    font-family: var(--font-alfa);
+    font-size: 30px;
+    letter-spacing: 0.3em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .filed {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 760px) {
+    .on-wrap {
+      padding: 28px 12px 22px;
+    }
+
+    .on-wrap :global(.post-bill .bill) {
+      padding-bottom: 22px;
+    }
+  }
+</style>

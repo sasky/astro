@@ -64,7 +64,7 @@ test("390 layout stacks the hero", async ({ page }) => {
 
 test("doors show computed counts and latest posts", async ({ page }) => {
   await page.goto("/meditations");
-  const newestOn = (await page.locator("main li a").first().textContent())!.trim();
+  const newestOn = (await page.locator("#headliner a").textContent())!.trim();
   await page.goto("/");
   const doors = page.locator("a.door");
   await expect(doors).toHaveCount(3);

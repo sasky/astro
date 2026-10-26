@@ -15,9 +15,11 @@ interface Props {
   noindex?: boolean;
   /** Texture strength (0–1); defaults to the theme's. */
   texture?: number;
+  /** "inside": the page puts the correspondence row in its bill (the listing). */
+  footer?: "inside" | "after";
 }
 
-const { texture, ...meta } = Astro.props;
+const { texture, footer = "after", ...meta } = Astro.props;
 ---
 
 <BaseLayout theme="on" {...meta}>
@@ -32,7 +34,7 @@ const { texture, ...meta } = Astro.props;
     <Texture opacity={texture} />
     <TopBar />
     <main id="main" class="page-main"><slot /></main>
-    <OnFooter />
+    <OnFooter placement={footer} />
   </div>
 </BaseLayout>
 

@@ -14,8 +14,9 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 | 2. Collections, routes, redirects | Merged into `feature/redesign` | [#4](https://github.com/sasky/astro/pull/4) |
 | 3. Foundations | Merged into `feature/redesign` | [#5](https://github.com/sasky/astro/pull/5) |
 | 4. HP pages | Merged into `feature/redesign` | [#6](https://github.com/sasky/astro/pull/6) |
-| 5. Code pages | PR open for Cam's review | [#7](https://github.com/sasky/astro/pull/7) |
-| 6–9 | Not started | — |
+| 5. Code pages | Merged into `feature/redesign` | [#7](https://github.com/sasky/astro/pull/7) |
+| 6. On pages | PR open for Cam's review | [#8](https://github.com/sasky/astro/pull/8) |
+| 7–9 | Not started | — |
 
 **Waiting on Cam**
 - **Content review**, any time before Phase 9 (the posts are now in `src/content/posts/`):
@@ -26,29 +27,15 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
   - Refine the draft section intros in `src/data/sections.ts` (marked `TODO(Cam)`).
 
 **Carried forward**
-- **Phase 4 and 5 review (Cam):** both phases skipped the brainstorm ("just do your best, we will do a detailed review later"). The calls a brainstorm would have settled are listed under "Calls made in place of a brainstorm" in [`plans/2026-10-26-phase-4-hp-pages.md`](superpowers/plans/2026-10-26-phase-4-hp-pages.md) and [`plans/2026-10-26-phase-5-code-pages.md`](superpowers/plans/2026-10-26-phase-5-code-pages.md). Review them with the pages.
-- **Phase 6:** `excerpt()` doesn't yet skip list, blockquote or MDX-comment blocks, or strip backticks. Fix before an On post opens with a quote or list.
+- **Phase 4–6 review (Cam):** these phases skipped the brainstorm ("just do your best, we will do a detailed review later"). The calls a brainstorm would have settled are listed under "Calls made in place of a brainstorm" in [`plans/2026-10-26-phase-4-hp-pages.md`](superpowers/plans/2026-10-26-phase-4-hp-pages.md), [`plans/2026-10-26-phase-5-code-pages.md`](superpowers/plans/2026-10-26-phase-5-code-pages.md) and [`plans/2026-10-26-phase-6-on-pages.md`](superpowers/plans/2026-10-26-phase-6-on-pages.md). Review them with the pages.
 - **Phase 7:** `/code/` (trailing slash) is served as a duplicate of `/code`. Canonical URLs cover it. The RSS feed also lacks an `atom:link rel="self"` (a validator warning).
 - **Phase 9:** check the redirects on a real Netlify preview of the PR into `main`. So far they're verified only on Netlify's local emulator.
-- **Phase 6:**
-  - Repeat the lasting chrome checks on the first On page.
-  - Set the On `--vid-*` tokens in `on.css` (G2). `YouTube.astro` falls back to HP colours until then, which is what the legacy NZ Music page shows now.
-  - The On door on Home already uses `Manicule`; reuse it on the On pages.
-  - Add `--vid-grain` and `--vid-play-shadow` tokens so the G2 card can drop the grid grain.
-  - Until then, legacy NZ Music cards sit flush against the next paragraph: `post.css` still targets `lite-youtube`, and open-props zeroes figure margins.
-  - `home.spec.ts` "doors show computed counts" reads the newest On title from the legacy `/meditations` list (`main li a`). Update the selector, or read it from `/rss.xml`.
-  - `phase2.spec.ts` pins the legacy header on an On post ("legacy post header still links Home") and the legacy `/meditations` list. Replace both when the On pages move.
-  - `OnLayout` always renders `<OnFooter placement="after">`. The On listing needs `placement="inside"`, so add a footer prop or slot.
-  - The On wordmark mark lacks the design's `margin: 0 1px`. Add a `--mark-margin` token.
-  - **Code fences outside Code posts collapse to one line.** `metaToData` runs site-wide and strips the newlines between `.line` spans, and only `CodeBlock` makes the lines `display: block`. Before an On or Life post gets a fence, add a neutral `.astro-code .line { display: block; min-height: 1lh }`.
-  - The On pages should set `font-variant-ligatures` deliberately; the Code theme turns ligatures off for the same reason (JetBrains Mono's arrows), so check Oswald and Holtwood.
 - **Phase 8 (test tightening, from the Phase 4 review):**
   - Make the modifier-click video test assert that the default action ran, and add a Shift case.
   - At 390 the hero `srcset` should pick the 480w file.
   - Add `expectOnlyThemeCss` on the Life post.
 - **Phase 7:**
   - `tags/[tag].astro` is still legacy. Rebuild it on `HpLayout` with `ListingBand` (`variant="message"` suits `#tag`) and `PostRow chip`.
-  - Legacy On post headers link to `/#meditations-…` anchors that the new Home doesn't have. They land at the top of Home until Phase 6 replaces those headers.
 - **Phase 8:**
   - Check the Fraunces SOFT/WONK defaults against the design in the visual comparison.
   - Test the Pico-8 touch controls on a real phone (spec 6.3). The e2e tests only cover sizing at 390 and 2560×1440.
@@ -63,7 +50,12 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
     - `aria-hidden` on the decorative `#`, `>` and `<!-- -->` prefixes in descriptions;
     - a `max-height` with scrolling on the sticky TOC;
     - no empty "More in Code" nav when the section has one post.
-- **Phase 9:** delete `src/components/legacy/` and `src/layouts/legacy/` once the On pages and tag pages are off them. `LegacyPost` still imports `Pico8`, harmlessly.
+- **Phase 8 (from the Phase 6 review):**
+  - G1 `##` headings are flex rows, so inline markup (`## The *real* point`) would come apart. Wrap the text in a span (`onTips` could do it) before a heading needs emphasis.
+  - `## 0. Foo` renders an empty numeral, because `toRoman(0)` is `""`. Require `n >= 1` in `onTips`.
+  - At 320, "Happiness" splits in the listing's 24px programme title. Size it like the post title (`cqi`).
+  - Duplication: `.on-wrap`, `.presents` and the `rgba(35, 23, 14, .07/.14)` hover fills repeat across the On pages and components.
+- **Phase 9:** delete `src/components/legacy/` and `src/layouts/legacy/` once the tag pages are off them (the On pages moved in Phase 6). `LegacyPost` and `LegacyPostList` are now used only by `tags/[tag].astro`; `LegacyPost` still imports `Pico8`, harmlessly.
 - **Minor:**
   - Same-date ties are only pinned through `sortNewest`.
   - There's no lasting test that Fraunces keeps its `opsz` axis.
@@ -75,17 +67,20 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 Read this file first, then [`redesign-plan.md`](redesign-plan.md) (the spec), then the design files in `design-handoff/`. The plans and designs for finished phases are in `docs/superpowers/plans/` and `docs/superpowers/specs/`. They're useful as examples of the format.
 
 **Where things stand**
-- **Branch:** `feature/redesign` holds Phases 1–4, merged; Phase 5 is on `redesign/phase-5-code-pages` until its PR merges. `main` is still the live old site.
+- **Branch:** `feature/redesign` holds Phases 1–5, merged; Phase 6 is on `redesign/phase-6-on-pages` until its PR merges. `main` is still the live old site.
 - **Live pages:**
   - **On the new HP theme:** Home, `/life`, `/life/[slug]` and the 404.
   - **On the new Code theme:** `/code` and `/code/[slug]`.
-  - **Still legacy:** On and `/tags/[tag]`, through `src/components/legacy/` and `src/layouts/legacy/LegacyBaseLayout.astro`.
+  - **On the new On theme:** `/meditations` and `/meditations/[slug]`.
+  - **Still legacy:** `/tags/[tag]`, through `src/components/legacy/` and `src/layouts/legacy/LegacyBaseLayout.astro`.
 - **Components:**
   - `src/components/site/` holds the shared chrome.
   - `src/components/hp/` holds the HP page parts: `Hero`, `AboutSection`, `SectionDoors`/`Door` with the three previews, `TagSelector`, `ListingBand`, `PostRow`, `PostHeader` and `HpPrevNext`.
   - `src/components/code/` holds the Code page parts: `Prompt`, `CodeListEntry`, `CodePostHeader`, `Toc`, `CodePrevNext`, and `CodeBlock`, the `pre` override that only the Code post template passes.
-  - `src/components/mdx/` holds the theme-neutral MDX components, `YouTube` and `ImageCollection`. A unit test keeps hard-coded colours out of this folder.
+  - `src/components/on/` holds the On page parts: `Bill`, `DoubleRule`, `DiamondRule`, `NowShowing`, `Eye`, `OnCorrespondence`, `Programme`, `OnPostHeader` and `FurtherMeditations`.
+  - `src/components/mdx/` holds the theme-neutral MDX components, `YouTube`, `ImageCollection` and `Ornament`. A unit test keeps hard-coded colours out of this folder.
   - `src/components/Pico8.astro` is the game panel.
+- **Markdown:** `markdown.processor: satteri({ hastPlugins: [onTips] })`; `src/markdown/on-tips.ts` turns `## N. Tip` in On posts into `h2.tip` with a Roman `span.num`.
 - **Highlighting:** `src/shiki/sasky-terminal.json` plus the `metaToData` transformer (fence `title="…"` → `data-title`; drops the newlines between lines), set in `markdown.shikiConfig`.
 - **Client JS:** `src/scripts/video-card.ts`, `tag-selector.ts` and `copy-code.ts`.
 - **Content:**
@@ -93,14 +88,11 @@ Read this file first, then [`redesign-plan.md`](redesign-plan.md) (the spec), th
   - The pure helpers are in `src/lib/` (`format`, `text`, `posts`, `paths`, `slug`).
   - Copy and data are in `src/data/` (`sections`, `home`, `social`).
 
-**Next: Phase 6 (On pages)**
-- **Spec:** 6.4, `Site-On-List.dc.html` and `Site-On-Post.dc.html`, plus the open items G1 (prose for posts without tips), G2 (On video cards), G6 (programme line) and G8 (manicules).
-- **The `onTips` plugin (6.2) is the riskiest part (R2).** Test it straight against Sätteri first, and keep the `h2` override fallback in mind.
-- **Reuse:**
-  - `Manicule` and `Fleuron` (Phase 3);
-  - the `--vid-*` tokens on `YouTube`;
-  - `expectOnlyThemeCss()`;
-  - the `Prompt`-style pattern of small decorative components.
+**Next: Phase 7 (Tags, RSS and SEO)**
+- **Spec:** 5.11, 5.12, 5.16 and tasks 7.1–7.3.
+- **Tag pages:** rebuild `tags/[tag].astro` on `HpLayout` with `ListingBand` (`variant="message"` suits `#tag`) and `PostRow chip`. That retires the last legacy page, and `phase2.spec.ts`'s "tag page lists posts across sections" (which reads legacy `main li a`) moves with it.
+- **RSS:** categories (section label plus tags), `atom:link rel="self"`.
+- **SEO:** check titles and descriptions on every page type; `/code/` duplicate is covered by canonicals.
 
 **How Cam likes to work**
 - **Each phase:**
@@ -127,6 +119,9 @@ Read this file first, then [`redesign-plan.md`](redesign-plan.md) (the spec), th
 - **A sticky box inside a grid item** needs that item to stretch (`align-self: stretch`), or it has nowhere to stick.
 - **UA `pre` and `code` use the system monospace,** so set `font-family: inherit` to keep the theme font.
 - **Astro's `<Image>` defaults to `decoding="async"`,** so a screenshot taken straight after `goto` can miss the hero photo. Wait before capturing.
+- **Sätteri hast plugins** (`{ name, element: { filter, visit } }`) can return a replacement node; `ctx.data.astro.frontmatter` holds the post's raw frontmatter. Astro's heading-id plugin runs after user plugins, so ids follow the rewritten text. Tests that pass `data` to `markdownToHtml`/`mdxToJs` must give the full `astro` shape (`headings`, `localImagePaths`, `remoteImagePaths`) or `astro check` fails.
+- **`Manicule` is 1.6em wide,** so size it at the board's ☞ glyph size ÷ 1.6.
+- **A component whose root uses `align-self: stretch`** (`DoubleRule`, `DiamondRule`) collapses to zero width inside a `display: flex` row wrapper. Wrap it in a block, or pass it straight into a column.
 
 ## Standing rules
 
@@ -162,7 +157,7 @@ Each phase starts with the superpowers sessions it needs, in this order:
 | 3. Foundations | Light (done) | Native (used) | Layout props and how theme CSS is scoped get reused by every later phase. |
 | 4. HP pages | Skipped by Cam | Native (used) | Calls listed in the plan for Cam's review. |
 | 5. Code pages | Skipped by Cam | Native (used) | Calls listed in the plan for Cam's review. |
-| 6. On pages | Yes | Subagent-driven | `onTips` plugin, prose for posts without tips (G1), On video cards (G2). |
+| 6. On pages | Skipped by Cam | Native (used) | Calls listed in the plan for Cam's review. |
 | 7. Tags, RSS, SEO | No | Native | Specified in full in the plan. |
 | 8. QA | No | Native | Checklist-driven. |
 | 9. Cleanup and launch | No | Native | Deletions, docs and the PR into `main`. |
@@ -220,11 +215,11 @@ PR: [#7](https://github.com/sasky/astro/pull/7)
 
 ### Phase 6: On pages
 
-PR: _none yet_
+PR: [#8](https://github.com/sasky/astro/pull/8)
 
-- [ ] 6.1 On primitives: bills, rules, manicules, fleurons (M)
-- [ ] 6.2 `onTips` Sätteri plugin (S)
-- [ ] 6.3 On listing and post (L)
+- [x] 6.1 On primitives: bills, rules, manicules, fleurons (M)
+- [x] 6.2 `onTips` Sätteri plugin (S)
+- [x] 6.3 On listing and post (L)
 
 ### Phase 7: Tags, RSS and SEO
 

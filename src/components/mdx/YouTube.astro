@@ -58,9 +58,12 @@ const { id, title, caption } = Astro.props;
     justify-content: center;
     overflow: hidden;
     background-color: var(--vid-bg, #12163d);
-    background-image:
+    background-image: var(
+      --vid-grain,
       repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.07) 0px, rgba(255, 255, 255, 0.07) 1px, transparent 1px, transparent 28px),
-      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.07) 0px, rgba(255, 255, 255, 0.07) 1px, transparent 1px, transparent 28px);
+      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.07) 0px, rgba(255, 255, 255, 0.07) 1px, transparent 1px, transparent 28px)
+    );
+    background-size: var(--vid-grain-size, auto);
     box-shadow: 6px 6px 0 var(--vid-shadow, #2452ff);
     color: var(--vid-play-fg, #12163d);
     text-decoration: none;
@@ -88,7 +91,7 @@ const { id, title, caption } = Astro.props;
     height: 76px;
     border-radius: 50%;
     background-color: var(--vid-play-bg, #ff6a1f);
-    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
+    box-shadow: var(--vid-play-shadow, 0 4px 0 rgba(0, 0, 0, 0.35));
     transition: transform 0.15s ease;
   }
 
