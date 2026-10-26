@@ -1,5 +1,7 @@
 import { defineConfig, fontProviders } from "astro/config";
 import mdx from "@astrojs/mdx";
+import { satteri } from "@astrojs/markdown-satteri";
+import { onTips } from "./src/markdown/on-tips";
 import { metaToData } from "./src/shiki/meta-to-data";
 import terminal from "./src/shiki/sasky-terminal.json" with { type: "json" };
 
@@ -49,8 +51,10 @@ export default defineConfig({
       fallbacks: ["sans-serif"],
     },
   ],
-  // Code highlighting (spec 5.14); MDX inherits it.
+  // Code highlighting (spec 5.14) and the On tip numerals (spec 6.4); MDX
+  // inherits both.
   markdown: {
+    processor: satteri({ hastPlugins: [onTips] }),
     shikiConfig: { theme: terminal, transformers: [metaToData] },
   },
   integrations: [mdx()],
