@@ -18,7 +18,7 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 | 6. On pages | Merged into `feature/redesign` | [#8](https://github.com/sasky/astro/pull/8) |
 | 7. Tags, RSS, SEO | Merged into `feature/redesign` | [#9](https://github.com/sasky/astro/pull/9) |
 | 8. QA | Merged into `feature/redesign` | [#10](https://github.com/sasky/astro/pull/10) |
-| 9. Cleanup and launch | Cleanup PR open for Cam's review; the launch PR into `main` follows | _see Phase 9 below_ |
+| 9. Cleanup and launch | Cleanup PR open for Cam's review; the launch PR into `main` follows | [#11](https://github.com/sasky/astro/pull/11) |
 
 **Waiting on Cam**
 - **Content review**, any time before Phase 9 (the posts are now in `src/content/posts/`):
@@ -246,7 +246,7 @@ PR: [#10](https://github.com/sasky/astro/pull/10)
 
 ### Phase 9: Cleanup and launch
 
-PR: _opening_ (cleanup); the launch PR into `main` follows
+PR: [#11](https://github.com/sasky/astro/pull/11) (cleanup); the launch PR into `main` follows
 
 - [x] 9.1 Remove the old code (S); also kept Code line numbers out of screen readers
 - [x] 9.2 Docs (S)
