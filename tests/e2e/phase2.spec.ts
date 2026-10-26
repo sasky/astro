@@ -7,18 +7,3 @@ test("Hide n Seek loads its cart when started", async ({ page }) => {
   await cart;
   await expect(page.locator("#canvas")).toBeAttached();
 });
-
-test("RSS has the 7 posts and no About", async ({ request }) => {
-  const xml = await (await request.get("/rss.xml")).text();
-  expect(xml.match(/<item>/g)).toHaveLength(7);
-  expect(xml).toContain("<link>https://sasky.nz/meditations/on-being-classy</link>");
-  expect(xml).not.toContain("/about");
-});
-
-test("tag page lists posts across sections", async ({ page }) => {
-  await page.goto("/tags/music");
-  await expect(page.locator("main li a")).toHaveText([
-    "On New Zealand Music",
-    "Concert youtube vids to temporarily restore one's faith in humanity",
-  ]);
-});

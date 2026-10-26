@@ -1,6 +1,7 @@
 ---
 // Life listing (HP theme). Values: Site-Life-List.dc.html.
 import ListingBand from "../../components/hp/ListingBand.astro";
+import PostList from "../../components/hp/PostList.astro";
 import PostRow from "../../components/hp/PostRow.astro";
 import { SECTIONS } from "../../data/sections";
 import HpLayout from "../../layouts/HpLayout.astro";
@@ -16,48 +17,7 @@ const label = since ? `${countLabel("life", count)} · since ${formatMonthYear(s
 
 <HpLayout title={`${section.title} — sasky.nz`} description={section.blurb}>
   <ListingBand headingId="life-h" label={label} title={section.title} lede={section.blurb} intro={section.intro} />
-  <div class="list-wrap">
-    <section class="list" aria-labelledby="all">
-      <h2 id="all">Every Life post, newest first</h2>
-      <div class="rows">
-        {posts.map((post) => <PostRow post={post} />)}
-      </div>
-    </section>
-  </div>
+  <PostList heading="Every Life post, newest first">
+    {posts.map((post) => <PostRow post={post} />)}
+  </PostList>
 </HpLayout>
-
-<style>
-  .list-wrap {
-    max-width: var(--wrap);
-    margin: 0 auto;
-    padding: 64px var(--gutter) 112px;
-  }
-
-  .list {
-    display: flex;
-    flex-direction: column;
-    max-width: 900px;
-  }
-
-  h2 {
-    margin: 0 0 16px;
-    color: var(--muted);
-    font-family: var(--mono-font);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .rows {
-    display: flex;
-    flex-direction: column;
-    border-top: 2px solid var(--navy);
-  }
-
-  @media (max-width: 760px) {
-    .list-wrap {
-      padding: 40px 20px 72px;
-    }
-  }
-</style>

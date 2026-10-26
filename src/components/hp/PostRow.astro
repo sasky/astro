@@ -13,9 +13,11 @@ interface Props {
   post: PostEntry;
   /** Show the post's section chip (tag pages mix sections). */
   chip?: boolean;
+  /** On a tag page, the tag to mark current in the row's tags. */
+  currentTag?: string;
 }
 
-const { post, chip = false } = Astro.props;
+const { post, chip = false, currentTag } = Astro.props;
 const { title, description, pubDate, section, tags } = post.data;
 ---
 
@@ -28,7 +30,7 @@ const { title, description, pubDate, section, tags } = post.data;
     {chip && <SectionChip section={section} />}
     <h3 class="row-title"><a href={postUrl(post)}>{title}</a></h3>
     <p class="row-desc">{description}</p>
-    <TagLinks tags={tags} theme="hp" />
+    <TagLinks tags={tags} theme="hp" current={currentTag} />
   </div>
 </article>
 

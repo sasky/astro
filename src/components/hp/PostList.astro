@@ -1,0 +1,54 @@
+---
+// The HP list under a ListingBand (Life listing, tag pages): a small mono
+// heading over the rows in the slot. Values: Site-Life-List.dc.html.
+interface Props {
+  heading: string;
+}
+
+const { heading } = Astro.props;
+---
+
+<div class="list-wrap">
+  <section class="list" aria-labelledby="all">
+    <h2 id="all">{heading}</h2>
+    <div class="rows">
+      <slot />
+    </div>
+  </section>
+</div>
+
+<style>
+  .list-wrap {
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 64px var(--gutter) 112px;
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    max-width: 900px;
+  }
+
+  h2 {
+    margin: 0 0 16px;
+    color: var(--muted);
+    font-family: var(--mono-font);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .rows {
+    display: flex;
+    flex-direction: column;
+    border-top: 2px solid var(--navy);
+  }
+
+  @media (max-width: 760px) {
+    .list-wrap {
+      padding: 40px 20px 72px;
+    }
+  }
+</style>

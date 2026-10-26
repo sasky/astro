@@ -6,6 +6,7 @@ import {
   neighbours,
   postUrl,
   sectionStats,
+  sectionsOf,
   seriesNumber,
   sortNewest,
   type Post,
@@ -89,4 +90,12 @@ test("countLabel uses the section's unit", () => {
   expect(countLabel("on", 4)).toBe("4 meditations");
   expect(countLabel("life", 1)).toBe("1 post");
   expect(countLabel("code", 2)).toBe("2 posts");
+});
+
+test("sectionsOf lists each section once, in section order", () => {
+  expect(sectionsOf([make("a", "on", "2026-01-01"), make("b", "code", "2026-01-02"), make("c", "on", "2026-01-03")])).toEqual([
+    "code",
+    "on",
+  ]);
+  expect(sectionsOf([])).toEqual([]);
 });

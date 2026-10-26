@@ -70,6 +70,19 @@ test("ListingBand without wash", async () => {
   expect(await container.renderToString(ListingBand, { props: { ...band, wash: false } })).not.toContain("wash");
 });
 
+test("ListingBand section heading carries its length", async () => {
+  const html = await container.renderToString(ListingBand, {
+    props: { headingId: "t", label: "2 posts", title: "#silverstripe" },
+  });
+  expect(html).toMatch(/<h1[^>]*style="--em: [\d.]+"/);
+});
+
+test("PostRow passes the current tag to its tags", async () => {
+  const html = await container.renderToString(PostRow, { props: { post: concert, chip: true, currentTag: "music" } });
+  expect(html).toMatch(/aria-current="page"/);
+  expect(html).toContain("chip-life");
+});
+
 test("HpPrevNext without an older post shows only All Life posts", async () => {
   const html = await container.renderToString(HpPrevNext, { props: { section: "life" } });
   expect(html.match(/<a\b/g)).toHaveLength(1);

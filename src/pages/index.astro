@@ -8,6 +8,7 @@ import Hero from "../components/hp/Hero.astro";
 import SectionDoors from "../components/hp/SectionDoors.astro";
 import TagSelector from "../components/hp/TagSelector.astro";
 import { SECTION_ORDER } from "../data/sections";
+import { SITE } from "../data/site";
 import HpLayout from "../layouts/HpLayout.astro";
 import { getPosts } from "../lib/get-posts";
 import { buildTagIndex, sectionStats } from "../lib/posts";
@@ -20,7 +21,7 @@ const doors = await Promise.all(
 );
 ---
 
-<HpLayout title="sasky.nz — Home" description="Personal and professional website of Cameron Grant">
+<HpLayout title="sasky.nz — Home" description={SITE.description}>
   <Fragment slot="head">
     <Font cssVariable="--font-holtwood" />
     <Font cssVariable="--font-oswald" />

@@ -2,6 +2,7 @@
 // The document shell for redesigned pages. Theme layouts (HpLayout,
 // CodeLayout, OnLayout) wrap it and add their CSS, fonts and chrome.
 import "../styles/base.css";
+import { SITE } from "../data/site";
 import { pagePath } from "../lib/paths";
 
 interface Props {
@@ -29,9 +30,9 @@ const url = new URL(pagePath(Astro.url), Astro.site ?? Astro.url).href;
     <meta property="og:description" content={description} />
     {!noindex && <meta property="og:url" content={url} />}
     <meta property="og:type" content={ogType} />
-    <meta property="og:site_name" content="sasky.nz" />
+    <meta property="og:site_name" content={SITE.name} />
     <meta name="twitter:card" content="summary" />
-    <link rel="alternate" type="application/rss+xml" title="sasky.nz" href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title={SITE.name} href="/rss.xml" />
     <slot name="head" />
   </head>
   <body>

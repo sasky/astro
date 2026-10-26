@@ -1,6 +1,6 @@
 // Pure helpers over posts. They take plain arrays (no astro:content import),
 // so they run in Vitest; src/lib/get-posts.ts wraps the collection.
-import { SECTIONS, type Section } from "../data/sections";
+import { SECTION_ORDER, SECTIONS, type Section } from "../data/sections";
 import { plural } from "./format";
 
 export type { Section };
@@ -51,6 +51,11 @@ export function buildTagIndex<P extends Post>(posts: P[]): { tag: string; count:
   return [...byTag]
     .map(([tag, tagged]) => ({ tag, count: tagged.length, posts: tagged }))
     .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag));
+}
+
+/** The sections these posts are in, once each, in section order. */
+export function sectionsOf<P extends Post>(posts: P[]): Section[] {
+  return SECTION_ORDER.filter((section) => posts.some((post) => post.data.section === section));
 }
 
 export function postUrl(post: Post): string {

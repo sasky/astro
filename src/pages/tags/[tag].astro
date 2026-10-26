@@ -1,20 +1,33 @@
 ---
+// Tag page (HP theme), spec 5.11 and Q4: the Life listing's band and rows,
+// with each row's section chip, since a tag crosses sections.
 import type { GetStaticPaths } from "astro";
-import BaseLayout from "../../layouts/legacy/LegacyBaseLayout.astro";
-import LegacyPostList from "../../components/legacy/LegacyPostList.astro";
+import ListingBand from "../../components/hp/ListingBand.astro";
+import PostList from "../../components/hp/PostList.astro";
+import PostRow from "../../components/hp/PostRow.astro";
+import { SECTIONS } from "../../data/sections";
+import HpLayout from "../../layouts/HpLayout.astro";
+import { formatList, plural } from "../../lib/format";
 import { getPosts } from "../../lib/get-posts";
-import { buildTagIndex } from "../../lib/posts";
+import { buildTagIndex, sectionsOf } from "../../lib/posts";
 
 export const getStaticPaths = (async () => {
   const index = buildTagIndex(await getPosts());
-  return index.map(({ tag, posts }) => ({ params: { tag }, props: { posts } }));
+  return index.map(({ tag, count, posts }) => ({ params: { tag }, props: { count, posts } }));
 }) satisfies GetStaticPaths;
 
 const { tag } = Astro.params;
-const { posts } = Astro.props;
+const { count, posts } = Astro.props;
+const sections = formatList(sectionsOf(posts).map((section) => SECTIONS[section].label));
 ---
 
-<BaseLayout pageTitle={tag}>
-  <p>Posts tagged with {tag}</p>
-  <LegacyPostList posts={posts} />
-</BaseLayout>
+<HpLayout title={`#${tag} — sasky.nz`} description={`Every post tagged ${tag} on sasky.nz, from ${sections}.`}>
+  <ListingBand headingId="tag-h" label={plural(count, "post")} title={`#${tag}`}>
+    <Fragment slot="lede">
+      Posts from {sections}. Pick another tag on the <a href="/#tags">home page</a>.
+    </Fragment>
+  </ListingBand>
+  <PostList heading={`Every post tagged ${tag}, newest first`}>
+    {posts.map((post) => <PostRow post={post} chip currentTag={tag} />)}
+  </PostList>
+</HpLayout>

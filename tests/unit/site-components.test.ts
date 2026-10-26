@@ -55,3 +55,12 @@ test("footer links open in the same tab", async () => {
     expect(await container.renderToString(footer)).not.toContain('target="_blank"');
   }
 });
+
+test("TagLinks marks only the current tag", async () => {
+  const html = await container.renderToString(TagLinks, {
+    props: { tags: ["music", "learning"], theme: "hp", current: "music" },
+  });
+  expect(html).toMatch(/href="\/tags\/music"[^>]*aria-current="page"/);
+  expect(html).not.toMatch(/href="\/tags\/learning"[^>]*aria-current/);
+  expect(await container.renderToString(TagLinks, { props: { tags: ["music"], theme: "hp" } })).not.toContain("aria-current");
+});
