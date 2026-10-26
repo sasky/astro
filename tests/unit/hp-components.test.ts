@@ -144,7 +144,9 @@ test("TagSelector without JS: links, default list visible", async () => {
 test("TagSelector singular summary", async () => {
   const html = await container.renderToString(TagSelector, { props: { index: tagIndex } });
   expect(html).toContain('data-summary="1 post tagged pico8"');
-  expect(html).toContain('aria-label="pico8, 1 post"');
+  // The chip's name is its visible text plus a hidden unit: "pico8 1 post".
+  expect(html).not.toMatch(/class="tg-chip"[^>]*aria-label/);
+  expect(html).toMatch(/class="tg-count"[^>]*>\s*1\s*<span class="sr-only"[^>]*>\s*post\s*<\/span>/);
 });
 
 test("TagSelector rows show the section chip, title and date", async () => {

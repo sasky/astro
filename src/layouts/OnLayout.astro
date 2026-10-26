@@ -27,7 +27,7 @@ const { texture, footer = "after", ...meta } = Astro.props;
     <Font cssVariable="--font-holtwood" preload={[{ subset: "latin" }]} />
     <Font cssVariable="--font-alfa" />
     <Font cssVariable="--font-rye" />
-    <Font cssVariable="--font-oswald" />
+    <Font cssVariable="--font-oswald" preload={[{ subset: "latin" }]} />
   </Fragment>
   <div class="page">
     <SkipLink />

@@ -31,11 +31,12 @@ const first = index[0];
             href={`/tags/${tag}`}
             data-tag={tag}
             data-selected={i === 0 ? "" : undefined}
-            aria-label={`${tag}, ${plural(count, "post")}`}
           >
             <span>{tag}</span>
-            <span class="tg-count" aria-hidden="true">
+            {/* Named by what it shows ("music 2 posts"), for voice control. */}
+            <span class="tg-count">
               {count}
+              <span class="sr-only"> {count === 1 ? "post" : "posts"}</span>
             </span>
           </a>
         ))}

@@ -23,7 +23,7 @@ for (const width of [1280, 390]) {
       await page.setViewportSize({ width, height: 900 });
       await page.goto(path);
       await page.evaluate(() => document.fonts.ready);
-      const { violations } = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
+      const { violations } = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();
       const serious = violations
         .filter(({ impact }) => impact === "serious" || impact === "critical")
         .map(({ id, impact, nodes }) => `${impact} ${id}: ${nodes.map(({ target }) => target.join(" ")).join(", ")}`);
@@ -162,3 +162,24 @@ test.describe("without JS", () => {
     await expect(page.locator("button.copy").first()).toBeHidden();
   });
 });
+
+// Voice control users say what they see ("click music 2"), so each chip's
+// accessible name must contain its visible text.
+for (const [javaScriptEnabled, role] of [
+  [true, "button"],
+  [false, "link"],
+] as const) {
+  test.describe(`chip names, JS ${javaScriptEnabled ? "on" : "off"}`, () => {
+    test.use({ javaScriptEnabled });
+
+    test("tag chips are named by their visible text", async ({ page }) => {
+      await page.goto("/");
+      const chips = await page.locator(".tg-chip").all();
+      expect(chips.length).toBeGreaterThan(0);
+      for (const chip of chips) {
+        const visible = (await chip.innerText()).replace(/\s+/g, " ").trim();
+        await expect(page.getByRole(role, { name: visible })).toHaveCount(1);
+      }
+    });
+  });
+}

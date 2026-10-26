@@ -27,7 +27,7 @@ test("every tag in the index has a page with its posts", async ({ page }) => {
   await page.goto("/");
   const chips = await page
     .locator(".tg-chip[data-tag]")
-    .evaluateAll((els) => els.map((el) => [el.getAttribute("data-tag")!, Number(el.querySelector(".tg-count")!.textContent)] as const));
+    .evaluateAll((els) => els.map((el) => [el.getAttribute("data-tag")!, parseInt(el.querySelector(".tg-count")!.textContent!)] as const));
   expect(chips.length).toBeGreaterThan(0);
   for (const [tag, count] of chips) {
     const response = await page.goto(`/tags/${tag}`);
