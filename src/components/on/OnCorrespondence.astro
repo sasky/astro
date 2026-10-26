@@ -1,0 +1,53 @@
+---
+// "Correspondence welcomed by way of …": the social links row. It closes the
+// bill on the On listing and opens the footer on On posts.
+// Values: Site-On-*.dc.html.
+import { SOCIAL } from "../../data/social";
+---
+
+<div class="on-correspondence">
+  <span>Correspondence welcomed by way of</span>
+  {
+    SOCIAL.map(({ label, href }) => (
+      <a class="on-correspondence-link" href={href}>
+        {label}
+      </a>
+    ))
+  }
+  <span>· Absolutely free of charge ·</span>
+</div>
+
+<style>
+  .on-correspondence {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0 16px;
+    align-self: stretch;
+    padding-top: 6px;
+    border-top: 2px dotted var(--ink-on);
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .on-correspondence-link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 4px;
+    color: var(--ink-on);
+  }
+
+  .on-correspondence-link:hover {
+    color: var(--rust);
+    text-decoration-thickness: 2px;
+  }
+
+  .on-correspondence-link:active {
+    background-color: var(--ink-on);
+    color: var(--light);
+  }
+</style>

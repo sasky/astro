@@ -1,0 +1,43 @@
+---
+// A decorative break between On tips: pointing hands around three diamonds.
+// currentColor only; .prose-on in on.css adds the rule and spacing.
+import Manicule from "../site/Manicule.astro";
+---
+
+<div class="ornament" aria-hidden="true">
+  <span class="hand"><Manicule dir="right" /></span>
+  <span class="diamond"></span>
+  <span class="diamond diamond-open"></span>
+  <span class="diamond"></span>
+  <span class="hand"><Manicule dir="left" /></span>
+</div>
+
+<style>
+  .ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+  }
+
+  .hand {
+    display: flex;
+    font-size: 30px;
+    line-height: 1;
+  }
+
+  .diamond {
+    width: 12px;
+    height: 12px;
+    background-color: currentColor;
+    transform: rotate(45deg);
+  }
+
+  .diamond-open {
+    width: 18px;
+    height: 18px;
+    box-sizing: border-box;
+    border: 3px solid currentColor;
+    background-color: transparent;
+  }
+</style>

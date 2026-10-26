@@ -1,0 +1,55 @@
+---
+// "!Now Showing!" banner: Alfa Slab text between pointing hands. Posts add a
+// thick top rule. Values: Site-On-*.dc.html.
+import Manicule from "../site/Manicule.astro";
+
+interface Props {
+  text: string;
+  topRule?: boolean;
+}
+
+const { text, topRule = false } = Astro.props;
+---
+
+<div class:list={["now-showing", { "top-rule": topRule }]}>
+  <span class="hand"><Manicule dir="right" /></span>
+  <span class="now-text">{text}</span>
+  <span class="hand"><Manicule dir="left" /></span>
+</div>
+
+<style>
+  .now-showing {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    align-self: stretch;
+    padding: 4px 0 10px;
+    border-bottom: 1px solid var(--ink-on);
+  }
+
+  .top-rule {
+    padding: 6px 0 8px;
+    border-top: 3px solid var(--ink-on);
+  }
+
+  .hand {
+    display: flex;
+    flex-shrink: 0;
+    font-size: 38px;
+    line-height: 1;
+  }
+
+  .now-text {
+    font-family: var(--font-alfa);
+    font-size: 32px;
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  @media (max-width: 760px) {
+    .now-text {
+      font-size: 22px;
+    }
+  }
+</style>

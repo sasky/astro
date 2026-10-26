@@ -38,6 +38,7 @@
   --mark-bg: var(--ink-on);
   --mark-shadow: none;
   --mark-rotate: 45deg;
+  --mark-margin: 0 1px;
   --nav-font: var(--font-oswald);
   --nav-color: var(--ink-on);
   --nav-transform: uppercase;
@@ -73,4 +74,34 @@
 
 :where([data-theme="on"]) a:hover {
   color: var(--rust);
+}
+
+/* The handbill's inked type: a kraft gap, then an ink drop shadow. */
+.on-inline {
+  text-shadow:
+    2px 2px 0 var(--kraft),
+    4px 4px 0 var(--ink-on);
+}
+
+/* Alfa Slab call-to-action links set between pointing hands. */
+.on-ink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 10px;
+  color: var(--ink-on);
+  font-family: var(--font-alfa);
+  text-decoration: none;
+}
+
+.on-ink:hover {
+  color: var(--rust);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
+.on-ink:active {
+  background-color: var(--ink-on);
+  color: var(--light);
 }
