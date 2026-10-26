@@ -96,7 +96,7 @@ test("Toc lists h2 and h3 with prefixes", async () => {
   expect(anchors).toEqual(["setup-steps", "step-1"]);
   expect(html).toMatch(/aria-hidden="true"[^>]*>##\s*</);
   expect(html).toMatch(/aria-hidden="true"[^>]*>###\s*</);
-  expect(html).toMatch(/href="\/code"[^>]*>\s*← cd ~\/code\s*</);
+  expect(visible(html.match(/<a[^>]*href="\/code"[^>]*>[\s\S]*?<\/a>/)![0]).trim()).toBe("← cd ~/code");
 });
 
 test("Toc renders nothing without headings", async () => {
@@ -106,7 +106,7 @@ test("Toc renders nothing without headings", async () => {
 
 test("CodePrevNext older and newest", async () => {
   const html = await container.renderToString(CodePrevNext, { props: { older: hideNSeek } });
-  expect(html).toContain("← older in ~/code · 29 January 2024");
+  expect(visible(html)).toContain("← older in ~/code · 29 January 2024");
   expect(html).toContain("Hide n Seek");
   expect(visible(html)).toContain("# Building a game for my girls");
   expect(html).toContain("All Code posts");
@@ -117,7 +117,7 @@ test("CodePrevNext older and newest", async () => {
 test("CodePrevNext newer only", async () => {
   const html = await container.renderToString(CodePrevNext, { props: { newer: silverstripe } });
   expect(html.match(/<a\b/g)).toHaveLength(1);
-  expect(html).toContain("newer in ~/code · 1 April 2024 →");
+  expect(visible(html)).toContain("newer in ~/code · 1 April 2024 →");
   expect(html).toContain('href="/code/silverstripe-app-platform"');
 });
 

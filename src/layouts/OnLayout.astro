@@ -15,11 +15,13 @@ interface Props {
   noindex?: boolean;
   /** Texture strength (0–1); defaults to the theme's. */
   texture?: number;
+  /** Which board's kraft paper: the listing's, or the post's (taller, edge-burnt). */
+  paper?: "listing" | "post";
   /** "inside": the page puts the correspondence row in its bill (the listing). */
   footer?: "inside" | "after";
 }
 
-const { texture, footer = "after", ...meta } = Astro.props;
+const { texture, footer = "after", paper = "listing", ...meta } = Astro.props;
 ---
 
 <BaseLayout theme="on" {...meta}>
@@ -29,7 +31,7 @@ const { texture, footer = "after", ...meta } = Astro.props;
     <Font cssVariable="--font-rye" />
     <Font cssVariable="--font-oswald" preload={[{ subset: "latin" }]} />
   </Fragment>
-  <div class="page">
+  <div class="page" data-paper={paper}>
     <SkipLink />
     <Texture opacity={texture} />
     <TopBar />

@@ -114,3 +114,9 @@ p {
   display: block;
   min-height: 1lh;
 }
+
+/* ← and → aren't in the web fonts' latin subsets. Draw them in the system
+   face, as the boards do, not in Astro's size-matched Arial or Courier New. */
+.arrow {
+  font-family: var(--arrow-font, inherit);
+}

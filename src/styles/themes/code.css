@@ -36,6 +36,7 @@
   --wordmark-color: var(--bright);
   --wordmark-hover-color: var(--bright);
   --wordmark-hover-shadow: 0 0 14px rgba(110, 231, 160, 0.55);
+  --arrow-font: ui-monospace, SFMono-Regular, Menlo, monospace;
   --mark-w: 13px;
   --mark-h: 22px;
   --mark-bg: var(--accent);

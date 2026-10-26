@@ -1,9 +1,8 @@
 // Board-vs-site compare sheet (spec 8.1): each design board and the page it
 // designs, full page at 1280×900 and 390×844, side by side in
 // qa/compare/index.html (gitignored). Run: npm run build && npm run qa:compare
-import { mkdirSync, writeFileSync } from "node:fs";
-import { resolve } from "node:path";
-import { pathToFileURL } from "node:url";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { extname, join } from "node:path";
 import { expect, test, type Page } from "@playwright/test";
 import { fillBoard } from "./board-shim";
 
@@ -19,6 +18,22 @@ const PAIRS = [
   { name: "on-post", board: "Site-On-Post", path: "/meditations/on-being-classy" },
 ];
 const HEIGHT: Record<number, number> = { 1280: 900, 390: 844, 1040: 900 };
+
+// The boards are served over HTTP from a made-up origin, not file://, so their
+// CSS mask images load (Chrome blocks those from file:// pages).
+const BOARDS = "http://boards.test/";
+const TYPES: Record<string, string> = { ".html": "text/html", ".png": "image/png", ".webp": "image/webp" };
+
+async function serveBoards(page: Page) {
+  await page.route(`${BOARDS}**`, async (route) => {
+    const file = join("design-handoff/design", decodeURIComponent(new URL(route.request().url()).pathname));
+    try {
+      await route.fulfill({ body: readFileSync(file), contentType: TYPES[extname(file)] ?? "application/octet-stream" });
+    } catch {
+      await route.fulfill({ status: 404 });
+    }
+  });
+}
 
 /** Fonts ready, lazy images loaded, back at the top. */
 async function settle(page: Page) {
@@ -41,7 +56,8 @@ for (const { name, board, path, element, widths = [1280, 390] } of PAIRS) {
   for (const width of widths) {
     test(`${name} @ ${width}`, async ({ page }) => {
       await page.setViewportSize({ width, height: HEIGHT[width] });
-      await page.goto(pathToFileURL(resolve("design-handoff/design", `${board}.dc.html`)).href);
+      await serveBoards(page);
+      await page.goto(`${BOARDS}${board}.dc.html`);
       await fillBoard(page);
       await settle(page);
       await page.screenshot({ path: `${OUT}/${name}-${width}-board.png`, fullPage: true, animations: "disabled" });
@@ -68,6 +84,8 @@ const INTENTIONAL = [
   "G8: manicules and fleurons are inline SVGs, not the ☞ ☜ ✥ glyphs.",
   "The On programme is a reversed `<ol>`, so screen readers count III, II, I.",
   "Code comments (#6f8a7a), punctuation (#687f71) and the Code intro (#6f8a7a) are lighter than the board's greys, to meet AA.",
+  "On listing at 390: the headliner description is 20px, not 26px uppercase, which ran to nine lines (Phase 6 call).",
+  "Code text keeps JetBrains Mono's programming ligatures off, so `-->` and `->` show as typed (Phase 5 call).",
   "Fraunces is loaded with opsz and wght only (as the boards load it), so SOFT and WONK are at their defaults.",
   "Calls made in place of a brainstorm in Phases 4–8: see docs/superpowers/plans/2026-10-26-phase-{4,5,6,7,8}-*.md.",
 ];

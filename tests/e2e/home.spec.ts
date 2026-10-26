@@ -173,3 +173,12 @@ test("Fraunces keeps its optical-size axis", async ({ page }) => {
   );
   expect(perPx[0]).toBeGreaterThan(perPx[1] * 1.05);
 });
+
+// The board's rows are content-box: min-height 44px plus 14px padding top and bottom.
+test("tag selector rows are as tall as the board's", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/");
+  const heights = await page.locator(".tg-list:not([hidden]) .tg-row").evaluateAll((rows) => rows.map((row) => row.getBoundingClientRect().height));
+  expect(heights.length).toBeGreaterThan(0);
+  for (const height of heights) expect(height).toBeGreaterThanOrEqual(72);
+});

@@ -64,7 +64,7 @@ test("Code post header and TOC", async ({ page }) => {
   const crumbs = page.locator('nav[aria-label="Breadcrumb"] a');
   expect(await crumbs.evaluateAll((links) => links.map((a) => a.getAttribute("href")))).toEqual(["/", "/code"]);
   const tocTargets = await page
-    .locator('aside[aria-label="On this page"] .toc-link')
+    .locator('aside[aria-label="On this page"] .toc-nav .toc-link')
     .evaluateAll((links) => links.map((a) => a.getAttribute("href")));
   const headingIds = await page
     .locator(".prose-code :is(h2, h3)")
@@ -335,4 +335,18 @@ test("the TOC fits a short window and scrolls inside", async ({ page }) => {
     expect(box.y + box.height).toBeLessThanOrEqual(360);
   }).toPass();
   expect(await toc.evaluate((el) => getComputedStyle(el).overflowY)).toBe("auto");
+});
+
+test("the TOC back link looks like the TOC links, as on the board", async ({ page }) => {
+  await page.goto(silverstripe);
+  const style = (selector: string) =>
+    page.locator(selector).first().evaluate((el) => [getComputedStyle(el).color, getComputedStyle(el).textDecorationLine]);
+  expect(await style(".toc-back")).toEqual(await style(".toc-nav .toc-link:not(.toc-h2)"));
+  expect(await style(".toc-back")).toEqual(["rgb(159, 179, 165)", "none"]);
+});
+
+test("the Code footer keeps its 32px sides at 390, as on the board", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/code");
+  expect(await page.locator(".code-footer-row").evaluate((el) => getComputedStyle(el).paddingLeft)).toBe("32px");
 });

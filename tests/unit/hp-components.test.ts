@@ -11,6 +11,9 @@ import type { PostEntry } from "../../src/lib/get-posts";
 
 let container: AstroContainer;
 
+/** The text a reader sees: tags dropped, whitespace collapsed. */
+const visible = (html: string) => html.replace(/<[^>]+>/g, "").replace(/\s+/g, " ");
+
 // 1200 words is 6 minutes at 220 wpm.
 const concert = {
   id: "top-concertvids",
@@ -90,13 +93,13 @@ test("HpPrevNext without an older post shows only All Life posts", async () => {
   expect(html.match(/<a\b/g)).toHaveLength(1);
   expect(html).toContain('href="/life"');
   expect(html).toContain("All Life posts");
-  expect(html).toContain("Life →");
+  expect(visible(html)).toContain("Life →");
   expect(html).not.toContain("Older in Life");
 });
 
 test("HpPrevNext with an older post links it first", async () => {
   const html = await container.renderToString(HpPrevNext, { props: { section: "life", older: concert } });
-  expect(html).toContain("← Older in Life");
+  expect(visible(html)).toContain("← Older in Life");
   expect(html).toContain("Concert vids");
   expect(html.indexOf('href="/life/top-concertvids"')).toBeGreaterThan(-1);
   expect(html.indexOf('href="/life/top-concertvids"')).toBeLessThan(html.indexOf('href="/life"'));

@@ -101,6 +101,20 @@
   --vid-caption-font: var(--font-oswald);
 }
 
+/* The post board's kraft: blots spread down a tall page, horizontal creases
+   only, and the left and right edges burnt. Site-On-Post.dc.html. */
+[data-paper="post"] {
+  --texture-pattern:
+    radial-gradient(ellipse 30% 12% at 12% 10%, rgba(120, 70, 20, 0.2), transparent 70%),
+    radial-gradient(ellipse 26% 10% at 86% 22%, rgba(120, 70, 20, 0.16), transparent 70%),
+    radial-gradient(ellipse 30% 12% at 70% 52%, rgba(120, 70, 20, 0.16), transparent 70%),
+    radial-gradient(ellipse 24% 10% at 18% 72%, rgba(255, 235, 190, 0.18), transparent 70%),
+    radial-gradient(ellipse 30% 12% at 80% 90%, rgba(120, 70, 20, 0.18), transparent 70%),
+    linear-gradient(0deg, transparent 33.25%, rgba(60, 36, 10, 0.12) 33.33%, rgba(255, 240, 200, 0.12) 33.4%, transparent 33.55%),
+    linear-gradient(0deg, transparent 66.6%, rgba(60, 36, 10, 0.12) 66.66%, rgba(255, 240, 200, 0.12) 66.73%, transparent 66.9%),
+    linear-gradient(90deg, rgba(80, 46, 12, 0.22), transparent 14%, transparent 86%, rgba(80, 46, 12, 0.22));
+}
+
 :where([data-theme="on"]) a {
   color: var(--ink-on);
   text-decoration-color: rgba(35, 23, 14, 0.55);
@@ -348,7 +362,6 @@
 
   .prose-on h2.tip {
     padding: 24px 0 0;
-    font-size: 22px;
   }
 
   .prose-on .num {

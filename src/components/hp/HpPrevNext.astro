@@ -18,13 +18,13 @@ const { label, path } = SECTIONS[section];
   {
     older && (
       <a class="more" href={postUrl(older)}>
-        <span class="more-k">← Older in {label}</span>
+        <span class="more-k"><span class="arrow" aria-hidden="true">←</span> Older in {label}</span>
         <span class="more-t">{older.data.title}</span>
       </a>
     )
   }
   <a class="more more-end" href={`/${path}`}>
-    <span class="more-k">{label} →</span>
+    <span class="more-k">{label} <span class="arrow" aria-hidden="true">→</span></span>
     <span class="more-t">All {label} posts</span>
   </a>
 </nav>

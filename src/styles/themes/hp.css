@@ -35,6 +35,7 @@
   --wordmark-color: var(--navy);
   --wordmark-hover-color: var(--link);
   --wordmark-hover-shadow: none;
+  --arrow-font: system-ui, sans-serif;
   --mark-w: 13px;
   --mark-h: 13px;
   --mark-bg: var(--orange);

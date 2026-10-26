@@ -23,8 +23,8 @@ const entries = Astro.props.headings.filter(({ depth }) => depth === 2 || depth 
             </a>
           ))}
         </nav>
-        <a class="lnk toc-back" href="/code">
-          ← cd ~/code
+        <a class="toc-link toc-back" href="/code">
+          <span class="arrow" aria-hidden="true">←</span> cd ~/code
         </a>
       </div>
     </aside>

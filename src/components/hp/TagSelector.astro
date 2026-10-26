@@ -208,7 +208,8 @@ const first = index[0];
     flex-wrap: wrap;
     align-items: center;
     gap: 8px 20px;
-    min-height: 44px;
+    /* The board's 44px is content-box: 44 + 14 + 14. */
+    min-height: 72px;
     padding: 14px 8px;
     color: var(--navy);
     text-decoration: none;
@@ -256,6 +257,7 @@ const first = index[0];
     }
 
     .tg-row {
+      min-height: 68px;
       padding: 12px 4px;
     }
   }
