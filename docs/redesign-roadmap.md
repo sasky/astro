@@ -15,7 +15,7 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 | 3. Foundations | Merged into `feature/redesign` | [#5](https://github.com/sasky/astro/pull/5) |
 | 4. HP pages | Merged into `feature/redesign` | [#6](https://github.com/sasky/astro/pull/6) |
 | 5. Code pages | Merged into `feature/redesign` | [#7](https://github.com/sasky/astro/pull/7) |
-| 6. On pages | PR open for Cam's review | _PR link_ |
+| 6. On pages | PR open for Cam's review | [#8](https://github.com/sasky/astro/pull/8) |
 | 7–9 | Not started | — |
 
 **Waiting on Cam**
@@ -215,7 +215,7 @@ PR: [#7](https://github.com/sasky/astro/pull/7)
 
 ### Phase 6: On pages
 
-PR: _none yet_
+PR: [#8](https://github.com/sasky/astro/pull/8)
 
 - [x] 6.1 On primitives: bills, rules, manicules, fleurons (M)
 - [x] 6.2 `onTips` Sätteri plugin (S)
