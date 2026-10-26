@@ -40,6 +40,7 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
   - `phase2.spec.ts` pins the legacy header on an On post ("legacy post header still links Home") and the legacy `/meditations` list. Replace both when the On pages move.
   - `OnLayout` always renders `<OnFooter placement="after">`. The On listing needs `placement="inside"`, so add a footer prop or slot.
   - The On wordmark mark lacks the design's `margin: 0 1px`. Add a `--mark-margin` token.
+  - **Code fences outside Code posts collapse to one line.** `metaToData` runs site-wide and strips the newlines between `.line` spans, and only `CodeBlock` makes the lines `display: block`. Before an On or Life post gets a fence, add a neutral `.astro-code .line { display: block; min-height: 1lh }`.
   - The On pages should set `font-variant-ligatures` deliberately; the Code theme turns ligatures off for the same reason (JetBrains Mono's arrows), so check Oswald and Holtwood.
 - **Phase 8 (test tightening, from the Phase 4 review):**
   - Make the modifier-click video test assert that the default action ran, and add a Shift case.
@@ -51,6 +52,17 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 - **Phase 8:**
   - Check the Fraunces SOFT/WONK defaults against the design in the visual comparison.
   - Test the Pico-8 touch controls on a real phone (spec 6.3). The e2e tests only cover sizing at 390 and 2560×1440.
+    - At 390×664 the started canvas can sit partly under the d-pad, depending on scroll position.
+    - Consider scrolling `#p8_frame_0` to the top when a touch device starts the game.
+  - **Code copy-button polish (from the Phase 5 review):**
+    - fall back to selecting the code when the Clipboard API is missing or refuses;
+    - clear the reset timer on repeat clicks;
+    - hide the buttons without JS;
+    - give each button its block's caption as a description.
+  - **Small Code accessibility items:**
+    - `aria-hidden` on the decorative `#`, `>` and `<!-- -->` prefixes in descriptions;
+    - a `max-height` with scrolling on the sticky TOC;
+    - no empty "More in Code" nav when the section has one post.
 - **Phase 9:** delete `src/components/legacy/` and `src/layouts/legacy/` once the On pages and tag pages are off them. `LegacyPost` still imports `Pico8`, harmlessly.
 - **Minor:**
   - Same-date ties are only pinned through `sortNewest`.
@@ -71,11 +83,8 @@ Read this file first, then [`redesign-plan.md`](redesign-plan.md) (the spec), th
 - **Components:**
   - `src/components/site/` holds the shared chrome.
   - `src/components/hp/` holds the HP page parts: `Hero`, `AboutSection`, `SectionDoors`/`Door` with the three previews, `TagSelector`, `ListingBand`, `PostRow`, `PostHeader` and `HpPrevNext`.
-  - `src/components/code/` holds the Code page parts: `Prompt`, `CodeListEntry`, `CodePostHeader`, `Toc` and `CodePrevNext`.
-  - `src/components/mdx/` holds the MDX components:
-    - `YouTube`, the click-to-load video card, used by any post;
-    - `CodeBlock`, the `pre` override that only the Code post template passes;
-    - `ImageCollection`, the comic grid.
+  - `src/components/code/` holds the Code page parts: `Prompt`, `CodeListEntry`, `CodePostHeader`, `Toc`, `CodePrevNext`, and `CodeBlock`, the `pre` override that only the Code post template passes.
+  - `src/components/mdx/` holds the theme-neutral MDX components, `YouTube` and `ImageCollection`. A unit test keeps hard-coded colours out of this folder.
   - `src/components/Pico8.astro` is the game panel.
 - **Highlighting:** `src/shiki/sasky-terminal.json` plus the `metaToData` transformer (fence `title="…"` → `data-title`; drops the newlines between lines), set in `markdown.shikiConfig`.
 - **Client JS:** `src/scripts/video-card.ts`, `tag-selector.ts` and `copy-code.ts`.

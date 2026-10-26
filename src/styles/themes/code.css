@@ -142,6 +142,11 @@
   margin-top: 22px;
 }
 
+/* Code blocks and image grids: the board's 22px gap plus the figure's 4px. */
+:where([data-theme="code"]) .prose-code > :is(figure, .image-collection) {
+  margin-block: 26px;
+}
+
 :where([data-theme="code"]) .prose-code h2 {
   color: var(--bright);
   font-size: 26px;

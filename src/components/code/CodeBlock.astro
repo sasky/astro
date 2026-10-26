@@ -26,8 +26,9 @@ const label = title ?? (language && language !== "plaintext" ? language : "text"
 </script>
 
 <style>
+  /* Vertical spacing comes from the post's prose styles (code.css). */
   .code-block {
-    margin: 4px 0;
+    margin-inline: 0;
     border: 1px solid var(--rule-dashed);
     background-color: #070a09;
   }

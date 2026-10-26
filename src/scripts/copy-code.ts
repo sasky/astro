@@ -1,4 +1,4 @@
-// Copy buttons on Code post blocks (src/components/mdx/CodeBlock.astro).
+// Copy buttons on Code post blocks (src/components/code/CodeBlock.astro).
 // Lines are joined with "\n" because the Shiki transformer removes the
 // newline text nodes between them; line numbers are CSS, so never copied.
 

@@ -240,3 +240,26 @@ test("no console errors on Code pages", async ({ page }) => {
   for (const path of ["/code", silverstripe, hideNSeek]) await page.goto(path, { waitUntil: "networkidle" });
   expect(errors).toEqual([]);
 });
+
+test("code blocks keep the prose rhythm above and below", async ({ page }) => {
+  await page.goto(silverstripe);
+  const gaps = await page.locator("figure.code-block").evaluateAll((figures) =>
+    figures.map((figure) => {
+      const box = figure.getBoundingClientRect();
+      const before = figure.previousElementSibling!.getBoundingClientRect();
+      return Math.round(box.top - before.bottom);
+    }),
+  );
+  for (const gap of gaps) expect(gap).toBeGreaterThanOrEqual(22);
+});
+
+test("prompt links are at least 44px tall", async ({ page }) => {
+  for (const path of ["/code", silverstripe]) {
+    await page.goto(path);
+    for (const link of await page.locator(".prompt a").all()) {
+      const box = (await link.boundingBox())!;
+      expect(box.height).toBeGreaterThanOrEqual(44);
+      expect(box.width).toBeGreaterThanOrEqual(24);
+    }
+  }
+});
