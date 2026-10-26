@@ -173,3 +173,62 @@ test("code uses the terminal font", async ({ page }) => {
   const family = await page.locator("figure.code-block .line").first().evaluate((el) => getComputedStyle(el).fontFamily);
   expect(family).toMatch(/JetBrains Mono/);
 });
+
+test("Pico-8 panel caption and placement", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto(hideNSeek);
+  const caption = page.locator(".pico8-panel figcaption");
+  await expect(caption).toContainText("── hidenseek.p8");
+  await expect(caption).toContainText("arrow keys + X");
+  const order = await page.evaluate(() => {
+    const header = document.querySelector(".post-header")!;
+    const panel = document.querySelector(".pico8-panel")!;
+    const grid = document.querySelector(".post-grid")!;
+    return [
+      header.compareDocumentPosition(panel) & Node.DOCUMENT_POSITION_FOLLOWING,
+      panel.compareDocumentPosition(grid) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ];
+  });
+  expect(order.every(Boolean)).toBe(true);
+  const panel = (await page.locator(".pico8-panel").boundingBox())!;
+  const article = (await page.locator(".prose-code").boundingBox())!;
+  expect(panel.width).toBeGreaterThan(article.width);
+});
+
+test("Pico-8 fits a 2560×1440 screen", async ({ page }) => {
+  await page.setViewportSize({ width: 2560, height: 1440 });
+  await page.goto(hideNSeek);
+  const cart = page.waitForResponse((r) => r.url().endsWith("/pico8/hidenseek.js") && r.ok());
+  await page.locator("#p8_container").click();
+  await cart;
+  const canvas = page.locator("#canvas");
+  await expect.poll(async () => (await canvas.boundingBox())?.height ?? 0).toBeGreaterThan(0);
+  const box = (await canvas.boundingBox())!;
+  expect(box.height).toBeLessThanOrEqual(800);
+  expect(box.height).toBeLessThanOrEqual(1440);
+});
+
+test("Pico-8 at 390 fits the width", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(hideNSeek);
+  expect((await page.locator("#p8_frame").boundingBox())!.width).toBeLessThanOrEqual(350);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+});
+
+test("comics in a 3-column grid, 2 at 390", async ({ page }) => {
+  const tracks = async () =>
+    (await page.locator(".image-collection").evaluate((el) => getComputedStyle(el).gridTemplateColumns)).split(" ")
+      .length;
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto(hideNSeek);
+  expect(await tracks()).toBe(3);
+  const articleRight = await page.locator(".prose-code").evaluate((el) => el.getBoundingClientRect().right);
+  const rights = await page
+    .locator(".image-collection img")
+    .evaluateAll((imgs) => imgs.map((img) => img.getBoundingClientRect().right));
+  expect(rights).toHaveLength(9);
+  for (const right of rights) expect(right).toBeLessThanOrEqual(articleRight + 0.5);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(hideNSeek);
+  expect(await tracks()).toBe(2);
+});

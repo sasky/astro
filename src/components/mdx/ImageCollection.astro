@@ -1,0 +1,34 @@
+---
+// A grid of images inside a post's column (G3): three across, two on phones,
+// each in a dashed frame. The images come from the MDX as <Picture>s.
+---
+
+<div class="image-collection">
+  <slot />
+</div>
+
+<style>
+  .image-collection {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .image-collection > :global(picture) {
+    display: block;
+    padding: 6px;
+    border: 1px dashed var(--rule-dashed);
+  }
+
+  .image-collection :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  @media (max-width: 760px) {
+    .image-collection {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>
