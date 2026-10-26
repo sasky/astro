@@ -41,8 +41,7 @@ Other optional fields (`src/content.config.ts` has the full schema):
 
 | Field | Purpose |
 |---|---|
-| `updatedDate` | A later edit date. |
-| `image` | `{ src, alt }`, a post image. |
+| `updatedDate`, `image` | Accepted by the schema (`image` is `{ src, alt }`) but not shown anywhere yet. |
 | `excerpt` | Overrides the computed excerpt that the On listing shows for its headliner. |
 | `pico8` | A cart name in `public/pico8/`; Code posts with it get the game panel. |
 
@@ -51,12 +50,12 @@ Notes by section:
 - **Dates** are date-only and always shown in UTC, so the day never shifts.
 - **On posts:** headings written as `## 1. Tip` become Roman-numbered tips (`src/markdown/on-tips.ts`). Plain `##` headings get the essay style.
 - **Code posts:** fences take a caption with a `title`: ` ```bash title="composer.json" `.
-- **MDX components** in `src/components/mdx/` work in any section and follow its theme:
+- **MDX components** in `src/components/mdx/` work in any section and follow its theme. Import them in the post, for example `import YouTube from "@components/mdx/YouTube.astro";`:
   - `<YouTube id title caption? />` shows a video card. Nothing loads from YouTube until it's clicked.
   - `<ImageCollection>` lays out a grid of images.
   - `<Ornament />` draws the On divider.
 
-Images go in `src/images/` and are imported with `@images/…`.
+Images go in `src/images/`. Import them with `@images/…` and render them with `<Picture>` from `astro:assets`; `<ImageCollection>` frames `<Picture>` children only.
 
 Section names, blurbs and intros are in `src/data/sections.ts`, and Home's copy is in `src/data/home.ts`.
 
@@ -66,8 +65,8 @@ Section names, blurbs and intros are in `src/data/sections.ts`, and Home's copy 
 - **Themes:**
   - `src/styles/base.css` is shared.
   - Each theme's tokens live in `src/styles/themes/{hp,code,on}.css`, under `:root[data-theme="…"]`. Only that theme's layout (`HpLayout`, `CodeLayout`, `OnLayout`) imports the file.
-  - A page loads only its own theme's CSS and fonts.
-  - Shared components in `src/components/site/` and `src/components/mdx/` use tokens only.
+  - A page loads only its own theme's CSS and fonts (Home also loads the On faces for its section doors).
+  - The MDX components in `src/components/mdx/` use theme tokens only, so they suit any section (a unit test enforces it). The shared chrome in `src/components/site/` mostly does, but the footers, Dymo labels and section chips have their own colours.
 - **Fonts:** the Astro Fonts API downloads and self-hosts them at build time (`fonts` in `astro.config.mjs`).
 - **Markdown:** Sätteri, Astro 7's pipeline, with the `onTips` plugin and a custom Shiki theme (`src/shiki/sasky-terminal.json`).
 - **URLs:** no trailing slash, and pages build as `code.html` and so on (`build.format: "file"`). Old URLs are 301'd in `public/_redirects`.
@@ -86,7 +85,7 @@ Section names, blurbs and intros are in `src/data/sections.ts`, and Home's copy 
 | `npm run check:links` | Every link in `dist/` resolves and follows the URL rules |
 | `npm run check:redirects -- --dist` | Every redirect in `public/_redirects` points at a built page |
 | `npm run check:redirects -- --url <base>` | A running server answers each redirect correctly |
-| `npm run qa:lighthouse [base]` | Lighthouse (mobile) on Home and a post per theme; reports in `qa/lighthouse/` |
+| `npm run qa:lighthouse [base]` | Lighthouse (mobile) on Home and a post per theme; reports in `qa/lighthouse/`. Needs `npm run preview -- --port 4322 --ignore-lock` running in another shell, or a base URL |
 | `npm run qa:compare` | Each design board beside the built page, in `qa/compare/index.html` |
 | `npm run baseline` | Full-page screenshots of every page at 1280 and 390, in `qa/baseline/` |
 
@@ -96,7 +95,7 @@ To check the redirects the way Netlify serves them:
 
 ```sh
 npm run build
-npx netlify-cli dev --offline --dir dist --port 8888
+npx netlify-cli dev --offline --dir dist --port 8888   # keeps running; use another shell for the next line
 npm run check:redirects -- --url http://localhost:8888
 ```
 
