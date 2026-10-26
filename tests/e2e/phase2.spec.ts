@@ -22,8 +22,3 @@ test("tag page lists posts across sections", async ({ page }) => {
     "Concert youtube vids to temporarily restore one's faith in humanity",
   ]);
 });
-
-test("legacy post header still links Home", async ({ page }) => {
-  await page.goto("/meditations/on-happiness");
-  await expect(page.locator("a.header-link")).toHaveAttribute("href", "/#meditations-on-happiness");
-});

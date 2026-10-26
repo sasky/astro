@@ -88,3 +88,117 @@ test("no console errors on the On listing", async ({ page }) => {
   await page.goto(listing, { waitUntil: "networkidle" });
   expect(errors).toEqual([]);
 });
+
+test("Classy tips get Roman numerals", async ({ page }) => {
+  await page.goto(classy);
+  const tips = page.locator(".prose-on h2.tip");
+  await expect(tips.locator(".num")).toHaveText(["I.", "II.", "III.", "IV.", "V.", "VI.", "VII.", "VIII.", "IX.", "X."]);
+  const small = tips.nth(4).locator("small");
+  await expect(small).toHaveText("(one clean, one dirty, and one long and dirty)");
+  expect(await small.evaluate((el) => [getComputedStyle(el).fontWeight, getComputedStyle(el).textTransform])).toEqual([
+    "500",
+    "none",
+  ]);
+  const border = (i: number) => tips.nth(i).evaluate((el) => getComputedStyle(el).borderTop);
+  expect(await border(0)).toMatch(/^3px solid/);
+  expect(await border(1)).toMatch(/^2px dotted/);
+  const between = await page.evaluate(() => {
+    const ornament = document.querySelector(".prose-on .ornament")!;
+    const [five, six] = [...document.querySelectorAll(".prose-on h2.tip")].slice(4, 6);
+    return [
+      five.compareDocumentPosition(ornament) & Node.DOCUMENT_POSITION_FOLLOWING,
+      ornament.compareDocumentPosition(six) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ];
+  });
+  expect(between.every(Boolean)).toBe(true);
+});
+
+test("other On headings are untouched", async ({ page }) => {
+  for (const path of [moment, nzMusic]) {
+    await page.goto(path);
+    await expect(page.locator(".prose-on h2.tip, .prose-on .num")).toHaveCount(0);
+    const h2 = page.locator(".prose-on h2").first();
+    expect(await h2.evaluate((el) => getComputedStyle(el).fontFamily)).toMatch(/Rye/);
+  }
+});
+
+test("post header, numbering and title", async ({ page }) => {
+  await page.goto(classy);
+  await expect(page).toHaveTitle("On Being Classy — Pseudo Philosophy Meditations — sasky.nz");
+  await expect(page.locator(".post-header .now-showing")).toHaveText("!Meditation the Second!");
+  await expect(page.locator("h1")).toHaveText("On Being Classy");
+  await expect(page.locator('nav[aria-label="Breadcrumb"] a')).toHaveAttribute("href", "/meditations");
+  await expect(page.locator('.site-nav-link[href="/meditations"]')).toHaveAttribute("aria-current", "true");
+});
+
+test("Further Meditations follow G7", async ({ page }) => {
+  const labels = (p: Page) => p.locator("nav[aria-labelledby=further] .fm-label");
+  await page.goto(classy);
+  await expect(labels(page)).toHaveText(["Earlier · Meditation the First", "Later · Meditation the Third"]);
+  await expect(page.locator(".further").first()).toHaveAttribute("href", nzMusic);
+  await page.goto(nzMusic);
+  await expect(labels(page)).toHaveText(["Later · Meditation the Second"]);
+  const card = (await page.locator(".further").boundingBox())!;
+  const grid = (await page.locator(".fm-grid").boundingBox())!;
+  expect(Math.abs(card.x + card.width / 2 - (grid.x + grid.width / 2))).toBeLessThanOrEqual(1);
+  await page.goto(moment);
+  await expect(labels(page)).toHaveText(["Earlier · Meditation the Third"]);
+  await expect(page.locator(".fm-programme")).toHaveAttribute("href", "/meditations");
+});
+
+test("untagged post hides Filed under", async ({ page }) => {
+  await page.goto(classy);
+  await expect(page.getByText("Filed under")).toHaveCount(0);
+  await page.goto(happiness);
+  await expect(page.locator(".filed")).toContainText("Filed under");
+  await expect(page.locator('.filed a[href="/tags/philosophy"]')).toHaveText("philosophy");
+});
+
+test("drop cap on the first paragraph", async ({ page }) => {
+  await page.goto(happiness);
+  const family = await page
+    .locator(".prose-on > p")
+    .first()
+    .evaluate((el) => getComputedStyle(el, "::first-letter").fontFamily);
+  expect(family).toMatch(/Holtwood/);
+});
+
+test("On video cards use On tokens and still play", async ({ page }) => {
+  await page.goto(nzMusic);
+  const card = page.locator(".vid").first();
+  const [border, background] = await card.evaluate((el) => [
+    getComputedStyle(el).borderTopColor,
+    getComputedStyle(el).backgroundColor,
+  ]);
+  expect(border).toBe("rgb(35, 23, 14)");
+  expect(background).not.toBe("rgb(18, 22, 61)");
+  await card.click();
+  await expect(page.locator(".video").first().locator('iframe[src*="youtube-nocookie.com"]')).toBeAttached();
+});
+
+test("post at 390", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  for (const path of [classy, moment]) {
+    await page.goto(path);
+    await noSidewaysScroll(page);
+  }
+  await page.goto(classy);
+  expect(await page.locator("h1").evaluate((el) => getComputedStyle(el).fontSize)).toBe("46px");
+  expect(await page.locator(".num").first().evaluate((el) => getComputedStyle(el).position)).toBe("static");
+  await page.goto(happiness);
+  const [older, newer] = await page.locator(".further").all();
+  expect((await newer.boundingBox())!.y).toBeGreaterThan((await older.boundingBox())!.y);
+});
+
+test("On post loads only On styles", async ({ page, request }) => {
+  await page.goto(classy);
+  await expectOnlyThemeCss(page, request, "on", onFonts);
+});
+
+test("no console errors on On posts", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("console", (message) => message.type() === "error" && errors.push(message.text()));
+  page.on("pageerror", (error) => errors.push(error.message));
+  for (const path of [moment, happiness, classy, nzMusic]) await page.goto(path, { waitUntil: "networkidle" });
+  expect(errors).toEqual([]);
+});
