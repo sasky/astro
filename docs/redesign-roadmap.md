@@ -14,7 +14,7 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 | 2. Collections, routes, redirects | Merged into `feature/redesign` | [#4](https://github.com/sasky/astro/pull/4) |
 | 3. Foundations | Merged into `feature/redesign` | [#5](https://github.com/sasky/astro/pull/5) |
 | 4. HP pages | Merged into `feature/redesign` | [#6](https://github.com/sasky/astro/pull/6) |
-| 5. Code pages | Built on `redesign/phase-5-code-pages`, PR open for Cam | _PR link below_ |
+| 5. Code pages | PR open for Cam's review | [#7](https://github.com/sasky/astro/pull/7) |
 | 6–9 | Not started | — |
 
 **Waiting on Cam**
@@ -212,7 +212,7 @@ PR: [#6](https://github.com/sasky/astro/pull/6)
 
 ### Phase 5: Code pages
 
-PR: _none yet_
+PR: [#7](https://github.com/sasky/astro/pull/7)
 
 - [x] 5.1 Shiki theme and code blocks (M)
 - [x] 5.2 Code listing (S)
