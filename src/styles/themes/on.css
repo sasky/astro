@@ -25,6 +25,9 @@
   --body-leading: 1.5;
 
   --bar-bg: rgba(35, 23, 14, 0.05);
+  /* Hover and press fills on programme rows and Further cards. */
+  --on-hover-fill: rgba(35, 23, 14, 0.07);
+  --on-active-fill: rgba(35, 23, 14, 0.14);
   --bar-rule: var(--ink-on);
   --wordmark-font: var(--font-alfa);
   --wordmark-weight: 400;
@@ -106,6 +109,32 @@
 
 :where([data-theme="on"]) a:hover {
   color: var(--rust);
+}
+
+/* The page column around an On bill (listing and posts). */
+.on-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-width: 1000px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 44px 28px 22px;
+}
+
+@media (max-width: 760px) {
+  .on-wrap {
+    padding: 28px 12px 22px;
+  }
+}
+
+/* "Cameron Grant of Wellington, Aotearoa, presents" at the top of a bill. */
+.presents {
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 
 /* The handbill's inked type: a kraft gap, then an ink drop shadow. */

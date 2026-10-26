@@ -61,16 +61,6 @@ const { Content } = await render(post);
 </OnLayout>
 
 <style>
-  .on-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-    max-width: 1000px;
-    margin: 0 auto;
-    box-sizing: border-box;
-    padding: 44px 28px 22px;
-  }
-
   .on-wrap :global(.post-bill .bill) {
     padding-bottom: 34px;
   }
@@ -117,10 +107,6 @@ const { Content } = await render(post);
   }
 
   @media (max-width: 760px) {
-    .on-wrap {
-      padding: 28px 12px 22px;
-    }
-
     .on-wrap :global(.post-bill .bill) {
       padding-bottom: 22px;
     }

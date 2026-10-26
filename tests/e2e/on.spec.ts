@@ -275,3 +275,13 @@ test("the programme list counts down like its numerals", async ({ page }) => {
   await expect(list).toHaveAttribute("reversed", "");
   expect(await list.locator("li").count()).toBe(3);
 });
+
+test("programme titles never split a word at 320", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 800 });
+  await page.goto(listing);
+  const titles = page.locator(".prog-title");
+  await expect(titles).toHaveCount(3);
+  for (let i = 0; i < 3; i++) {
+    expect(await splitWords(page, `.prog-row:nth-child(${i + 1}) .prog-title`)).toEqual([]);
+  }
+});
