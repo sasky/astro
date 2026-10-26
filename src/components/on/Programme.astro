@@ -15,7 +15,7 @@ interface Props {
 const { posts, all } = Astro.props;
 ---
 
-<ol class="programme">
+<ol class="programme" reversed>
   {
     posts.map((post) => {
       const line = programmeLine(post.data.description);

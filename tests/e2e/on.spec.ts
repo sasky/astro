@@ -9,10 +9,40 @@ const happiness = "/meditations/on-happiness";
 const nzMusic = "/meditations/on-new-zealand-music";
 const onFonts = /Holtwood One SC|Alfa Slab One|Rye|Oswald/;
 
-const noSidewaysScroll = async (page: Page) =>
-  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
-    page.viewportSize()!.width,
-  );
+// OnLayout clips overflow, so scrollWidth can't catch it: check that every
+// element in the bill (bar the corner fleurons) stays inside its inner rule.
+const expectInsideBill = async (page: Page) => {
+  const outside = await page.evaluate(() => {
+    const bill = document.querySelector(".bill")!;
+    const box = bill.getBoundingClientRect();
+    const [left, right] = [box.left + bill.clientLeft, box.right - bill.clientLeft];
+    return [...bill.querySelectorAll("*")]
+      .filter((el) => !el.closest(".corner"))
+      .filter((el) => {
+        const r = el.getBoundingClientRect();
+        return r.width > 0 && (r.left < left - 0.5 || r.right > right + 0.5);
+      })
+      .map((el) => `${el.tagName.toLowerCase()}.${el.className}`);
+  });
+  expect(outside).toEqual([]);
+};
+
+// Words in `selector` that wrap across two lines.
+const splitWords = (page: Page, selector: string) =>
+  page.locator(selector).evaluate((el) => {
+    const split: string[] = [];
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+      for (const match of node.textContent!.matchAll(/\S+/g)) {
+        const range = document.createRange();
+        range.setStart(node, match.index!);
+        range.setEnd(node, match.index! + match[0].length);
+        const tops = new Set([...range.getClientRects()].map((r) => Math.round(r.top)));
+        if (tops.size > 1) split.push(match[0]);
+      }
+    }
+    return split;
+  });
 
 test("On listing heading, stats and headliner", async ({ page }) => {
   await page.goto(listing);
@@ -69,7 +99,7 @@ test("correspondence sits inside the bill, colophon after", async ({ page }) => 
 test("listing at 390: no sideways scroll, Eye inside the bill, rows stack", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(listing);
-  await noSidewaysScroll(page);
+  await expectInsideBill(page);
   const eye = (await page.locator(".eye").boundingBox())!;
   const bill = (await page.locator(".bill").boundingBox())!;
   expect(eye.x).toBeGreaterThanOrEqual(bill.x);
@@ -178,12 +208,12 @@ test("On video cards use On tokens and still play", async ({ page }) => {
 
 test("post at 390", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  for (const path of [classy, moment]) {
+  for (const path of [classy, moment, happiness]) {
     await page.goto(path);
-    await noSidewaysScroll(page);
+    await expectInsideBill(page);
   }
   await page.goto(classy);
-  expect(await page.locator("h1").evaluate((el) => getComputedStyle(el).fontSize)).toBe("46px");
+  expect(parseFloat(await page.locator("h1").evaluate((el) => getComputedStyle(el).fontSize))).toBeLessThanOrEqual(46);
   expect(await page.locator(".num").first().evaluate((el) => getComputedStyle(el).position)).toBe("static");
   await page.goto(happiness);
   const [older, newer] = await page.locator(".further").all();
@@ -201,4 +231,47 @@ test("no console errors on On posts", async ({ page }) => {
   page.on("pageerror", (error) => errors.push(error.message));
   for (const path of [moment, happiness, classy, nzMusic]) await page.goto(path, { waitUntil: "networkidle" });
   expect(errors).toEqual([]);
+});
+
+test("post titles never split a word", async ({ page }) => {
+  for (const [width, path] of [
+    [360, happiness],
+    [375, happiness],
+    [375, moment],
+    [768, happiness],
+    [1280, happiness],
+  ] as const) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto(path);
+    expect(await splitWords(page, "h1"), `${path} at ${width}`).toEqual([]);
+  }
+});
+
+test("tip numerals stay inside the bill between breakpoints", async ({ page }) => {
+  for (const width of [768, 820, 880, 901, 960]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto(classy);
+    await expectInsideBill(page);
+  }
+});
+
+test("a one-line first paragraph keeps the drop cap to itself", async ({ page }) => {
+  await page.goto(nzMusic);
+  const [first, second] = await page.locator(".prose-on > p").evaluateAll((ps) =>
+    ps.slice(0, 2).map((p) => {
+      const range = document.createRange();
+      range.selectNodeContents(p);
+      return { bottom: p.getBoundingClientRect().bottom, left: range.getClientRects()[0].left };
+    }),
+  );
+  const column = (await page.locator(".prose-on").boundingBox())!;
+  expect(Math.abs(second.left - column.x)).toBeLessThanOrEqual(1);
+  expect(second.left).toBeLessThan(first.left);
+});
+
+test("the programme list counts down like its numerals", async ({ page }) => {
+  await page.goto(listing);
+  const list = page.locator('section[aria-labelledby="also"] ol');
+  await expect(list).toHaveAttribute("reversed", "");
+  expect(await list.locator("li").count()).toBe(3);
 });

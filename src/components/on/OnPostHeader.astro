@@ -37,7 +37,9 @@ const section = SECTIONS.on;
 </header>
 
 <style>
+  /* A container, so the title can size to fit its longest word (R11). */
   .post-header {
+    container-type: inline-size;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -87,7 +89,8 @@ const section = SECTIONS.on;
   .title {
     margin: 4px 0;
     font-family: var(--font-holtwood);
-    font-size: 88px;
+    /* Holtwood is wide: at 13cqi a nine-letter word ("HAPPINESS", 7.4em) fits the line. */
+    font-size: min(88px, 13cqi);
     font-weight: 400;
     line-height: 1.02;
     text-wrap: balance;
@@ -126,7 +129,7 @@ const section = SECTIONS.on;
 
   @media (max-width: 760px) {
     .title {
-      font-size: 46px;
+      font-size: min(46px, 13cqi);
     }
 
     .subtitle {

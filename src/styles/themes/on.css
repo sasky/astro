@@ -221,6 +221,11 @@
   border-left: 3px solid var(--ink-on);
 }
 
+/* flow-root keeps the drop cap inside a short first paragraph. */
+.prose-on > p:first-of-type {
+  display: flow-root;
+}
+
 .prose-on > p:first-of-type::first-letter {
   float: left;
   padding: 6px 12px 0 0;
@@ -294,6 +299,13 @@
 
 .prose-on .ornament + h2.tip {
   margin-top: 0;
+}
+
+/* Below 900 the column sits close to the bill's rule: smaller numerals keep VIII. inside it. */
+@media (max-width: 900px) {
+  .prose-on .num {
+    font-size: 32px;
+  }
 }
 
 @media (max-width: 760px) {
