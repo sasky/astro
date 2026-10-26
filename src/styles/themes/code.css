@@ -63,10 +63,55 @@
   --texture-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
   --grain-factor: 0.13;
   --grain-blend: normal;
+
+  /* TagLinks: amber [tag] text links. */
+  --tag-color: var(--amber);
+  --tag-font: var(--font-jetbrains);
+  --tag-size: 13px;
+  --tag-weight: 400;
+  --tag-tracking: normal;
+  --tag-transform: none;
+  --tag-min-h: auto;
+  --tag-padding: 0;
+  --tag-border: 0;
+  --tag-radius: 0;
+  --tag-hover-bg: transparent;
+  --tag-hover-color: #ffd08f;
+  --tag-hover-decoration: underline;
+  --tag-gap: 0 16px;
+}
+
+/* A terminal shows characters as typed: no "-->" arrows or "--" dashes. */
+:root[data-theme="code"] {
+  font-variant-ligatures: none;
 }
 
 :where([data-theme="code"]) a {
   color: var(--ink);
+}
+
+/* Blue terminal links: prompts, breadcrumbs and post prose. */
+:where([data-theme="code"]) :is(.lnk, .prose-code a) {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-color: rgba(108, 182, 255, 0.45);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition:
+    color 0.12s ease,
+    background-color 0.12s ease;
+}
+
+:where([data-theme="code"]) :is(.lnk, .prose-code a):hover {
+  color: #b5dbff;
+  text-decoration-color: currentColor;
+  background-color: rgba(108, 182, 255, 0.12);
+}
+
+:where([data-theme="code"]) :is(.lnk, .prose-code a):active {
+  color: #07110b;
+  text-decoration-color: #07110b;
+  background-color: var(--link);
 }
 
 /* The wordmark's cursor blinks, unless the reader prefers reduced motion. */
