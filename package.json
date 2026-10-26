@@ -20,7 +20,6 @@
     "node": ">=24.21.0"
   },
   "dependencies": {
-    "@astro-community/astro-embed-youtube": "^0.5.10",
     "@astrojs/mdx": "^8.0.2",
     "@astrojs/rss": "^4.0.19",
     "astro": "^7.3.4",

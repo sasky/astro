@@ -1,0 +1,125 @@
+---
+// HP post header (Life): breadcrumb, title, lede and the date / read-time
+// row between navy rules. Values: Site-Life-Post.dc.html.
+import { SECTIONS, type Section } from "../../data/sections";
+import { formatDateISO, formatDateLong } from "../../lib/format";
+
+interface Props {
+  section: Section;
+  title: string;
+  description: string;
+  pubDate: Date;
+  /** Reading time in minutes. */
+  minutes: number;
+}
+
+const { section, title, description, pubDate, minutes } = Astro.props;
+const { label, path } = SECTIONS[section];
+---
+
+<header class="post-header">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a class="crumb-home" href="/">sasky.nz</a>
+    <span aria-hidden="true">/</span>
+    <a class="crumb-section" href={`/${path}`}>{label}</a>
+  </nav>
+  <h1>{title}</h1>
+  <p class="lede">{description}</p>
+  <div class="meta">
+    <time datetime={formatDateISO(pubDate)}>{formatDateLong(pubDate)}</time>
+    <span class="diamond" aria-hidden="true"></span>
+    <span>{minutes} min read</span>
+  </div>
+</header>
+
+<style>
+  .post-header {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 48px;
+  }
+
+  .crumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-family: var(--mono-font);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .crumbs a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .crumb-home {
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .crumb-section {
+    color: var(--link);
+  }
+
+  h1 {
+    margin: 0;
+    color: var(--navy);
+    font-family: var(--display-font);
+    font-size: 64px;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+
+  .lede {
+    margin: 0;
+    color: var(--lede);
+    font-family: var(--display-font);
+    font-size: 25px;
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 16px;
+    margin-top: 8px;
+    padding: 14px 0;
+    border-top: 2px solid var(--navy);
+    border-bottom: 2px solid var(--navy);
+    color: var(--navy);
+    font-family: var(--mono-font);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .diamond {
+    display: block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--orange);
+    transform: rotate(45deg);
+  }
+
+  @media (max-width: 760px) {
+    h1 {
+      font-size: 40px;
+    }
+
+    .lede {
+      font-size: 20px;
+    }
+  }
+</style>

@@ -8,12 +8,14 @@ interface Props {
   tilt?: number;
   /** Element to render, e.g. "p" or "span". */
   as?: HTMLTag;
+  /** Extra classes, so a parent's scoped styles can size the label. */
+  class?: string;
 }
 
-const { tone, tilt = -1.5, as: Tag = "span" } = Astro.props;
+const { tone, tilt = -1.5, as: Tag = "span", class: className } = Astro.props;
 ---
 
-<Tag class:list={["dymo", `dymo-${tone}`]} style={`--dymo-tilt: ${tilt}deg`}><slot /></Tag>
+<Tag class:list={["dymo", `dymo-${tone}`, className]} style={`--dymo-tilt: ${tilt}deg`}><slot /></Tag>
 
 <style>
   .dymo {

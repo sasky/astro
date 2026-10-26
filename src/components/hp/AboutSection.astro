@@ -1,0 +1,122 @@
+---
+// Home About: hobbies as Dymo labels and the web-dev statements with orange
+// asterisks. Values: section#about in Site-Home.dc.html.
+import { about } from "../../data/home";
+---
+
+<section id="about" class="about" aria-labelledby="about-h">
+  <h2 id="about-h" class="sr-only">About</h2>
+  <div class="about-col">
+    <h3>{about.hobbiesHeading}</h3>
+    <ul class="hobbies" role="list">
+      {about.hobbies.map((hobby) => <li>{hobby}</li>)}
+    </ul>
+  </div>
+  <div class="about-col">
+    <h3>{about.workHeading}</h3>
+    <ul class="statements" role="list">
+      {about.workStatements.map((statement) => <li>{statement}</li>)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .about {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr));
+    gap: 56px 80px;
+    align-items: start;
+  }
+
+  .about-col {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    min-width: 0;
+  }
+
+  h3 {
+    margin: 0;
+    color: var(--navy);
+    font-family: var(--display-font);
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.08;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hobbies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 10px;
+    margin-top: 4px;
+  }
+
+  .hobbies li {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    min-height: 34px;
+    padding: 4px 12px;
+    border-radius: 3px;
+    background-color: var(--navy);
+    box-shadow: 0 2px 0 rgba(18, 22, 61, 0.25);
+    color: #ffffff;
+    font-family: var(--mono-font);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+    text-transform: uppercase;
+  }
+
+  .hobbies li:nth-child(odd) {
+    transform: rotate(-1.2deg);
+  }
+
+  .hobbies li:nth-child(4n) {
+    transform: rotate(1.4deg);
+  }
+
+  .hobbies li:nth-child(3n + 2) {
+    background-color: var(--blue);
+  }
+
+  .hobbies li:nth-child(5n + 4) {
+    background-color: var(--orange);
+    color: var(--navy);
+  }
+
+  .statements {
+    display: flex;
+    flex-direction: column;
+    color: var(--navy);
+    font-family: var(--display-font);
+    font-size: 21px;
+    line-height: 1.45;
+  }
+
+  .statements li {
+    position: relative;
+    padding: 10px 0 10px 32px;
+  }
+
+  .statements li::before {
+    content: "*";
+    position: absolute;
+    top: 2px;
+    left: 0;
+    color: var(--orange);
+    font-family: var(--display-font);
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 1;
+  }
+</style>

@@ -25,6 +25,7 @@ const { texture, ...meta } = Astro.props;
     <Font cssVariable="--font-fraunces" preload={[{ subset: "latin" }]} />
     <Font cssVariable="--font-source-sans" />
     <Font cssVariable="--font-jetbrains" />
+    <slot name="head" />
   </Fragment>
   <div class="page">
     <SkipLink />

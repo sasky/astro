@@ -33,14 +33,7 @@ test("tag page lists posts across sections", async ({ page }) => {
   ]);
 });
 
-test("Home keeps its site title", async ({ page }) => {
-  await page.goto("/");
-  await expect(page.locator("h1.header-title")).toHaveText("sasky.nz");
-});
-
-test("a post's menu link returns to its entry on Home", async ({ page }) => {
+test("legacy post header still links Home", async ({ page }) => {
   await page.goto("/code/hide-n-seek-game");
   await expect(page.locator("a.header-link")).toHaveAttribute("href", "/#code-hide-n-seek-game");
-  await page.goto("/");
-  await expect(page.locator("#code-hide-n-seek-game")).toBeAttached();
 });

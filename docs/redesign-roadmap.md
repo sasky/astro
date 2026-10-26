@@ -13,7 +13,7 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 | 1. Tooling and baseline | Merged into `feature/redesign` | [#3](https://github.com/sasky/astro/pull/3) |
 | 2. Collections, routes, redirects | Merged into `feature/redesign` | [#4](https://github.com/sasky/astro/pull/4) |
 | 3. Foundations | Merged into `feature/redesign` | [#5](https://github.com/sasky/astro/pull/5) |
-| 4. HP pages | Next: brainstorm (hero composition, tag selector without JS), then plan | — |
+| 4. HP pages | PR open for Cam's review | [#6](https://github.com/sasky/astro/pull/6) |
 | 5–9 | Not started | — |
 
 **Waiting on Cam**
@@ -25,8 +25,8 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
   - Refine the draft section intros in `src/data/sections.ts` (marked `TODO(Cam)`).
 
 **Carried forward**
-- **Phase 4:** `/about → /#about` and `/tags → /#tags` land on a Home without those anchors until Phase 4 builds them.
-- **Phase 4 or 6:** `excerpt()` doesn't yet skip list, blockquote or MDX-comment blocks, or strip backticks. Fix before an On post opens with a quote or list.
+- **Phase 4 review (Cam):** Phase 4 skipped the brainstorm ("just do your best, we will do a detailed review later"). The calls it would have settled are listed under "Calls made in place of a brainstorm" in [`plans/2026-10-26-phase-4-hp-pages.md`](superpowers/plans/2026-10-26-phase-4-hp-pages.md). Review those with the pages.
+- **Phase 6:** `excerpt()` doesn't yet skip list, blockquote or MDX-comment blocks, or strip backticks. Fix before an On post opens with a quote or list.
 - **Phase 7:** `/code/` (trailing slash) is served as a duplicate of `/code`. Canonical URLs cover it. The RSS feed also lacks an `atom:link rel="self"` (a validator warning).
 - **Phase 9:** check the redirects on a real Netlify preview of the PR into `main`. So far they're verified only on Netlify's local emulator.
 - **Phase 5:**
@@ -35,6 +35,18 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
   - Gate the Code listing's prompt cursor under `prefers-reduced-motion` the same way.
 - **Phase 6:**
   - Repeat the lasting chrome checks on the first On page.
+  - Set the On `--vid-*` tokens in `on.css` (G2). `YouTube.astro` falls back to HP colours until then, which is what the legacy NZ Music page shows now.
+  - The On door on Home already uses `Manicule`; reuse it on the On pages.
+  - Add `--vid-grain` and `--vid-play-shadow` tokens so the G2 card can drop the grid grain.
+  - Until then, legacy NZ Music cards sit flush against the next paragraph: `post.css` still targets `lite-youtube`, and open-props zeroes figure margins.
+  - `home.spec.ts` "doors show computed counts" reads the newest On title from the legacy `/meditations` list (`main li a`). Update the selector, or read it from `/rss.xml`.
+- **Phase 8 (test tightening, from the Phase 4 review):**
+  - Make the modifier-click video test assert that the default action ran, and add a Shift case.
+  - At 390 the hero `srcset` should pick the 480w file.
+  - Add `expectOnlyThemeCss` on the Life post.
+- **Phase 7:**
+  - `tags/[tag].astro` is still legacy. Rebuild it on `HpLayout` with `ListingBand` (`variant="message"` suits `#tag`) and `PostRow chip`.
+  - Legacy Code and On post headers link to `/#code-…` anchors that the new Home doesn't have. They land at the top of Home until Phases 5 and 6 replace those headers.
   - `OnLayout` always renders `<OnFooter placement="after">`. The On listing needs `placement="inside"`, so add a footer prop or slot.
   - The On wordmark mark lacks the design's `margin: 0 1px`. Add a `--mark-margin` token.
 - **Phase 8:** check the Fraunces SOFT/WONK defaults against the design in the visual comparison.
@@ -49,25 +61,25 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 Read this file first, then [`redesign-plan.md`](redesign-plan.md) (the spec), then the design files in `design-handoff/`. The plans and designs for finished phases are in `docs/superpowers/plans/` and `docs/superpowers/specs/`. They're useful as examples of the format.
 
 **Where things stand**
-- **Branch:** `feature/redesign` holds Phases 1–3, merged. `main` is still the live old site.
-- **Live pages:** everything still renders through the temporary `src/components/legacy/` components and `src/layouts/legacy/LegacyBaseLayout.astro`, so the site looks old.
-- **Built and waiting:** the new `BaseLayout`, `HpLayout`, `CodeLayout` and `OnLayout`, and the shared components in `src/components/site/`. Only `src/pages/404.astro` uses them so far.
+- **Branch:** `feature/redesign` holds Phases 1–3, merged; Phase 4 is on `redesign/phase-4-hp-pages` until its PR merges. `main` is still the live old site.
+- **Live pages:**
+  - **On the new HP theme:** Home, `/life`, `/life/[slug]` and the 404.
+  - **Still legacy:** Code, On and `/tags/[tag]`, through `src/components/legacy/` and `src/layouts/legacy/LegacyBaseLayout.astro`.
+- **Components:**
+  - `src/components/site/` holds the shared chrome.
+  - `src/components/hp/` holds the HP page parts: `Hero`, `AboutSection`, `SectionDoors`/`Door` with the three previews, `TagSelector`, `ListingBand`, `PostRow`, `PostHeader` and `HpPrevNext`.
+  - `src/components/mdx/YouTube.astro` is the click-to-load video card, used by any post.
+- **Client JS:** `src/scripts/video-card.ts` and `src/scripts/tag-selector.ts`.
 - **Content:**
   - Posts are in the `posts` collection (`src/content/posts/`), read through `getPosts()` in `src/lib/get-posts.ts`.
   - The pure helpers are in `src/lib/` (`format`, `text`, `posts`, `paths`, `slug`).
   - Copy and data are in `src/data/` (`sections`, `home`, `social`).
 
-**Next: Phase 4 (HP pages: Home and Life)**
-- **Brainstorm** (spec 6.2, `Site-Home.dc.html`, `TagSelector.dc.html`, `Site-Life-List.dc.html`, `Site-Life-Post.dc.html`):
-  - the hero composition, which combines the portrait cutout and masks from `design-handoff/design/assets/`, the wash and the Dymo;
-  - the tag selector without JavaScript (spec 5.11);
-  - the YouTube card (spec 5.15; it replaces `astro-embed-youtube`);
-  - which legacy pages switch over: Home, `/life`, `/life/[slug]`, `/tags/[tag]`.
-- **Also due in Phase 4:**
-  - the `#about` and `#tags` anchors on Home;
-  - the concert post edits (spec 5.10);
-  - the Life section intro from `src/data/sections.ts`;
-  - consider extracting a shared `ListingBand` and moving the 404 onto it.
+**Next: Phase 5 (Code pages)**
+- **Brainstorm (light):** spec 6.3, `Site-Code-List.dc.html` and `Site-Code-Post.dc.html`. Cover the code-block caption bar, the Pico-8 panel (G4) and the image grid (G3).
+- **Reuse from Phase 4:**
+  - `Dymo` takes a `class` prop. A parent sizes it with `.parent :global(.that-class)`, because attribute-scoped CSS doesn't reach a child component's root.
+  - `expectOnlyThemeCss()` in `tests/e2e/helpers/chrome.ts` checks a page's theme isolation.
 
 **How Cam likes to work**
 - **Each phase:** a brainstorm only when there are open design choices, then a plan, then native execution with one fresh reviewer at the end. Then a PR into `feature/redesign`, which Cam merges.
@@ -84,6 +96,10 @@ Read this file first, then [`redesign-plan.md`](redesign-plan.md) (the spec), th
 - **`overflow: hidden` on a wrapper breaks `position: sticky`.** Use `overflow: clip`.
 - **Component tests** use `experimental_AstroContainer` from `astro/container` (see `tests/unit/topbar.test.ts`).
 - **Temporary demo pages** go under a route that doesn't start with `_`, because Astro skips those. Delete them before the PR.
+- **Astro renders a component's `<script>` inline** after the component's first use, so inside MDX prose a `<script>` element can sit between siblings. Sibling-based tests must skip `SCRIPT`.
+- **Smartypants curls quotes** in Markdown text but not in frontmatter titles, so a test should expect `I’m` in a body and `I'm` in a `<title>`.
+- **Scripts that replace elements** (such as the tag chips) must copy the `data-astro-cid-*` attribute, or the scoped styles stop matching.
+- **Astro's `<Image>` defaults to `decoding="async"`,** so a screenshot taken straight after `goto` can miss the hero photo. Wait before capturing.
 
 ## Standing rules
 
@@ -117,7 +133,7 @@ Each phase starts with the superpowers sessions it needs, in this order:
 | 1. Tooling and baseline | No | Native (used) | Config only, nothing to decide. |
 | 2. Collections, routes, redirects | No | Native (used) | URLs and redirects are settled; automated link, redirect and e2e checks plus one final review covered the risk. |
 | 3. Foundations | Light (done) | Native (used) | Layout props and how theme CSS is scoped get reused by every later phase. |
-| 4. HP pages | Yes | Subagent-driven | Hero composition and the tag selector's no-JS behaviour. |
+| 4. HP pages | Skipped by Cam | Native (used) | Calls listed in the plan for Cam's review. |
 | 5. Code pages | Light | Subagent-driven | Code-block caption bar, Pico-8 panel (G4), image grid (G3). |
 | 6. On pages | Yes | Subagent-driven | `onTips` plugin, prose for posts without tips (G1), On video cards (G2). |
 | 7. Tags, RSS, SEO | No | Native | Specified in full in the plan. |
@@ -160,12 +176,12 @@ PR: [#5](https://github.com/sasky/astro/pull/5)
 
 ### Phase 4: HP pages (Home and Life)
 
-PR: _none yet_
+PR: [#6](https://github.com/sasky/astro/pull/6)
 
-- [ ] 4.1 YouTube component (S)
-- [ ] 4.2 Home: hero, about, section doors, browse by tag (L)
-- [ ] 4.3 Life listing (M)
-- [ ] 4.4 Life post and concert post edits (M)
+- [x] 4.1 YouTube component (S)
+- [x] 4.2 Home: hero, about, section doors, browse by tag (L)
+- [x] 4.3 Life listing (M), with `ListingBand` and `PostRow`; the 404 moved onto `ListingBand`
+- [x] 4.4 Life post and concert post edits (M)
 
 ### Phase 5: Code pages
 

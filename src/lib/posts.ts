@@ -1,6 +1,7 @@
 // Pure helpers over posts. They take plain arrays (no astro:content import),
 // so they run in Vitest; src/lib/get-posts.ts wraps the collection.
 import { SECTIONS, type Section } from "../data/sections";
+import { plural } from "./format";
 
 export type { Section };
 
@@ -54,4 +55,9 @@ export function buildTagIndex<P extends Post>(posts: P[]): { tag: string; count:
 
 export function postUrl(post: Post): string {
   return `/${SECTIONS[post.data.section].path}/${post.id}`;
+}
+
+/** "2 posts", "1 post", "4 meditations": a count in the section's own unit. */
+export function countLabel(section: Section, count: number): string {
+  return plural(count, SECTIONS[section].unit);
 }

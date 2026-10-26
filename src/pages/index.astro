@@ -1,12 +1,52 @@
 ---
-import BaseLayout from "../layouts/legacy/LegacyBaseLayout.astro";
-import LegacyPostList from "../components/legacy/LegacyPostList.astro";
+// Home (HP theme). Values: Site-Home.dc.html. The section doors preview the
+// Code and On themes, so Home also loads Holtwood One SC and Oswald (not
+// preloaded); JetBrains Mono is already part of HP.
+import { Font } from "astro:assets";
+import AboutSection from "../components/hp/AboutSection.astro";
+import Hero from "../components/hp/Hero.astro";
+import SectionDoors from "../components/hp/SectionDoors.astro";
+import TagSelector from "../components/hp/TagSelector.astro";
+import { SECTION_ORDER } from "../data/sections";
+import HpLayout from "../layouts/HpLayout.astro";
 import { getPosts } from "../lib/get-posts";
+import { buildTagIndex, sectionStats } from "../lib/posts";
 
-const posts = await getPosts();
-const metaDescription = "Personal and professional website of Cameron Grant";
+const doors = await Promise.all(
+  SECTION_ORDER.map(async (section) => {
+    const { count, latest } = sectionStats(await getPosts(section));
+    return { section, count, latest };
+  }),
+);
 ---
 
-<BaseLayout pageTitle="" metaDescription={metaDescription}>
-  <LegacyPostList posts={posts} />
-</BaseLayout>
+<HpLayout title="sasky.nz — Home" description="Personal and professional website of Cameron Grant">
+  <Fragment slot="head">
+    <Font cssVariable="--font-holtwood" />
+    <Font cssVariable="--font-oswald" />
+  </Fragment>
+  <Hero />
+  <div class="home-sections">
+    <AboutSection />
+    <SectionDoors doors={doors} />
+    <TagSelector index={buildTagIndex(await getPosts())} />
+  </div>
+</HpLayout>
+
+<style>
+  .home-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 96px;
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 64px var(--gutter) 112px;
+  }
+
+  @media (max-width: 760px) {
+    .home-sections {
+      gap: 72px;
+      padding: 48px 20px 80px;
+    }
+  }
+</style>

@@ -1,0 +1,104 @@
+---
+// "More in {section}" at the foot of an HP post: the older post when there
+// is one (G7), then a card back to the listing. Values: Site-Life-Post.dc.html.
+import { SECTIONS, type Section } from "../../data/sections";
+import type { PostEntry } from "../../lib/get-posts";
+import { postUrl } from "../../lib/posts";
+
+interface Props {
+  section: Section;
+  older?: PostEntry;
+}
+
+const { section, older } = Astro.props;
+const { label, path } = SECTIONS[section];
+---
+
+<nav class="more-nav" aria-label={`More in ${label}`}>
+  {
+    older && (
+      <a class="more" href={postUrl(older)}>
+        <span class="more-k">← Older in {label}</span>
+        <span class="more-t">{older.data.title}</span>
+      </a>
+    )
+  }
+  <a class="more more-end" href={`/${path}`}>
+    <span class="more-k">{label} →</span>
+    <span class="more-t">All {label} posts</span>
+  </a>
+</nav>
+
+<style>
+  .more-nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+    gap: 24px;
+    margin-top: 56px;
+    padding-top: 40px;
+    border-top: 2px solid var(--navy);
+  }
+
+  .more {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 22px 24px;
+    border: 2px solid var(--navy);
+    background-color: var(--card);
+    color: var(--navy);
+    text-decoration: none;
+    transition:
+      box-shadow 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .more:hover {
+    color: var(--navy);
+    box-shadow: 6px 6px 0 var(--blue);
+    transform: translate(-2px, -2px);
+  }
+
+  .more:active {
+    background-color: var(--card);
+    box-shadow: 2px 2px 0 var(--orange);
+    transform: translate(1px, 1px);
+  }
+
+  .more-end {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .more-k {
+    color: var(--muted);
+    font-family: var(--mono-font);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .more-t {
+    font-family: var(--display-font);
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .more:hover .more-t {
+    text-decoration: underline;
+    text-decoration-color: var(--orange);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 5px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .more,
+    .more:hover,
+    .more:active {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>
