@@ -17,7 +17,7 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 | 5. Code pages | Merged into `feature/redesign` | [#7](https://github.com/sasky/astro/pull/7) |
 | 6. On pages | Merged into `feature/redesign` | [#8](https://github.com/sasky/astro/pull/8) |
 | 7. Tags, RSS, SEO | Merged into `feature/redesign` | [#9](https://github.com/sasky/astro/pull/9) |
-| 8. QA | PR open for Cam's review | _see Phase 8 below_ |
+| 8. QA | PR open for Cam's review | [#10](https://github.com/sasky/astro/pull/10) |
 | 9. Cleanup and launch | Not started | — |
 
 **Waiting on Cam**
@@ -238,7 +238,7 @@ PR: [#9](https://github.com/sasky/astro/pull/9)
 
 ### Phase 8: QA
 
-PR: _opening_
+PR: [#10](https://github.com/sasky/astro/pull/10)
 
 - [x] Carry-forwards: Code copy and accessibility polish, On polish, Phase 4 test tightening, Phase 6 and 7 minors
 - [x] 8.1 Visual comparison against the designs at 1280 and 390 (M); the sheet awaits Cam's sign-off
