@@ -1,14 +1,91 @@
 ---
+// Code post (terminal theme). Values: Site-Code-Post.dc.html.
 import type { GetStaticPaths } from "astro";
-import LegacyPost from "../../components/legacy/LegacyPost.astro";
+import { render } from "astro:content";
+import CodePostHeader from "../../components/code/CodePostHeader.astro";
+import CodePrevNext from "../../components/code/CodePrevNext.astro";
+import Toc from "../../components/code/Toc.astro";
+import Pico8 from "../../components/Pico8.astro";
+import { SECTIONS } from "../../data/sections";
+import CodeLayout from "../../layouts/CodeLayout.astro";
 import { getPosts } from "../../lib/get-posts";
+import { neighbours } from "../../lib/posts";
+import { readingTime } from "../../lib/text";
 
 export const getStaticPaths = (async () => {
   const posts = await getPosts("code");
-  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post, ...neighbours(posts, post.id) } }));
 }) satisfies GetStaticPaths;
 
-const { post } = Astro.props;
+const { post, older, newer } = Astro.props;
+const { title, description, metaDescription, pubDate, tags, pico8 } = post.data;
+const { Content, headings } = await render(post);
 ---
 
-<LegacyPost post={post} />
+<CodeLayout title={`${title} — ${SECTIONS.code.title} — sasky.nz`} description={metaDescription ?? description} ogType="article">
+  <div class="code-main">
+    <CodePostHeader
+      slug={post.id}
+      title={title}
+      description={description}
+      pubDate={pubDate}
+      minutes={readingTime(post.body ?? "")}
+      tags={tags}
+    />
+    {pico8 && <Pico8 pico8src={pico8} />}
+    <div class="post-grid">
+      <article class="prose-code">
+        <Content />
+        <div class="eof" aria-hidden="true"><span class="eof-rule"></span><span>EOF</span><span class="eof-rule"></span></div>
+      </article>
+      <Toc headings={headings} />
+    </div>
+    <CodePrevNext older={older} newer={newer} />
+  </div>
+</CodeLayout>
+
+<style>
+  .code-main {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 56px 32px 96px;
+  }
+
+  .post-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 250px;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .eof {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 38px;
+    color: #4f6b5a;
+    font-size: 12px;
+  }
+
+  .eof-rule {
+    flex-grow: 1;
+    border-top: 1px dashed var(--rule-dashed);
+  }
+
+  @media (max-width: 900px) {
+    .code-main {
+      padding: 40px 20px 72px;
+    }
+
+    .post-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .post-grid > :global(.toc-wrap) {
+      display: none;
+    }
+  }
+</style>

@@ -34,6 +34,6 @@ test("tag page lists posts across sections", async ({ page }) => {
 });
 
 test("legacy post header still links Home", async ({ page }) => {
-  await page.goto("/code/hide-n-seek-game");
-  await expect(page.locator("a.header-link")).toHaveAttribute("href", "/#code-hide-n-seek-game");
+  await page.goto("/meditations/on-happiness");
+  await expect(page.locator("a.header-link")).toHaveAttribute("href", "/#meditations-on-happiness");
 });

@@ -52,3 +52,47 @@ test("Code pages turn off font ligatures", async ({ page }) => {
     "none",
   );
 });
+
+const silverstripe = "/code/silverstripe-app-platform";
+const hideNSeek = "/code/hide-n-seek-game";
+
+test("Code post header and TOC", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto(silverstripe);
+  await expect(page).toHaveTitle("Cheap and easy Silverstripe hosting — Code — sasky.nz");
+  const crumbs = page.locator('nav[aria-label="Breadcrumb"] a');
+  expect(await crumbs.evaluateAll((links) => links.map((a) => a.getAttribute("href")))).toEqual(["/", "/code"]);
+  const tocTargets = await page
+    .locator('aside[aria-label="On this page"] .toc-link')
+    .evaluateAll((links) => links.map((a) => a.getAttribute("href")));
+  const headingIds = await page
+    .locator(".prose-code :is(h2, h3)")
+    .evaluateAll((headings) => headings.map((h) => `#${h.id}`));
+  expect(tocTargets).toHaveLength(5);
+  expect(tocTargets).toEqual(headingIds);
+  await expect(page.locator('.site-nav-link[href="/code"]')).toHaveAttribute("aria-current", "true");
+});
+
+test("More in Code follows G7", async ({ page }) => {
+  await page.goto(silverstripe);
+  const newest = page.locator('nav[aria-label="More in Code"] a');
+  expect(await newest.evaluateAll((links) => links.map((a) => a.getAttribute("href")))).toEqual([
+    hideNSeek,
+    "/code",
+  ]);
+  await page.goto(hideNSeek);
+  const oldest = page.locator('nav[aria-label="More in Code"] a');
+  expect(await oldest.evaluateAll((links) => links.map((a) => a.getAttribute("href")))).toEqual([silverstripe]);
+});
+
+test("TOC hides under 900 and the post doesn't overflow at 390", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(silverstripe);
+  await expect(page.locator('aside[aria-label="On this page"]')).toBeHidden();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+});
+
+test("Code post loads only Code styles", async ({ page, request }) => {
+  await page.goto(silverstripe);
+  await expectOnlyThemeCss(page, request, "code", /JetBrains Mono/);
+});
