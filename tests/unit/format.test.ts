@@ -4,6 +4,7 @@ import {
   formatDateLong,
   formatDateOn,
   formatDateOnShort,
+  formatList,
   formatMonthYear,
   ordinalSuffix,
   ordinalWord,
@@ -79,4 +80,10 @@ test.each([
   [2, "entry", "entries", "2 entries"],
 ])("plural(%i, %s, %s) is %s", (n, one, many, expected) => {
   expect(plural(n, one, many)).toBe(expected);
+});
+
+test("formatList joins with commas and 'and'", () => {
+  expect(formatList(["Code"])).toBe("Code");
+  expect(formatList(["Life", "On"])).toBe("Life and On");
+  expect(formatList(["Code", "Life", "On"])).toBe("Code, Life and On");
 });

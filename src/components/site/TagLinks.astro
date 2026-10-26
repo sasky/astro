@@ -4,9 +4,11 @@
 interface Props {
   tags: string[];
   theme: "hp" | "code" | "on";
+  /** The tag whose page this is, marked aria-current. */
+  current?: string;
 }
 
-const { tags, theme } = Astro.props;
+const { tags, theme, current } = Astro.props;
 ---
 
 {
@@ -14,7 +16,7 @@ const { tags, theme } = Astro.props;
     <ul class="tag-links" role="list">
       {tags.map((tag) => (
         <li>
-          <a class="tag-link" href={`/tags/${tag}`}>
+          <a class="tag-link" href={`/tags/${tag}`} aria-current={tag === current ? "page" : undefined}>
             <span class="tag-label">{theme === "code" ? `[${tag}]` : tag}</span>
           </a>
         </li>
@@ -56,7 +58,8 @@ const { tags, theme } = Astro.props;
     transition: background-color 0.12s ease;
   }
 
-  .tag-link:hover .tag-label {
+  .tag-link:hover .tag-label,
+  .tag-link[aria-current="page"] .tag-label {
     background-color: var(--tag-hover-bg);
     color: var(--tag-hover-color);
     text-decoration: var(--tag-hover-decoration);

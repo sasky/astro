@@ -111,3 +111,8 @@ export function ordinalWord(n: number): string {
 export function plural(n: number, one: string, many: string = `${one}s`): string {
   return `${n} ${n === 1 ? one : many}`;
 }
+
+/** ["Life", "On"] → "Life and On"; ["Code", "Life", "On"] → "Code, Life and On". */
+export function formatList(items: string[]): string {
+  return new Intl.ListFormat("en-NZ", { type: "conjunction" }).format(items);
+}
