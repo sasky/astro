@@ -16,16 +16,20 @@ function plainText(markdown: string): string {
     .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
     .replace(/(\*\*|\*)(.+?)\1/g, "$2")
     .replace(/(^|\W)_(.+?)_(?=\W|$)/g, "$1$2")
+    .replace(/`([^`]*)`/g, "$1")
     .replace(/\s+/g, " ")
     .trim();
 }
 
-/** The first prose paragraph as plain text, skipping imports, headings, JSX and code. */
+// Blocks that aren't prose: imports, headings, JSX, quotes, lists, MDX comments.
+const NOT_PROSE = /^(import\s|export\s|#|<|>|[-*+]\s|\d+\.\s|\{\/\*)/;
+
+/** The first prose paragraph as plain text, skipping imports, headings, JSX, quotes, lists and code. */
 export function excerpt(body: string): string {
   const paragraphs = body.replace(FENCE, "").split(/\n\s*\n/);
   const prose = paragraphs.find((block) => {
     const start = block.trim();
-    return start !== "" && !/^(import\s|export\s|#|<)/.test(start);
+    return start !== "" && !NOT_PROSE.test(start);
   });
   return prose ? plainText(prose) : "";
 }
@@ -34,4 +38,10 @@ export function excerpt(body: string): string {
 export function firstSentence(s: string): string {
   const match = s.match(/^.*?[.!?]["'”’)\]]*(?=\s|$)/s);
   return (match ? match[0] : s).trim();
+}
+
+/** The On programme line (G6): the description's first sentence, and whether it's over 60 characters. */
+export function programmeLine(description: string): { text: string; long: boolean } {
+  const text = firstSentence(description);
+  return { text, long: text.length > 60 };
 }

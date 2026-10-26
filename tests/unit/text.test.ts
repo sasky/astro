@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { excerpt, firstSentence, readingTime } from "../../src/lib/text";
+import { excerpt, firstSentence, programmeLine, readingTime } from "../../src/lib/text";
 
 const words = (n: number) => Array(n).fill("word").join(" ");
 
@@ -30,4 +30,25 @@ test("firstSentence ends at a full stop inside closing quotes", () => {
   expect(
     firstSentence('Pharrell, to my ears, does not sound particularly happy singing his song "Happy." It has me musing.'),
   ).toBe('Pharrell, to my ears, does not sound particularly happy singing his song "Happy."');
+});
+
+test("excerpt skips quotes, lists and MDX comments, and strips backticks", () => {
+  const body = "> A quote.\n\n- an item\n- another\n\n1. first\n\n{/* a note */}\n\nUse `npm` now.";
+  expect(excerpt(body)).toBe("Use npm now.");
+});
+
+test("programmeLine keeps a short description whole (G6)", () => {
+  expect(programmeLine("Top Ten Tips for Staying Classy")).toEqual({
+    text: "Top Ten Tips for Staying Classy",
+    long: false,
+  });
+});
+
+test("programmeLine cuts a long description to its first sentence (G6)", () => {
+  const nzMusic =
+    "Radio New Zealand has put the call out for the country folk to vote on the all-time best New Zealand songs. Being a proud middle-aged white man, I took it upon myself to vote.";
+  expect(programmeLine(nzMusic)).toEqual({
+    text: "Radio New Zealand has put the call out for the country folk to vote on the all-time best New Zealand songs.",
+    long: true,
+  });
 });

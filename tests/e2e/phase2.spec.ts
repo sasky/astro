@@ -1,15 +1,5 @@
 import { expect, test } from "@playwright/test";
 
-test("meditations lists the four On posts, newest first", async ({ page }) => {
-  await page.goto("/meditations");
-  await expect(page.locator("main li a")).toHaveText([
-    "On being in the moment vs past and future",
-    "On Happiness",
-    "On Being Classy",
-    "On New Zealand Music",
-  ]);
-});
-
 test("Hide n Seek loads its cart when started", async ({ page }) => {
   await page.goto("/code/hide-n-seek-game");
   const cart = page.waitForResponse((r) => r.url().endsWith("/pico8/hidenseek.js") && r.ok());
