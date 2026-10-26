@@ -15,8 +15,9 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 | 3. Foundations | Merged into `feature/redesign` | [#5](https://github.com/sasky/astro/pull/5) |
 | 4. HP pages | Merged into `feature/redesign` | [#6](https://github.com/sasky/astro/pull/6) |
 | 5. Code pages | Merged into `feature/redesign` | [#7](https://github.com/sasky/astro/pull/7) |
-| 6. On pages | PR open for Cam's review | [#8](https://github.com/sasky/astro/pull/8) |
-| 7–9 | Not started | — |
+| 6. On pages | Merged into `feature/redesign` | [#8](https://github.com/sasky/astro/pull/8) |
+| 7. Tags, RSS, SEO | PR open for Cam's review | _see Phase 7 below_ |
+| 8–9 | Not started | — |
 
 **Waiting on Cam**
 - **Content review**, any time before Phase 9 (the posts are now in `src/content/posts/`):
@@ -27,15 +28,12 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
   - Refine the draft section intros in `src/data/sections.ts` (marked `TODO(Cam)`).
 
 **Carried forward**
-- **Phase 4–6 review (Cam):** these phases skipped the brainstorm ("just do your best, we will do a detailed review later"). The calls a brainstorm would have settled are listed under "Calls made in place of a brainstorm" in [`plans/2026-10-26-phase-4-hp-pages.md`](superpowers/plans/2026-10-26-phase-4-hp-pages.md), [`plans/2026-10-26-phase-5-code-pages.md`](superpowers/plans/2026-10-26-phase-5-code-pages.md) and [`plans/2026-10-26-phase-6-on-pages.md`](superpowers/plans/2026-10-26-phase-6-on-pages.md). Review them with the pages.
-- **Phase 7:** `/code/` (trailing slash) is served as a duplicate of `/code`. Canonical URLs cover it. The RSS feed also lacks an `atom:link rel="self"` (a validator warning).
+- **Phase 4–6 review (Cam):** these phases skipped the brainstorm ("just do your best, we will do a detailed review later"). The calls a brainstorm would have settled are listed under "Calls made in place of a brainstorm" in [`plans/2026-10-26-phase-4-hp-pages.md`](superpowers/plans/2026-10-26-phase-4-hp-pages.md), [`plans/2026-10-26-phase-5-code-pages.md`](superpowers/plans/2026-10-26-phase-5-code-pages.md), [`plans/2026-10-26-phase-6-on-pages.md`](superpowers/plans/2026-10-26-phase-6-on-pages.md) and [`plans/2026-10-26-phase-7-tags-rss-seo.md`](superpowers/plans/2026-10-26-phase-7-tags-rss-seo.md). Review them with the pages.
 - **Phase 9:** check the redirects on a real Netlify preview of the PR into `main`. So far they're verified only on Netlify's local emulator.
 - **Phase 8 (test tightening, from the Phase 4 review):**
   - Make the modifier-click video test assert that the default action ran, and add a Shift case.
   - At 390 the hero `srcset` should pick the 480w file.
   - Add `expectOnlyThemeCss` on the Life post.
-- **Phase 7:**
-  - `tags/[tag].astro` is still legacy. Rebuild it on `HpLayout` with `ListingBand` (`variant="message"` suits `#tag`) and `PostRow chip`.
 - **Phase 8:**
   - Check the Fraunces SOFT/WONK defaults against the design in the visual comparison.
   - Test the Pico-8 touch controls on a real phone (spec 6.3). The e2e tests only cover sizing at 390 and 2560×1440.
@@ -55,7 +53,15 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
   - `## 0. Foo` renders an empty numeral, because `toRoman(0)` is `""`. Require `n >= 1` in `onTips`.
   - At 320, "Happiness" splits in the listing's 24px programme title. Size it like the post title (`cqi`).
   - Duplication: `.on-wrap`, `.presents` and the `rgba(35, 23, 14, .07/.14)` hover fills repeat across the On pages and components.
-- **Phase 9:** delete `src/components/legacy/` and `src/layouts/legacy/` once the tag pages are off them (the On pages moved in Phase 6). `LegacyPost` and `LegacyPostList` are now used only by `tags/[tag].astro`; `LegacyPost` still imports `Pico8`, harmlessly.
+- **Phase 8 (from the Phase 7 review):**
+  - Add a unit test that the feed escapes `&` and `<` (run `getRssString` over a `feedItem()`); no post has them today.
+  - Put a fixed `font-size` (120px, 72px) before the `cqi` `min()` in `ListingBand`, for browsers without container units.
+  - The current tag (`aria-current`) uses the same fill as a hovered tag, and doesn't change on hover itself. Consider a distinct style.
+  - `PostList` hard-codes `id="all"`; give it a `headingId` prop if a page ever uses it twice.
+  - The tag page's title and description hard-code `sasky.nz` rather than `SITE.name` (as every other page title does).
+  - `aria-current="page"` is announced on every row's current tag link. Valid, but repetitive.
+  - `/code/` (trailing slash) is served as a duplicate of `/code`; its canonical points at `/code` (checked on the emulator).
+- **Phase 9:** delete `src/components/legacy/` and `src/layouts/legacy/`. Nothing uses them since Phase 7 moved the tag pages.
 - **Minor:**
   - Same-date ties are only pinned through `sortNewest`.
   - There's no lasting test that Fraunces keeps its `opsz` axis.
@@ -67,15 +73,15 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 Read this file first, then [`redesign-plan.md`](redesign-plan.md) (the spec), then the design files in `design-handoff/`. The plans and designs for finished phases are in `docs/superpowers/plans/` and `docs/superpowers/specs/`. They're useful as examples of the format.
 
 **Where things stand**
-- **Branch:** `feature/redesign` holds Phases 1–5, merged; Phase 6 is on `redesign/phase-6-on-pages` until its PR merges. `main` is still the live old site.
+- **Branch:** `feature/redesign` holds Phases 1–6, merged; Phase 7 is on `redesign/phase-7-tags-rss-seo` until its PR merges. `main` is still the live old site.
 - **Live pages:**
-  - **On the new HP theme:** Home, `/life`, `/life/[slug]` and the 404.
+  - **On the new HP theme:** Home, `/life`, `/life/[slug]`, `/tags/[tag]` and the 404.
   - **On the new Code theme:** `/code` and `/code/[slug]`.
   - **On the new On theme:** `/meditations` and `/meditations/[slug]`.
-  - **Still legacy:** `/tags/[tag]`, through `src/components/legacy/` and `src/layouts/legacy/LegacyBaseLayout.astro`.
+  - **Nothing is legacy any more.** `src/components/legacy/` and `src/layouts/legacy/` are unused until Phase 9 deletes them.
 - **Components:**
   - `src/components/site/` holds the shared chrome.
-  - `src/components/hp/` holds the HP page parts: `Hero`, `AboutSection`, `SectionDoors`/`Door` with the three previews, `TagSelector`, `ListingBand`, `PostRow`, `PostHeader` and `HpPrevNext`.
+  - `src/components/hp/` holds the HP page parts: `Hero`, `AboutSection`, `SectionDoors`/`Door` with the three previews, `TagSelector`, `ListingBand` (its one-word heading sized by `headingFit()` in `src/lib/fit.ts`), `PostList`, `PostRow`, `PostHeader` and `HpPrevNext`.
   - `src/components/code/` holds the Code page parts: `Prompt`, `CodeListEntry`, `CodePostHeader`, `Toc`, `CodePrevNext`, and `CodeBlock`, the `pre` override that only the Code post template passes.
   - `src/components/on/` holds the On page parts: `Bill`, `DoubleRule`, `DiamondRule`, `NowShowing`, `Eye`, `OnCorrespondence`, `Programme`, `OnPostHeader` and `FurtherMeditations`.
   - `src/components/mdx/` holds the theme-neutral MDX components, `YouTube`, `ImageCollection` and `Ornament`. A unit test keeps hard-coded colours out of this folder.
@@ -85,14 +91,15 @@ Read this file first, then [`redesign-plan.md`](redesign-plan.md) (the spec), th
 - **Client JS:** `src/scripts/video-card.ts`, `tag-selector.ts` and `copy-code.ts`.
 - **Content:**
   - Posts are in the `posts` collection (`src/content/posts/`), read through `getPosts()` in `src/lib/get-posts.ts`.
-  - The pure helpers are in `src/lib/` (`format`, `text`, `posts`, `paths`, `slug`).
-  - Copy and data are in `src/data/` (`sections`, `home`, `social`).
+  - The pure helpers are in `src/lib/` (`format`, `text`, `posts`, `paths`, `slug`, `feed`, `fit`).
+  - Copy and data are in `src/data/` (`sections`, `home`, `social`, `site`).
+- **RSS:** `src/pages/rss.xml.ts` maps posts through `feedItem()` (section label, then tags, as categories) and adds `atom:link rel="self"`.
+- **SEO:** `BaseLayout` emits title, description, canonical and OG tags; `tests/e2e/meta.spec.ts` pins them for one page of each type.
 
-**Next: Phase 7 (Tags, RSS and SEO)**
-- **Spec:** 5.11, 5.12, 5.16 and tasks 7.1–7.3.
-- **Tag pages:** rebuild `tags/[tag].astro` on `HpLayout` with `ListingBand` (`variant="message"` suits `#tag`) and `PostRow chip`. That retires the last legacy page, and `phase2.spec.ts`'s "tag page lists posts across sections" (which reads legacy `main li a`) moves with it.
-- **RSS:** categories (section label plus tags), `atom:link rel="self"`.
-- **SEO:** check titles and descriptions on every page type; `/code/` duplicate is covered by canonicals.
+**Next: Phase 8 (QA)**
+- **Spec:** tasks 8.1–8.3 (visual comparison at 1280×900 and 390×844, axe and keyboard and no-JS passes, Lighthouse mobile).
+- **Carried forward:** the Phase 8 lists above (test tightening, Code copy-button polish, small accessibility items, the Phase 6 and Phase 7 review minors), plus the Fraunces SOFT/WONK and Pico-8 touch checks.
+- **Add `@axe-core/playwright`** (8.2); the compare sheet goes in `qa/compare/` (gitignored).
 
 **How Cam likes to work**
 - **Each phase:**
@@ -121,6 +128,7 @@ Read this file first, then [`redesign-plan.md`](redesign-plan.md) (the spec), th
 - **Astro's `<Image>` defaults to `decoding="async"`,** so a screenshot taken straight after `goto` can miss the hero photo. Wait before capturing.
 - **Sätteri hast plugins** (`{ name, element: { filter, visit } }`) can return a replacement node; `ctx.data.astro.frontmatter` holds the post's raw frontmatter. Astro's heading-id plugin runs after user plugins, so ids follow the rewritten text. Tests that pass `data` to `markdownToHtml`/`mdxToJs` must give the full `astro` shape (`headings`, `localImagePaths`, `remoteImagePaths`) or `astro check` fails.
 - **`Manicule` is 1.6em wide,** so size it at the board's ☞ glyph size ÷ 1.6.
+- **Fraunces's optical-size axis widens letters at small sizes** (0.53em per character at 50px against 0.43em at 120px). Anything that sizes Fraunces text to fit must measure at the smallest size it reaches; `src/lib/fit.ts` holds widths measured at 24px.
 - **A component whose root uses `align-self: stretch`** (`DoubleRule`, `DiamondRule`) collapses to zero width inside a `display: flex` row wrapper. Wrap it in a block, or pass it straight into a column.
 
 ## Standing rules
@@ -158,7 +166,7 @@ Each phase starts with the superpowers sessions it needs, in this order:
 | 4. HP pages | Skipped by Cam | Native (used) | Calls listed in the plan for Cam's review. |
 | 5. Code pages | Skipped by Cam | Native (used) | Calls listed in the plan for Cam's review. |
 | 6. On pages | Skipped by Cam | Native (used) | Calls listed in the plan for Cam's review. |
-| 7. Tags, RSS, SEO | No | Native | Specified in full in the plan. |
+| 7. Tags, RSS, SEO | No | Native (used) | Calls listed in the plan for Cam's review. |
 | 8. QA | No | Native | Checklist-driven. |
 | 9. Cleanup and launch | No | Native | Deletions, docs and the PR into `main`. |
 
@@ -223,11 +231,11 @@ PR: [#8](https://github.com/sasky/astro/pull/8)
 
 ### Phase 7: Tags, RSS and SEO
 
-PR: _none yet_
+PR: _opening_
 
-- [ ] 7.1 Tag pages (M)
-- [ ] 7.2 RSS categories (S)
-- [ ] 7.3 Meta and titles (S)
+- [x] 7.1 Tag pages (M)
+- [x] 7.2 RSS categories (S)
+- [x] 7.3 Meta and titles (S)
 
 ### Phase 8: QA
 
