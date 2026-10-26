@@ -76,6 +76,7 @@
   --tag-hover-bg: var(--navy);
   --tag-hover-color: #ffffff;
   --tag-hover-decoration: none;
+  --tag-current-bar: inset 0 -3px 0 var(--orange);
 
   /* YouTube cards (components/mdx/YouTube.astro). */
   --vid-bg: var(--navy);

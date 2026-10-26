@@ -12,6 +12,7 @@ import { SECTIONS } from "../../data/sections";
 import OnLayout from "../../layouts/OnLayout.astro";
 import { getPosts } from "../../lib/get-posts";
 import { neighbours, seriesNumber } from "../../lib/posts";
+import { pageTitle } from "../../lib/title";
 
 export const getStaticPaths = (async () => {
   const posts = await getPosts("on");
@@ -31,7 +32,7 @@ const { Content } = await render(post);
 ---
 
 <OnLayout
-  title={`${title} — ${SECTIONS.on.title} — sasky.nz`}
+  title={pageTitle(title, SECTIONS.on.title)}
   description={metaDescription ?? description}
   ogType="article"
 >

@@ -7,13 +7,14 @@ import CodeLayout from "../../layouts/CodeLayout.astro";
 import { formatMonthYear } from "../../lib/format";
 import { getPosts } from "../../lib/get-posts";
 import { countLabel, sectionStats } from "../../lib/posts";
+import { pageTitle } from "../../lib/title";
 
 const section = SECTIONS.code;
 const posts = await getPosts("code");
 const { count, since } = sectionStats(posts);
 ---
 
-<CodeLayout title={`${section.title} — sasky.nz`} description={section.blurb}>
+<CodeLayout title={pageTitle(section.title)} description={section.blurb}>
   <div class="code-main">
     <header class="readme">
       <Prompt path="~/code" cmd="cat README.md" link />

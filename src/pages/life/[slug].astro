@@ -10,6 +10,7 @@ import HpLayout from "../../layouts/HpLayout.astro";
 import { getPosts } from "../../lib/get-posts";
 import { neighbours } from "../../lib/posts";
 import { readingTime } from "../../lib/text";
+import { pageTitle } from "../../lib/title";
 
 export const getStaticPaths = (async () => {
   const posts = await getPosts("life");
@@ -22,7 +23,7 @@ const { Content } = await render(post);
 ---
 
 <HpLayout
-  title={`${title} — ${SECTIONS.life.title} — sasky.nz`}
+  title={pageTitle(title, SECTIONS.life.title)}
   description={metaDescription ?? description}
   ogType="article"
   texture={0.6}

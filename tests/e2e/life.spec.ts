@@ -74,3 +74,8 @@ test("Life post has no horizontal overflow at 390", async ({ page }) => {
   await page.goto(concert);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
 });
+
+test("Life post loads only HP styles", async ({ page, request }) => {
+  await page.goto(concert);
+  await expectOnlyThemeCss(page, request, "hp", /Fraunces|Source Sans 3|JetBrains Mono/);
+});

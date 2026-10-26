@@ -14,6 +14,7 @@ import { formatDateISO, formatDateOn, formatMonthYear, ordinalWord } from "../..
 import { getPosts } from "../../lib/get-posts";
 import { countLabel, postUrl, sectionStats, seriesNumber } from "../../lib/posts";
 import { excerpt } from "../../lib/text";
+import { pageTitle } from "../../lib/title";
 
 const section = SECTIONS.on;
 const posts = await getPosts("on");
@@ -22,7 +23,7 @@ const rest = posts.filter((post) => post !== latest);
 const latestExcerpt = latest && (latest.data.excerpt ?? excerpt(latest.body ?? ""));
 ---
 
-<OnLayout title={`${section.title} — sasky.nz`} description={section.blurb} footer="inside">
+<OnLayout title={pageTitle(section.title)} description={section.blurb} footer="inside">
   <div class="on-wrap">
     <Bill>
       <p class="presents">Cameron Grant of Wellington, Aotearoa, presents</p>

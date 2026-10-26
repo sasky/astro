@@ -1,7 +1,9 @@
 import { experimental_AstroContainer as AstroContainer } from "astro/container";
+import { readFileSync } from "node:fs";
 import { beforeAll, expect, test } from "vitest";
 import HpPrevNext from "../../src/components/hp/HpPrevNext.astro";
 import ListingBand from "../../src/components/hp/ListingBand.astro";
+import PostList from "../../src/components/hp/PostList.astro";
 import PostHeader from "../../src/components/hp/PostHeader.astro";
 import PostRow from "../../src/components/hp/PostRow.astro";
 import TagSelector from "../../src/components/hp/TagSelector.astro";
@@ -160,4 +162,17 @@ test("TagSelector renders no ids inside the lists", async () => {
     expect(listFor(html, tag)).not.toBe("");
     expect(listFor(html, tag)).not.toMatch(/\sid="/);
   }
+});
+
+test("ListingBand's fitted heading has a fixed size for browsers without container units", () => {
+  const source = readFileSync("src/components/hp/ListingBand.astro", "utf8");
+  expect(source).toMatch(/font-size: 120px;\s*font-size: min\(120px,/);
+  expect(source).toMatch(/font-size: 72px;\s*font-size: min\(72px,/);
+});
+
+test("PostList labels its section by its heading id", async () => {
+  const html = await container.renderToString(PostList, { props: { heading: "Every post", headingId: "tagged" } });
+  expect(html).toMatch(/aria-labelledby="tagged"/);
+  expect(html).toMatch(/<h2[^>]*id="tagged"/);
+  expect(await container.renderToString(PostList, { props: { heading: "x" } })).toMatch(/<h2[^>]*id="all"/);
 });

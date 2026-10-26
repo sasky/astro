@@ -3,14 +3,16 @@
 // heading over the rows in the slot. Values: Site-Life-List.dc.html.
 interface Props {
   heading: string;
+  /** The heading's id; "all" unless a page has more than one list. */
+  headingId?: string;
 }
 
-const { heading } = Astro.props;
+const { heading, headingId = "all" } = Astro.props;
 ---
 
 <div class="list-wrap">
-  <section class="list" aria-labelledby="all">
-    <h2 id="all">{heading}</h2>
+  <section class="list" aria-labelledby={headingId}>
+    <h2 id={headingId}>{heading}</h2>
     <div class="rows">
       <slot />
     </div>

@@ -1,3 +1,4 @@
+import { getRssString } from "@astrojs/rss";
 import { expect, test } from "vitest";
 import { feedItem } from "../../src/lib/feed";
 
@@ -25,4 +26,15 @@ test("feedItem links the post and files it under its section and tags", () => {
 
 test("an untagged post is filed under its section only", () => {
   expect(feedItem(post("on-being-classy", "on", [])).categories).toEqual(["On"]);
+});
+
+test("the feed escapes &, < and quotes in titles and descriptions", async () => {
+  const awkward = post("q-and-a", "code", ["learning"]);
+  awkward.data.title = `Fish & chips <for> "two" isn't it`;
+  awkward.data.description = "a < b && c > d";
+  const xml = await getRssString({ title: "t", description: "d", site: "https://sasky.nz", items: [feedItem(awkward)] });
+  const item = xml.slice(xml.indexOf("<item>"), xml.indexOf("</item>"));
+  const texts = [...item.matchAll(/>([^<]*)</g)].map(([, text]) => text);
+  for (const text of texts) expect(text).not.toMatch(/&(?!(amp|lt|gt|quot|apos);)|</);
+  expect(item).toContain("Fish &amp; chips &lt;for&gt;");
 });
