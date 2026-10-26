@@ -3,6 +3,8 @@
 // caption, a copy button and line numbers. The Shiki transformer
 // (src/shiki/meta-to-data.ts) supplies data-title from the fence's
 // title="…" and Astro adds data-language. Values: figure in Site-Code-Post.dc.html.
+import { uniqueId } from "../../lib/ids";
+
 interface Props {
   "data-title"?: string;
   "data-language"?: string;
@@ -11,12 +13,13 @@ interface Props {
 
 const { "data-title": title, "data-language": language, ...attributes } = Astro.props;
 const label = title ?? (language && language !== "plaintext" ? language : "text");
+const captionId = uniqueId("code-caption");
 ---
 
 <figure class="code-block">
   <figcaption class="code-caption">
-    <span class="code-title">── {label}</span>
-    <button type="button" class="copy"><span aria-live="polite">copy</span></button>
+    <span class="code-title" id={captionId}><span aria-hidden="true">──&nbsp;</span>{label}</span>
+    <button type="button" class="copy" aria-describedby={captionId} hidden><span aria-live="polite">copy</span></button>
   </figcaption>
   <pre {...attributes}><slot /></pre>
 </figure>
@@ -61,6 +64,10 @@ const label = title ?? (language && language !== "plaintext" ? language : "text"
     cursor: pointer;
     font-family: inherit;
     font-size: 12px;
+  }
+
+  .copy[hidden] {
+    display: none;
   }
 
   .copy:hover {

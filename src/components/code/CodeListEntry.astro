@@ -25,7 +25,7 @@ const iso = formatDateISO(pubDate);
     <h3 class="entry-title">
       <a href={postUrl(post)}><span class="entry-caret" aria-hidden="true">&gt;&nbsp;</span>{title}</a>
     </h3>
-    <p class="entry-desc"># {description}</p>
+    <p class="entry-desc"><span aria-hidden="true">#&nbsp;</span>{description}</p>
     <TagLinks tags={tags} theme="code" />
   </div>
 </article>

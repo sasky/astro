@@ -13,6 +13,7 @@ export default defineConfig({
   },
   projects: [
     { name: "e2e", testDir: "tests/e2e", use: { ...devices["Desktop Chrome"] } },
-    { name: "baseline", testDir: "tests/visual", use: { ...devices["Desktop Chrome"] } },
+    { name: "baseline", testDir: "tests/visual", testMatch: "baseline.spec.ts", use: { ...devices["Desktop Chrome"] } },
+    { name: "compare", testDir: "tests/visual", testMatch: "compare.spec.ts", use: { ...devices["Desktop Chrome"] } },
   ],
 });

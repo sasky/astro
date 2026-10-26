@@ -1,13 +1,18 @@
 import { experimental_AstroContainer as AstroContainer } from "astro/container";
+import { readFileSync } from "node:fs";
 import { beforeAll, expect, test } from "vitest";
 import HpPrevNext from "../../src/components/hp/HpPrevNext.astro";
 import ListingBand from "../../src/components/hp/ListingBand.astro";
+import PostList from "../../src/components/hp/PostList.astro";
 import PostHeader from "../../src/components/hp/PostHeader.astro";
 import PostRow from "../../src/components/hp/PostRow.astro";
 import TagSelector from "../../src/components/hp/TagSelector.astro";
 import type { PostEntry } from "../../src/lib/get-posts";
 
 let container: AstroContainer;
+
+/** The text a reader sees: tags dropped, whitespace collapsed. */
+const visible = (html: string) => html.replace(/<[^>]+>/g, "").replace(/\s+/g, " ");
 
 // 1200 words is 6 minutes at 220 wpm.
 const concert = {
@@ -88,13 +93,13 @@ test("HpPrevNext without an older post shows only All Life posts", async () => {
   expect(html.match(/<a\b/g)).toHaveLength(1);
   expect(html).toContain('href="/life"');
   expect(html).toContain("All Life posts");
-  expect(html).toContain("Life →");
+  expect(visible(html)).toContain("Life →");
   expect(html).not.toContain("Older in Life");
 });
 
 test("HpPrevNext with an older post links it first", async () => {
   const html = await container.renderToString(HpPrevNext, { props: { section: "life", older: concert } });
-  expect(html).toContain("← Older in Life");
+  expect(visible(html)).toContain("← Older in Life");
   expect(html).toContain("Concert vids");
   expect(html.indexOf('href="/life/top-concertvids"')).toBeGreaterThan(-1);
   expect(html.indexOf('href="/life/top-concertvids"')).toBeLessThan(html.indexOf('href="/life"'));
@@ -142,7 +147,9 @@ test("TagSelector without JS: links, default list visible", async () => {
 test("TagSelector singular summary", async () => {
   const html = await container.renderToString(TagSelector, { props: { index: tagIndex } });
   expect(html).toContain('data-summary="1 post tagged pico8"');
-  expect(html).toContain('aria-label="pico8, 1 post"');
+  // The chip's name is its visible text plus a hidden unit: "pico8 1 post".
+  expect(html).not.toMatch(/class="tg-chip"[^>]*aria-label/);
+  expect(html).toMatch(/class="tg-count"[^>]*>\s*1\s*<span class="sr-only"[^>]*>\s*post\s*<\/span>/);
 });
 
 test("TagSelector rows show the section chip, title and date", async () => {
@@ -160,4 +167,17 @@ test("TagSelector renders no ids inside the lists", async () => {
     expect(listFor(html, tag)).not.toBe("");
     expect(listFor(html, tag)).not.toMatch(/\sid="/);
   }
+});
+
+test("ListingBand's fitted heading has a fixed size for browsers without container units", () => {
+  const source = readFileSync("src/components/hp/ListingBand.astro", "utf8");
+  expect(source).toMatch(/font-size: 120px;\s*font-size: min\(120px,/);
+  expect(source).toMatch(/font-size: 72px;\s*font-size: min\(72px,/);
+});
+
+test("PostList labels its section by its heading id", async () => {
+  const html = await container.renderToString(PostList, { props: { heading: "Every post", headingId: "tagged" } });
+  expect(html).toMatch(/aria-labelledby="tagged"/);
+  expect(html).toMatch(/<h2[^>]*id="tagged"/);
+  expect(await container.renderToString(PostList, { props: { heading: "x" } })).toMatch(/<h2[^>]*id="all"/);
 });

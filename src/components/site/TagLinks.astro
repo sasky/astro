@@ -65,4 +65,9 @@ const { tags, theme, current } = Astro.props;
     text-decoration: var(--tag-hover-decoration);
     text-underline-offset: 3px;
   }
+
+  /* The page's own tag also carries a bar, so it differs from a hovered tag. */
+  .tag-link[aria-current="page"] .tag-label {
+    box-shadow: var(--tag-current-bar, none);
+  }
 </style>

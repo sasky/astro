@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import { experimental_AstroContainer as AstroContainer } from "astro/container";
 import { expect, test } from "vitest";
 import BaseLayout from "../../src/layouts/BaseLayout.astro";
@@ -25,4 +26,11 @@ test("noindex pages get a robots tag and no canonical", async () => {
   const html = await render({ noindex: true });
   expect(html).toContain('<meta name="robots" content="noindex">');
   expect(html).not.toContain('rel="canonical"');
+});
+
+test("links an icon that exists, so browsers don't request a missing /favicon.ico", async () => {
+  const html = await render({});
+  const href = html.match(/<link rel="icon" href="([^"]+)" type="image\/svg\+xml">/)?.[1];
+  expect(href).toBe("/favicon.svg");
+  expect(existsSync(`public${href}`)).toBe(true);
 });

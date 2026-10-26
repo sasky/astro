@@ -4,13 +4,14 @@
 import ListingBand from "../components/hp/ListingBand.astro";
 import { SECTIONS } from "../data/sections";
 import HpLayout from "../layouts/HpLayout.astro";
+import { pageTitle } from "../lib/title";
 
 const section = (key: keyof typeof SECTIONS) => ({ href: `/${SECTIONS[key].path}`, label: SECTIONS[key].label });
 const [code, life, on] = [section("code"), section("life"), section("on")];
 ---
 
 <HpLayout
-  title="Page not found — sasky.nz"
+  title={pageTitle("Page not found")}
   description="This page doesn't exist. It may have moved when the site was reorganised."
   noindex
   texture={0.8}

@@ -26,15 +26,32 @@ test("clicking a card swaps in the nocookie player", async ({ page }) => {
   await expect(figure.locator("a.vid")).toHaveCount(0);
 });
 
-test("modifier-click leaves the link alone", async ({ page, context }) => {
-  await page.route(/youtube\.com/, (route) => route.abort());
+// The card must let modified clicks through to the browser. Headless Chromium
+// doesn't reliably report a new tab or window to another origin as a page, so
+// the check is that nothing prevented the click's default action.
+for (const modifier of ["ControlOrMeta", "Shift"] as const) {
+  test(`${modifier}-click is left to the browser`, async ({ page, context }) => {
+    await context.route(/youtube\.com/, (route) => route.fulfill({ body: "<title>YouTube</title>" }));
+    await page.addInitScript(() =>
+      window.addEventListener("click", (event) => ((window as any).prevented = event.defaultPrevented)),
+    );
+    await page.goto(post);
+    const cards = await page.locator("a.vid").count();
+    await page.locator("a.vid").first().click({ modifiers: [modifier] });
+    expect(await page.evaluate(() => (window as any).prevented)).toBe(false);
+    await expect(page.locator("a.vid")).toHaveCount(cards);
+    await expect(page.locator("figure.video iframe")).toHaveCount(0);
+  });
+}
+
+test("a plain click is handled by the card", async ({ page }) => {
+  await page.route(/youtube/, (route) => route.abort());
+  await page.addInitScript(() =>
+    window.addEventListener("click", (event) => ((window as any).prevented = event.defaultPrevented)),
+  );
   await page.goto(post);
-  const cards = await page.locator("a.vid").count();
-  const popup = context.waitForEvent("page", { timeout: 2000 }).catch(() => undefined);
-  await page.locator("a.vid").first().click({ modifiers: ["ControlOrMeta"] });
-  await (await popup)?.close();
-  await expect(page.locator("a.vid")).toHaveCount(cards);
-  await expect(page.locator("figure.video iframe")).toHaveCount(0);
+  await page.locator("a.vid").first().click();
+  expect(await page.evaluate(() => (window as any).prevented)).toBe(true);
 });
 
 test.describe("without JS", () => {

@@ -16,8 +16,9 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 | 4. HP pages | Merged into `feature/redesign` | [#6](https://github.com/sasky/astro/pull/6) |
 | 5. Code pages | Merged into `feature/redesign` | [#7](https://github.com/sasky/astro/pull/7) |
 | 6. On pages | Merged into `feature/redesign` | [#8](https://github.com/sasky/astro/pull/8) |
-| 7. Tags, RSS, SEO | PR open for Cam's review | [#9](https://github.com/sasky/astro/pull/9) |
-| 8–9 | Not started | — |
+| 7. Tags, RSS, SEO | Merged into `feature/redesign` | [#9](https://github.com/sasky/astro/pull/9) |
+| 8. QA | PR open for Cam's review | [#10](https://github.com/sasky/astro/pull/10) |
+| 9. Cleanup and launch | Not started | — |
 
 **Waiting on Cam**
 - **Content review**, any time before Phase 9 (the posts are now in `src/content/posts/`):
@@ -26,54 +27,37 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
   - Copy slips: "Atearoa" (NZ Music), "indented audience" (Silverstripe), the "Scott J Mason (2014" embed title missing its `)`.
   - Optional: title-case the Moment post's title (Q5).
   - Refine the draft section intros in `src/data/sections.ts` (marked `TODO(Cam)`).
+  - From the Phase 8 compare sheet: Silverstripe's `SS_DEFAULT_ADMIN`, `_config.php` and `_config.yml` have no backticks, so they aren't code chips as on the board; quotes are curled in post text but straight in titles (the board curls "one’s" in the concert title).
+- **Compare sheet sign-off (spec 8.1):** `npm run build && npm run qa:compare`, then open `qa/compare/index.html`. Also look at the manicule and fleuron SVG shapes (solid hands, a thin star), which differ from the board's glyphs.
+- **Pico-8 on a real phone (spec 6.3):** the touch controls are untested on a device. At 390×664 the started canvas can sit partly under the d-pad depending on scroll position; consider scrolling `#p8_frame_0` to the top when a touch device starts the game.
 
 **Carried forward**
-- **Phase 4–6 review (Cam):** these phases skipped the brainstorm ("just do your best, we will do a detailed review later"). The calls a brainstorm would have settled are listed under "Calls made in place of a brainstorm" in [`plans/2026-10-26-phase-4-hp-pages.md`](superpowers/plans/2026-10-26-phase-4-hp-pages.md), [`plans/2026-10-26-phase-5-code-pages.md`](superpowers/plans/2026-10-26-phase-5-code-pages.md), [`plans/2026-10-26-phase-6-on-pages.md`](superpowers/plans/2026-10-26-phase-6-on-pages.md) and [`plans/2026-10-26-phase-7-tags-rss-seo.md`](superpowers/plans/2026-10-26-phase-7-tags-rss-seo.md). Review them with the pages.
-- **Phase 9:** check the redirects on a real Netlify preview of the PR into `main`. So far they're verified only on Netlify's local emulator.
-- **Phase 8 (test tightening, from the Phase 4 review):**
-  - Make the modifier-click video test assert that the default action ran, and add a Shift case.
-  - At 390 the hero `srcset` should pick the 480w file.
-  - Add `expectOnlyThemeCss` on the Life post.
-- **Phase 8:**
-  - Check the Fraunces SOFT/WONK defaults against the design in the visual comparison.
-  - Test the Pico-8 touch controls on a real phone (spec 6.3). The e2e tests only cover sizing at 390 and 2560×1440.
-    - At 390×664 the started canvas can sit partly under the d-pad, depending on scroll position.
-    - Consider scrolling `#p8_frame_0` to the top when a touch device starts the game.
-  - **Code copy-button polish (from the Phase 5 review):**
-    - fall back to selecting the code when the Clipboard API is missing or refuses;
-    - clear the reset timer on repeat clicks;
-    - hide the buttons without JS;
-    - give each button its block's caption as a description.
-  - **Small Code accessibility items:**
-    - `aria-hidden` on the decorative `#`, `>` and `<!-- -->` prefixes in descriptions;
-    - a `max-height` with scrolling on the sticky TOC;
-    - no empty "More in Code" nav when the section has one post.
-- **Phase 8 (from the Phase 6 review):**
-  - G1 `##` headings are flex rows, so inline markup (`## The *real* point`) would come apart. Wrap the text in a span (`onTips` could do it) before a heading needs emphasis.
-  - `## 0. Foo` renders an empty numeral, because `toRoman(0)` is `""`. Require `n >= 1` in `onTips`.
-  - At 320, "Happiness" splits in the listing's 24px programme title. Size it like the post title (`cqi`).
-  - Duplication: `.on-wrap`, `.presents` and the `rgba(35, 23, 14, .07/.14)` hover fills repeat across the On pages and components.
-- **Phase 8 (from the Phase 7 review):**
-  - Add a unit test that the feed escapes `&` and `<` (run `getRssString` over a `feedItem()`); no post has them today.
-  - Put a fixed `font-size` (120px, 72px) before the `cqi` `min()` in `ListingBand`, for browsers without container units.
-  - The current tag (`aria-current`) uses the same fill as a hovered tag, and doesn't change on hover itself. Consider a distinct style.
-  - `PostList` hard-codes `id="all"`; give it a `headingId` prop if a page ever uses it twice.
-  - The tag page's title and description hard-code `sasky.nz` rather than `SITE.name` (as every other page title does).
-  - `aria-current="page"` is announced on every row's current tag link. Valid, but repetitive.
-  - `/code/` (trailing slash) is served as a duplicate of `/code`; its canonical points at `/code` (checked on the emulator).
-- **Phase 9:** delete `src/components/legacy/` and `src/layouts/legacy/`. Nothing uses them since Phase 7 moved the tag pages.
-- **Minor:**
-  - Same-date ties are only pinned through `sortNewest`.
-  - There's no lasting test that Fraunces keeps its `opsz` axis.
-  - `HpFooter` finds RSS by its label.
-  - Legacy pages import `LegacyBaseLayout` under the local name `BaseLayout`.
+- **Phase 4–8 review (Cam):** these phases skipped the brainstorm ("just do your best, we will do a detailed review later"). The calls a brainstorm would have settled are listed under "Calls made in place of a brainstorm" in the plans for [Phase 4](superpowers/plans/2026-10-26-phase-4-hp-pages.md), [5](superpowers/plans/2026-10-26-phase-5-code-pages.md), [6](superpowers/plans/2026-10-26-phase-6-on-pages.md), [7](superpowers/plans/2026-10-26-phase-7-tags-rss-seo.md) and [8](superpowers/plans/2026-10-26-phase-8-qa.md). Review them with the pages.
+- **Phase 9:**
+  - Check the redirects on a real Netlify preview of the PR into `main`; so far only Netlify's local emulator has.
+  - Run `npm run qa:lighthouse <preview URL>` there. Home scores 94–95 locally (target 95), against an uncompressed local server.
+  - Delete `src/components/legacy/` and `src/layouts/legacy/` (unused since Phase 7). That also clears `astro check`'s two hints in the old `Header.astro`.
+  - Check whether screen readers announce the Code line numbers (CSS counters, 2.42:1 contrast). If they do, hide them.
+- **After launch (minor, from the Phase 8 reviews):**
+  - `<?php` isn't amber as on the board: Shiki's PHP grammar reads it as `<`, `?`, `php`. It needs a one-token transformer.
+  - Tag chips are 44px tall; the board's are 48px (content-box, the same cause as the rows fixed in Phase 8).
+  - Copying a Code block by hand drops its blank lines (the copy button is exact).
+  - Test tightening:
+    - the no-JS video-card and copy-button checks should assert a count first;
+    - the font-size budget test should await its response bodies;
+    - the arrows test is Mac-specific (it asserts "not Arial or Courier New");
+    - the chip-name test's comment overstates.
+  - The chip plural is hard-coded beside `plural()`.
+  - `scripts/lighthouse.mjs` imports `playwright-core` without declaring it.
+  - `aria-current="page"` repeats on every row's current tag link (valid; Phase 7 call).
+  - Same-date ties are only pinned through `sortNewest`; `HpFooter` finds RSS by its label.
 
 ## Resuming in a fresh session
 
 Read this file first, then [`redesign-plan.md`](redesign-plan.md) (the spec), then the design files in `design-handoff/`. The plans and designs for finished phases are in `docs/superpowers/plans/` and `docs/superpowers/specs/`. They're useful as examples of the format.
 
 **Where things stand**
-- **Branch:** `feature/redesign` holds Phases 1–6, merged; Phase 7 is on `redesign/phase-7-tags-rss-seo` until its PR merges. `main` is still the live old site.
+- **Branch:** `feature/redesign` holds Phases 1–7, merged; Phase 8 is on `redesign/phase-8-qa` until its PR merges. `main` is still the live old site.
 - **Live pages:**
   - **On the new HP theme:** Home, `/life`, `/life/[slug]`, `/tags/[tag]` and the 404.
   - **On the new Code theme:** `/code` and `/code/[slug]`.
@@ -88,7 +72,13 @@ Read this file first, then [`redesign-plan.md`](redesign-plan.md) (the spec), th
   - `src/components/Pico8.astro` is the game panel.
 - **Markdown:** `markdown.processor: satteri({ hastPlugins: [onTips] })`; `src/markdown/on-tips.ts` turns `## N. Tip` in On posts into `h2.tip` with a Roman `span.num`.
 - **Highlighting:** `src/shiki/sasky-terminal.json` plus the `metaToData` transformer (fence `title="…"` → `data-title`; drops the newlines between lines), set in `markdown.shikiConfig`.
-- **Client JS:** `src/scripts/video-card.ts`, `tag-selector.ts` and `copy-code.ts`.
+- **Client JS:** `src/scripts/video-card.ts`, `tag-selector.ts` and `copy-code.ts` (Clipboard API, then `execCommand("copy")`, then selecting the code).
+- **Fonts:** Fraunces comes from Google (opsz and wght only); everything else from Fontsource, with Source Sans 3 and JetBrains Mono as variable fonts. HP preloads Fraunces; Code preloads JetBrains Mono; On preloads Holtwood and Oswald.
+- **QA tools:**
+  - `tests/e2e/a11y.spec.ts`: axe (WCAG 2.2 AA), keyboard, reduced motion, no JS.
+  - `tests/e2e/network.spec.ts`: no off-site requests, theme fonts only, fonts ≤ 100 KB, no layout shift as fonts load, hero size.
+  - `npm run qa:lighthouse` (needs `astro preview` on 4322, or pass a URL).
+  - `npm run qa:compare`: the board-vs-site sheet in `qa/compare/`.
 - **Content:**
   - Posts are in the `posts` collection (`src/content/posts/`), read through `getPosts()` in `src/lib/get-posts.ts`.
   - The pure helpers are in `src/lib/` (`format`, `text`, `posts`, `paths`, `slug`, `feed`, `fit`).
@@ -96,10 +86,13 @@ Read this file first, then [`redesign-plan.md`](redesign-plan.md) (the spec), th
 - **RSS:** `src/pages/rss.xml.ts` maps posts through `feedItem()` (section label, then tags, as categories) and adds `atom:link rel="self"`.
 - **SEO:** `BaseLayout` emits title, description, canonical and OG tags; `tests/e2e/meta.spec.ts` pins them for one page of each type.
 
-**Next: Phase 8 (QA)**
-- **Spec:** tasks 8.1–8.3 (visual comparison at 1280×900 and 390×844, axe and keyboard and no-JS passes, Lighthouse mobile).
-- **Carried forward:** the Phase 8 lists above (test tightening, Code copy-button polish, small accessibility items, the Phase 6 and Phase 7 review minors), plus the Fraunces SOFT/WONK and Pico-8 touch checks.
-- **Add `@axe-core/playwright`** (8.2); the compare sheet goes in `qa/compare/` (gitignored).
+**Next: Phase 9 (Cleanup and launch)**
+- **Spec:** tasks 9.1–9.3:
+  - remove the old code and the two old packages;
+  - rewrite the README and prune `todo.md`;
+  - the launch checklist on a deploy preview, then the PR from `feature/redesign` into `main`.
+- **Carried forward:** the Phase 9 list above (preview redirects and Lighthouse, legacy folders, line numbers).
+- **Before launch, Cam:** the content review, the compare-sheet sign-off and the Pico-8 phone test (all under "Waiting on Cam").
 
 **How Cam likes to work**
 - **Each phase:**
@@ -129,6 +122,12 @@ Read this file first, then [`redesign-plan.md`](redesign-plan.md) (the spec), th
 - **Sätteri hast plugins** (`{ name, element: { filter, visit } }`) can return a replacement node; `ctx.data.astro.frontmatter` holds the post's raw frontmatter. Astro's heading-id plugin runs after user plugins, so ids follow the rewritten text. Tests that pass `data` to `markdownToHtml`/`mdxToJs` must give the full `astro` shape (`headings`, `localImagePaths`, `remoteImagePaths`) or `astro check` fails.
 - **`Manicule` is 1.6em wide,** so size it at the board's ☞ glyph size ÷ 1.6.
 - **Fraunces's optical-size axis widens letters at small sizes** (0.53em per character at 50px against 0.43em at 120px). Anything that sizes Fraunces text to fit must measure at the smallest size it reaches; `src/lib/fit.ts` holds widths measured at 24px.
+- **Fontsource serves a variable font's "full" file** when it has unregistered axes (Fraunces's SOFT and WONK), at twice the size. Google's provider takes `options.experimental.variableAxis` and serves only the axes asked for; neither trims a weight range.
+- **Astro's size-matched fallback faces** (`<Family> fallback: Arial`) have no `unicode-range`, so they draw any glyph the web font's subset lacks (← and →, for example). Draw those in a chosen face (`.arrow`).
+- **The boards' `min-height` is content-box;** the site is border-box. A board row with `min-height: 44px` and 14px padding is 72px tall.
+- **`content-visibility: auto` drops skipped content from Chrome's accessibility tree,** so it's not safe for sections people navigate by.
+- **Headless Chromium** never requests `/favicon.ico`, and doesn't reliably report a new tab or window opened to another origin as a page.
+- **Board screenshots** need an HTTP origin (the compare spec routes `http://boards.test/`): Chrome blocks CSS mask images on `file://` pages.
 - **A component whose root uses `align-self: stretch`** (`DoubleRule`, `DiamondRule`) collapses to zero width inside a `display: flex` row wrapper. Wrap it in a block, or pass it straight into a column.
 
 ## Standing rules
@@ -167,7 +166,7 @@ Each phase starts with the superpowers sessions it needs, in this order:
 | 5. Code pages | Skipped by Cam | Native (used) | Calls listed in the plan for Cam's review. |
 | 6. On pages | Skipped by Cam | Native (used) | Calls listed in the plan for Cam's review. |
 | 7. Tags, RSS, SEO | No | Native (used) | Calls listed in the plan for Cam's review. |
-| 8. QA | No | Native | Checklist-driven. |
+| 8. QA | No | Native (used) | Calls listed in the plan for Cam's review. |
 | 9. Cleanup and launch | No | Native | Deletions, docs and the PR into `main`. |
 
 ## Phases and tasks
@@ -239,11 +238,12 @@ PR: [#9](https://github.com/sasky/astro/pull/9)
 
 ### Phase 8: QA
 
-PR: _none yet_
+PR: [#10](https://github.com/sasky/astro/pull/10)
 
-- [ ] 8.1 Visual comparison against the designs at 1280 and 390 (M)
-- [ ] 8.2 Accessibility, adding `@axe-core/playwright` (M)
-- [ ] 8.3 Performance (S)
+- [x] Carry-forwards: Code copy and accessibility polish, On polish, Phase 4 test tightening, Phase 6 and 7 minors
+- [x] 8.1 Visual comparison against the designs at 1280 and 390 (M); the sheet awaits Cam's sign-off
+- [x] 8.2 Accessibility, adding `@axe-core/playwright` (M)
+- [x] 8.3 Performance (S)
 
 ### Phase 9: Cleanup and launch
 

@@ -275,3 +275,39 @@ test("the programme list counts down like its numerals", async ({ page }) => {
   await expect(list).toHaveAttribute("reversed", "");
   expect(await list.locator("li").count()).toBe(3);
 });
+
+test("programme titles never split a word at 320", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 800 });
+  await page.goto(listing);
+  const titles = page.locator(".prog-title");
+  await expect(titles).toHaveCount(3);
+  for (let i = 0; i < 3; i++) {
+    expect(await splitWords(page, `.prog-row:nth-child(${i + 1}) .prog-title`)).toEqual([]);
+  }
+});
+
+// The board shrinks only the title, numerals and "Now Showing" below 820px;
+// the subtitle, tip headings and Further heading keep their desktop sizes.
+test("post type sizes at 390 follow the board", async ({ page }) => {
+  const sizes = () =>
+    page.evaluate(() =>
+      [".subtitle", ".prose-on h2.tip", ".fm-heading"].map((selector) => getComputedStyle(document.querySelector(selector)!).fontSize),
+    );
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto(classy);
+  const desktop = await sizes();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(classy);
+  expect(await sizes()).toEqual(desktop);
+});
+
+// The post board's kraft is burnt at the left and right edges and has no
+// centre crease; the listing's has the crease and a radial vignette.
+test("posts and the listing use their own board's paper", async ({ page }) => {
+  const paper = () => page.locator(".texture-pattern").evaluate((el) => getComputedStyle(el).backgroundImage);
+  await page.goto(classy);
+  expect(await paper()).toContain("linear-gradient(90deg, rgba(80, 46, 12, 0.22), rgba(0, 0, 0, 0) 14%");
+  expect(await paper()).not.toContain("49.85%");
+  await page.goto(listing);
+  expect(await paper()).toContain("49.85%");
+});

@@ -27,7 +27,7 @@ test("every tag in the index has a page with its posts", async ({ page }) => {
   await page.goto("/");
   const chips = await page
     .locator(".tg-chip[data-tag]")
-    .evaluateAll((els) => els.map((el) => [el.getAttribute("data-tag")!, Number(el.querySelector(".tg-count")!.textContent)] as const));
+    .evaluateAll((els) => els.map((el) => [el.getAttribute("data-tag")!, parseInt(el.querySelector(".tg-count")!.textContent!)] as const));
   expect(chips.length).toBeGreaterThan(0);
   for (const [tag, count] of chips) {
     const response = await page.goto(`/tags/${tag}`);
@@ -114,4 +114,12 @@ test("the current tag looks current", async ({ page }) => {
   const current = await fill("/tags/learning");
   expect(current).not.toBe(await fill("/tags/pico8"));
   expect(current).not.toBe("rgba(0, 0, 0, 0)");
+});
+
+test("the current tag differs from a hovered tag", async ({ page }) => {
+  await page.goto("/tags/learning");
+  const label = (href: string) => page.locator(`.tag-link[href="${href}"] .tag-label`).first();
+  await label("/tags/pico8").hover();
+  const shadow = (href: string) => label(href).evaluate((el) => getComputedStyle(el).boxShadow);
+  expect(await shadow("/tags/learning")).not.toBe(await shadow("/tags/pico8"));
 });

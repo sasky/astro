@@ -17,18 +17,24 @@ export default defineConfig({
   // Self-hosted fonts. Each theme layout renders <Font> for its own families only.
   fonts: [
     {
+      // From Google, which can serve only the axes the design uses (opsz and
+      // wght, as in the boards). Fontsource serves Fraunces's "full" variable
+      // font, with SOFT and WONK too, at twice the size. Still self-hosted.
       ...common,
+      provider: fontProviders.google(),
       name: "Fraunces",
       cssVariable: "--font-fraunces",
       weights: ["100 900"],
       styles: ["normal", "italic"],
       fallbacks: ["Georgia", "serif"],
+      options: { experimental: { variableAxis: { opsz: [["9", "144"]] } } },
     },
     {
       ...common,
       name: "Source Sans 3",
       cssVariable: "--font-source-sans",
-      weights: [400, 600, 700],
+      // Variable: one file per style instead of one per weight.
+      weights: ["400 700"],
       styles: ["normal", "italic"],
       fallbacks: ["system-ui", "sans-serif"],
     },
@@ -36,7 +42,8 @@ export default defineConfig({
       ...common,
       name: "JetBrains Mono",
       cssVariable: "--font-jetbrains",
-      weights: [400, 500, 700, 800],
+      // Variable: one file per style instead of one per weight.
+      weights: ["400 800"],
       styles: ["normal", "italic"],
       fallbacks: ["Menlo", "monospace"],
     },

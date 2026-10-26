@@ -47,3 +47,14 @@ test("is a no-op outside On", async () => {
 test("leaves h3 alone", async () => {
   expect(await html("### 1. Step", "on")).not.toContain("num");
 });
+
+test("a tip numbered 0 stays a plain heading", async () => {
+  const out = await html("## 0. Foo", "on");
+  expect(out).not.toContain("tip");
+  expect(out).not.toContain("num");
+});
+
+test("wraps a plain On heading's content in one span, so inline markup stays together", async () => {
+  expect(await html("## The *real* point", "on")).toContain('<h2><span class="h-text">The <em>real</em> point</span></h2>');
+  expect(await html("## The *real* point", "code")).toContain("<h2>The <em>real</em> point</h2>");
+});

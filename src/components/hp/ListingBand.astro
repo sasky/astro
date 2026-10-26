@@ -118,6 +118,8 @@ const hasLede = lede || Astro.slots.has("lede");
 
   /* One word, sized to fit its measured width (--em, from headingFit): "Life" stays 120px, "#silverstripe" shrinks. */
   .band-section h1 {
+    /* Fixed first, for browsers without container units. */
+    font-size: 120px;
     font-size: min(120px, calc(100cqi / var(--em)));
     letter-spacing: -0.045em;
     line-height: 0.9;
@@ -157,6 +159,7 @@ const hasLede = lede || Astro.slots.has("lede");
     }
 
     .band-section h1 {
+      font-size: 72px;
       font-size: min(72px, calc(100cqi / var(--em)));
     }
 

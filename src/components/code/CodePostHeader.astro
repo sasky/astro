@@ -21,7 +21,7 @@ const { slug, title, description, pubDate, minutes, tags } = Astro.props;
 <header class="post-header">
   <Prompt path="~/code" cmd={`cat ${slug}.md`} crumbs />
   <h1><span class="hash" aria-hidden="true">#&nbsp;</span>{title}</h1>
-  <p class="desc">&gt; {description}</p>
+  <p class="desc"><span aria-hidden="true">&gt;&nbsp;</span>{description}</p>
   <div class="meta">
     <span><span class="meta-k">date&nbsp;</span><time datetime={formatDateISO(pubDate)}>{formatDateLong(pubDate)}</time></span>
     <span><span class="meta-k">read&nbsp;</span><span class="meta-v">{minutes} min read</span></span>

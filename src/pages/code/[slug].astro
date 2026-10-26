@@ -12,6 +12,7 @@ import CodeLayout from "../../layouts/CodeLayout.astro";
 import { getPosts } from "../../lib/get-posts";
 import { neighbours } from "../../lib/posts";
 import { readingTime } from "../../lib/text";
+import { pageTitle } from "../../lib/title";
 
 export const getStaticPaths = (async () => {
   const posts = await getPosts("code");
@@ -23,7 +24,7 @@ const { title, description, metaDescription, pubDate, tags, pico8 } = post.data;
 const { Content, headings } = await render(post);
 ---
 
-<CodeLayout title={`${title} — ${SECTIONS.code.title} — sasky.nz`} description={metaDescription ?? description} ogType="article">
+<CodeLayout title={pageTitle(title, SECTIONS.code.title)} description={metaDescription ?? description} ogType="article">
   <div class="code-main">
     <CodePostHeader
       slug={post.id}

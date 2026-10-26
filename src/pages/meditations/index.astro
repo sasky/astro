@@ -14,6 +14,7 @@ import { formatDateISO, formatDateOn, formatMonthYear, ordinalWord } from "../..
 import { getPosts } from "../../lib/get-posts";
 import { countLabel, postUrl, sectionStats, seriesNumber } from "../../lib/posts";
 import { excerpt } from "../../lib/text";
+import { pageTitle } from "../../lib/title";
 
 const section = SECTIONS.on;
 const posts = await getPosts("on");
@@ -22,7 +23,7 @@ const rest = posts.filter((post) => post !== latest);
 const latestExcerpt = latest && (latest.data.excerpt ?? excerpt(latest.body ?? ""));
 ---
 
-<OnLayout title={`${section.title} — sasky.nz`} description={section.blurb} footer="inside">
+<OnLayout title={pageTitle(section.title)} description={section.blurb} footer="inside">
   <div class="on-wrap">
     <Bill>
       <p class="presents">Cameron Grant of Wellington, Aotearoa, presents</p>
@@ -78,30 +79,12 @@ const latestExcerpt = latest && (latest.data.excerpt ?? excerpt(latest.body ?? "
 </OnLayout>
 
 <style>
-  .on-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-    max-width: 1000px;
-    margin: 0 auto;
-    box-sizing: border-box;
-    padding: 44px 28px 22px;
-  }
-
   .on-wrap :global(.on-correspondence) {
     margin-top: 18px;
   }
 
   p {
     margin: 0;
-  }
-
-  .presents {
-    font-size: 19px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    line-height: 1.2;
-    text-transform: uppercase;
   }
 
   .title,
@@ -228,10 +211,6 @@ const latestExcerpt = latest && (latest.data.excerpt ?? excerpt(latest.body ?? "
   }
 
   @media (max-width: 760px) {
-    .on-wrap {
-      padding: 28px 12px 22px;
-    }
-
     .title {
       font-size: 30px;
     }

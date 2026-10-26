@@ -80,6 +80,19 @@ const startsHome = path.startsWith("~");
     display: inline-flex;
   }
 
+  /* In a breadcrumb the links are only a "/" apart, so each one grows its
+     target outward instead: "~" to the left (over the plain "cam@sasky:"),
+     later segments to the right. Keeps neighbours from overlapping (WCAG 2.5.8). */
+  .prompt-crumbs .lnk {
+    margin: -10px -8px -10px 0;
+    padding: 0 8px 0 0;
+  }
+
+  .prompt-crumbs .lnk:first-child {
+    margin: -10px 0 -10px -16px;
+    padding: 0 0 0 16px;
+  }
+
   .prompt-cursor {
     display: inline-block;
     width: 9px;

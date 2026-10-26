@@ -148,3 +148,37 @@ test("#tags anchor exists", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("#tags")).toBeAttached();
 });
+
+test("hero picks the 480w portrait on a 390 phone", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  const img = page.locator(".hero img");
+  const smallest = (await img.getAttribute("srcset"))!.match(/(\S+) 480w/)![1];
+  await expect.poll(() => img.evaluate((el: HTMLImageElement) => new URL(el.currentSrc).pathname)).toBe(smallest);
+});
+
+test("Fraunces keeps its optical-size axis", async ({ page }) => {
+  await page.goto("/");
+  await page.evaluate(() => document.fonts.ready);
+  const perPx = await page.evaluate(() =>
+    [24, 120].map((size) => {
+      const span = document.createElement("span");
+      span.textContent = "philosophy";
+      span.style.cssText = `font: 800 ${size}px var(--display-font); position: absolute; white-space: nowrap`;
+      document.body.append(span);
+      const width = span.getBoundingClientRect().width / size;
+      span.remove();
+      return width;
+    }),
+  );
+  expect(perPx[0]).toBeGreaterThan(perPx[1] * 1.05);
+});
+
+// The board's rows are content-box: min-height 44px plus 14px padding top and bottom.
+test("tag selector rows are as tall as the board's", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/");
+  const heights = await page.locator(".tg-list:not([hidden]) .tg-row").evaluateAll((rows) => rows.map((row) => row.getBoundingClientRect().height));
+  expect(heights.length).toBeGreaterThan(0);
+  for (const height of heights) expect(height).toBeGreaterThanOrEqual(72);
+});
