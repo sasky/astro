@@ -16,7 +16,7 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 | 4. HP pages | Merged into `feature/redesign` | [#6](https://github.com/sasky/astro/pull/6) |
 | 5. Code pages | Merged into `feature/redesign` | [#7](https://github.com/sasky/astro/pull/7) |
 | 6. On pages | Merged into `feature/redesign` | [#8](https://github.com/sasky/astro/pull/8) |
-| 7. Tags, RSS, SEO | PR open for Cam's review | _see Phase 7 below_ |
+| 7. Tags, RSS, SEO | PR open for Cam's review | [#9](https://github.com/sasky/astro/pull/9) |
 | 8–9 | Not started | — |
 
 **Waiting on Cam**
@@ -231,7 +231,7 @@ PR: [#8](https://github.com/sasky/astro/pull/8)
 
 ### Phase 7: Tags, RSS and SEO
 
-PR: _opening_
+PR: [#9](https://github.com/sasky/astro/pull/9)
 
 - [x] 7.1 Tag pages (M)
 - [x] 7.2 RSS categories (S)
