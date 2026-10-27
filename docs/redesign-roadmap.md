@@ -2,11 +2,11 @@
 
 The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-plan.md) (the "plan"); this file lists the phases and tasks, what's done, and how each phase gets run.
 
-- **Branches:** each phase is built on `redesign/phase-N-<name>` and merged by PR into `feature/redesign`. Phase 9 opens the PR from `feature/redesign` into `main`.
+- **Branches:** each phase is built on `redesign/phase-N-<name>` and merged by PR into `feature/redesign`. The launch (task 9.3) is the PR from `feature/redesign` into `main`.
 - **Account:** `~/Sasky/` repos use the `sasky` GitHub account (cam@sasky.nz). Check `gh auth status` and `git config user.email` before pushing.
 - **Every PR runs:** `npm run build`, `npm run check`, `npm test`, `npm run check:links`, `npm run check:redirects -- --dist` and `npm run test:e2e`.
 
-## Status (26 Oct 2026)
+## Status (27 Oct 2026)
 
 | Phase | State | PR |
 |---|---|---|
@@ -18,10 +18,11 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 | 6. On pages | Merged into `feature/redesign` | [#8](https://github.com/sasky/astro/pull/8) |
 | 7. Tags, RSS, SEO | Merged into `feature/redesign` | [#9](https://github.com/sasky/astro/pull/9) |
 | 8. QA | Merged into `feature/redesign` | [#10](https://github.com/sasky/astro/pull/10) |
-| 9. Cleanup and launch | Cleanup PR open for Cam's review; the launch PR into `main` follows | [#11](https://github.com/sasky/astro/pull/11) |
+| 9. Cleanup and launch | Cleanup (9.1, 9.2) merged into `feature/redesign`. Launch (9.3) not started: it waits on Cam's fresh-context review | [#11](https://github.com/sasky/astro/pull/11) |
 
 **Waiting on Cam**
-- **Content review**, any time before Phase 9 (the posts are now in `src/content/posts/`):
+- **A fresh-context review of the whole redesign**, before the launch PR. See "For the review" below.
+- **Content review**, any time before launch (the posts are in `src/content/posts/`):
   - Pick tags for every post. The current ones are interim (Q1), and Classy has none.
   - NZ Music's computed excerpt is its link-only first paragraph ("Waiata 100. what is Atearoa's favourite song"). Set `excerpt:` in its frontmatter for the On listing if you want something else.
   - Copy slips: "Atearoa" (NZ Music), "indented audience" (Silverstripe), the "Scott J Mason (2014" embed title missing its `)`.
@@ -58,7 +59,7 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 Read this file first, then [`redesign-plan.md`](redesign-plan.md) (the spec), then the design files in `design-handoff/`. The plans and designs for finished phases are in `docs/superpowers/plans/` and `docs/superpowers/specs/`. They're useful as examples of the format.
 
 **Where things stand**
-- **Branch:** `feature/redesign` holds Phases 1–8, merged; Phase 9's cleanup is on `redesign/phase-9-launch` until its PR merges. `main` is still the live old site.
+- **Branch:** `feature/redesign` holds Phases 1–9 (cleanup), all merged; no phase branch is open. `main` is still the live old site.
 - **Live pages:**
   - **On the new HP theme:** Home, `/life`, `/life/[slug]`, `/tags/[tag]` and the 404.
   - **On the new Code theme:** `/code` and `/code/[slug]`.
@@ -87,11 +88,23 @@ Read this file first, then [`redesign-plan.md`](redesign-plan.md) (the spec), th
 - **RSS:** `src/pages/rss.xml.ts` maps posts through `feedItem()` (section label, then tags, as categories) and adds `atom:link rel="self"`.
 - **SEO:** `BaseLayout` emits title, description, canonical and OG tags; `tests/e2e/meta.spec.ts` pins them for one page of each type.
 
-**Next: launch (Phase 9, task 9.3)**
-- Once Cam merges the cleanup PR, open the PR from `feature/redesign` into `main` and run the checks above on its deploy preview. Put the results in the PR body.
+**For the review** (Cam, in a fresh context)
+- **Start with:**
+  - the [README](../README.md), the guide to the codebase as it is now;
+  - this file's "Where things stand" and "Waiting on Cam".
+- **The decisions to check:** each phase plan lists the calls made in place of a brainstorm, and its PR lists the rulings made during the build. Phases 4–9 skipped the brainstorm:
+  - plans: [4](superpowers/plans/2026-10-26-phase-4-hp-pages.md), [5](superpowers/plans/2026-10-26-phase-5-code-pages.md), [6](superpowers/plans/2026-10-26-phase-6-on-pages.md), [7](superpowers/plans/2026-10-26-phase-7-tags-rss-seo.md), [8](superpowers/plans/2026-10-26-phase-8-qa.md), [9](superpowers/plans/2026-10-26-phase-9-launch.md);
+  - PRs: [#6](https://github.com/sasky/astro/pull/6)–[#11](https://github.com/sasky/astro/pull/11).
+- **The pages against the designs:** run `npm run build && npm run qa:compare`, then open `qa/compare/index.html`. It lists the intentional differences at the top.
+- **Run it yourself:** `npm run build && npm run preview`. The full check list is under "Scripts" in the README.
+- **Known open items:** "Carried forward" above. The "after launch" minors don't block launch.
+
+**Next: launch (Phase 9, task 9.3)** — after the review
+- Open the PR from `feature/redesign` into `main`; Netlify builds a deploy preview for it.
+- Run the launch checks above on that preview, and put the results in the PR body.
 - Cam merges the launch PR; then run the post-merge checks above.
 - **Before launch, Cam:** the content review, the compare-sheet sign-off and the Pico-8 phone test (all under "Waiting on Cam").
-- **The README** (rewritten in Phase 9) is now the guide to the codebase; this file stays the record of the redesign.
+- **After launch:** the README is the guide to the codebase; this file stays the record of the redesign.
 
 **How Cam likes to work**
 - **Each phase:**
@@ -99,7 +112,7 @@ Read this file first, then [`redesign-plan.md`](redesign-plan.md) (the spec), th
   - Then native execution, with one fresh reviewer at the end.
   - Then a PR into `feature/redesign`, which Cam merges.
 - **Review:** in-between states are reviewed as code only; no browser review needed.
-- **Redirects** are verified locally with Netlify's emulator, not on deploy previews.
+- **Redirects** are verified locally with Netlify's emulator during the phases. The launch PR into `main` is the first with a deploy preview, so the redirects get checked there as well.
 - **Content** (tags, copy slips, section intros) waits for Cam's own review; don't change post copy.
 - **This file** gets updated at the end of every phase.
 
@@ -246,7 +259,7 @@ PR: [#10](https://github.com/sasky/astro/pull/10)
 
 ### Phase 9: Cleanup and launch
 
-PR: [#11](https://github.com/sasky/astro/pull/11) (cleanup); the launch PR into `main` follows
+PR: [#11](https://github.com/sasky/astro/pull/11) (cleanup, merged); the launch PR into `main` comes after Cam's review
 
 - [x] 9.1 Remove the old code (S); also kept Code line numbers out of screen readers
 - [x] 9.2 Docs (S)
