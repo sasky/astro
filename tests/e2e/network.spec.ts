@@ -13,7 +13,7 @@ const PAGES: [string, RegExp][] = [
   ["/life", HP],
   ["/life/top-concertvids", HP],
   ["/meditations", ON],
-  ["/meditations/on-new-zealand-music", ON],
+  ["/meditations/on-happiness", ON],
   ["/tags/music", HP],
   ["/no-such-page", HP],
 ];

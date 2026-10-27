@@ -12,7 +12,7 @@ const PAGES = [
   "/code/hide-n-seek-game",
   "/life/top-concertvids",
   "/meditations/on-being-classy",
-  "/meditations/on-new-zealand-music",
+  "/life/best-new-zealand-music",
   "/tags/music",
   "/no-such-page",
 ];
@@ -150,7 +150,7 @@ test.describe("without JS", () => {
   });
 
   test("video cards link to YouTube", async ({ page }) => {
-    await page.goto("/meditations/on-new-zealand-music");
+    await page.goto("/life/best-new-zealand-music");
     for (const card of await page.locator("a.vid").all()) {
       await expect(card).toHaveAttribute("href", /^https:\/\/www\.youtube\.com\/watch\?v=/);
     }

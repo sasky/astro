@@ -11,6 +11,8 @@ interface Props {
 }
 
 const { id, title, caption } = Astro.props;
+// The card's label names the act: the caption up to its dash ("Lorde — Royals" → "Lorde").
+const name = caption?.split(/\s+[—–-]\s+/)[0].trim() || "Video";
 ---
 
 <figure class="video">
@@ -24,7 +26,7 @@ const { id, title, caption } = Astro.props;
     <span class="vid-play" aria-hidden="true">
       <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"></path></svg>
     </span>
-    <span class="vid-label" aria-hidden="true">Video · YouTube</span>
+    <span class="vid-label" aria-hidden="true">{name} · YouTube</span>
   </a>
   {caption && <figcaption class="vid-caption">{caption}</figcaption>}
 </figure>

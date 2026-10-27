@@ -112,7 +112,7 @@ export function plural(n: number, one: string, many: string = `${one}s`): string
   return `${n} ${n === 1 ? one : many}`;
 }
 
-/** ["Life", "On"] → "Life and On"; ["Code", "Life", "On"] → "Code, Life and On". */
+/** ["Life", "Meditations"] → "Life and Meditations"; ["Code", "Life", "Meditations"] → "Code, Life and Meditations". */
 export function formatList(items: string[]): string {
   return new Intl.ListFormat("en-NZ", { type: "conjunction" }).format(items);
 }

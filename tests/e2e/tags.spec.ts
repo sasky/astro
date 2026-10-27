@@ -9,15 +9,15 @@ test("music tag page", async ({ page }) => {
   await expect(page.locator("html")).toHaveAttribute("data-theme", "hp");
   await expect(page.locator("h1")).toHaveText("#music");
   await expect(page.locator(".band .dymo")).toHaveText("2 posts");
-  await expect(page.locator(".band .lede")).toHaveText("Posts from Life and On. Pick another tag on the home page.");
+  await expect(page.locator(".band .lede")).toHaveText("Posts from Life. Pick another tag on the home page.");
   await expect(page.locator('.band .lede a[href="/#tags"]')).toHaveText("home page");
   await expect(page.locator("h2#all")).toHaveText("Every post tagged music, newest first");
   const rows = page.locator("main article");
   await expect(rows.locator("h3 a")).toHaveText([
-    "On New Zealand Music",
+    "Best New Zealand Music",
     "Concert youtube vids to temporarily restore one's faith in humanity",
   ]);
-  await expect(rows.locator(".chip")).toHaveText(["On", "Life"]);
+  await expect(rows.locator(".chip")).toHaveText(["Life", "Life"]);
   const current = rows.locator('.tag-link[href="/tags/music"]');
   await expect(current).toHaveCount(2);
   for (const link of await current.all()) await expect(link).toHaveAttribute("aria-current", "page");

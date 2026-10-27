@@ -1,7 +1,8 @@
 ---
-// The HP listing header band: plus marks, blue wash, a count Dymo, the
-// heading, a lede and an optional intro. Values: Site-Life-List.dc.html.
-// The 404 uses it with no wash and the "message" heading.
+// The HP listing header band: plus marks across its width, a count Dymo, the
+// heading, a lede and an optional intro. Values: Site-Life-List.dc.html, less
+// the board's blue wash, which made the intro hard to read on phones.
+// The 404 uses it with the "message" heading.
 import Dymo from "../site/Dymo.astro";
 import { headingFit } from "../../lib/fit";
 
@@ -11,13 +12,11 @@ interface Props {
   title: string;
   lede?: string;
   intro?: string;
-  /** The blue wash on the right; on by default. */
-  wash?: boolean;
   /** "section" is the one-word listing heading; "message" a short sentence. */
   variant?: "section" | "message";
 }
 
-const { headingId, label, title, lede, intro, wash = true, variant = "section" } = Astro.props;
+const { headingId, label, title, lede, intro, variant = "section" } = Astro.props;
 const plusId = `${headingId}-plus`;
 const hasLede = lede || Astro.slots.has("lede");
 ---
@@ -32,13 +31,6 @@ const hasLede = lede || Astro.slots.has("lede");
       </defs>
       <rect width="100%" height="100%" fill={`url(#${plusId})`}></rect>
     </svg>
-    {
-      wash && (
-        <div class="wash">
-          <div class="wash-grain" />
-        </div>
-      )
-    }
   </div>
   <div class="band-in">
     <Dymo tone="navy" as="p">{label}</Dymo>
@@ -73,28 +65,9 @@ const hasLede = lede || Astro.slots.has("lede");
     position: absolute;
     top: 0;
     left: 0;
-    width: 54%;
+    width: 100%;
     height: 100%;
     opacity: 0.55;
-  }
-
-  .wash {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 58%;
-    background-color: var(--blue);
-    opacity: 0.85;
-    mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.12) 26%, rgba(0, 0, 0, 0.55) 58%, #000 100%);
-  }
-
-  .wash-grain {
-    position: absolute;
-    inset: 0;
-    background-image:
-      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.07) 0px, rgba(255, 255, 255, 0.07) 1px, transparent 1px, transparent 28px),
-      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.07) 0px, rgba(255, 255, 255, 0.07) 1px, transparent 1px, transparent 28px);
   }
 
   .band-in {
@@ -165,10 +138,6 @@ const hasLede = lede || Astro.slots.has("lede");
 
     .lede {
       font-size: 22px;
-    }
-
-    .wash {
-      width: 100%;
     }
   }
 </style>

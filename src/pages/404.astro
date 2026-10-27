@@ -1,6 +1,6 @@
 ---
 // Not found (HP theme). There's no design file for it, so it borrows the
-// Life listing's header band (Site-Life-List.dc.html) without the blue wash.
+// Life listing's header band (Site-Life-List.dc.html).
 import ListingBand from "../components/hp/ListingBand.astro";
 import { SECTIONS } from "../data/sections";
 import HpLayout from "../layouts/HpLayout.astro";
@@ -16,7 +16,7 @@ const [code, life, on] = [section("code"), section("life"), section("on")];
   noindex
   texture={0.8}
 >
-  <ListingBand headingId="not-found" label="404" title="This page has wandered off" wash={false} variant="message">
+  <ListingBand headingId="not-found" label="404" title="This page has wandered off" variant="message">
     <Fragment slot="lede">
       It might have moved when the site was reorganised. Try <a href={code.href}>{code.label}</a>,{" "}
       <a href={life.href}>{life.label}</a> or <a href={on.href}>{on.label}</a>, or head <a href="/">home</a>.

@@ -17,7 +17,7 @@ const { count, since } = sectionStats(posts);
 <CodeLayout title={pageTitle(section.title)} description={section.blurb}>
   <div class="code-main">
     <header class="readme">
-      <Prompt path="~/code" cmd="cat README.md" link />
+      <Prompt path="~/code" cmd="cat README.md" />
       <h1><span class="hash" aria-hidden="true">#&nbsp;</span>{section.title}</h1>
       <p class="blurb"><span aria-hidden="true">&gt;&nbsp;</span>{section.blurb}</p>
       {section.intro && <p class="intro"><span aria-hidden="true">&lt;!--&nbsp;</span>{section.intro}<span aria-hidden="true">&nbsp;--&gt;</span></p>}

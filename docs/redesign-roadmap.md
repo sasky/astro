@@ -19,12 +19,12 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 | 7. Tags, RSS, SEO | Merged into `feature/redesign` | [#9](https://github.com/sasky/astro/pull/9) |
 | 8. QA | Merged into `feature/redesign` | [#10](https://github.com/sasky/astro/pull/10) |
 | 9. Cleanup and launch | Cleanup (9.1, 9.2) merged into `feature/redesign`. Launch (9.3) not started: it waits on Cam's fresh-context review | [#11](https://github.com/sasky/astro/pull/11) |
+| Review fixes (round 1) | Cam's first review pass: the section is labelled "Meditations", NZ Music moved to Life as "Best New Zealand Music" (`/life/best-new-zealand-music`), hero layout, no wash on the listing band, YouTube labels, pinned Code texture, `~` links in every prompt. On `redesign/review-fixes` | — |
 
 **Waiting on Cam**
-- **A fresh-context review of the whole redesign**, before the launch PR. See "For the review" below.
+- **A fresh-context review of the whole redesign**, before the launch PR. See "For the review" below. Round 1's fixes are on `redesign/review-fixes`.
 - **Content review**, any time before launch (the posts are in `src/content/posts/`):
   - Pick tags for every post. The current ones are interim (Q1), and Classy has none.
-  - NZ Music's computed excerpt is its link-only first paragraph ("Waiata 100. what is Atearoa's favourite song"). Set `excerpt:` in its frontmatter for the On listing if you want something else.
   - Copy slips: "Atearoa" (NZ Music), "indented audience" (Silverstripe), the "Scott J Mason (2014" embed title missing its `)`.
   - Optional: title-case the Moment post's title (Q5).
   - Refine the draft section intros in `src/data/sections.ts` (marked `TODO(Cam)`).

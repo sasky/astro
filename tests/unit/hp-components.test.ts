@@ -70,9 +70,8 @@ test("ListingBand omits an empty intro", async () => {
   expect(html).toContain("Everything but code");
 });
 
-test("ListingBand without wash", async () => {
-  expect(await container.renderToString(ListingBand, { props: band })).toContain("wash");
-  expect(await container.renderToString(ListingBand, { props: { ...band, wash: false } })).not.toContain("wash");
+test("ListingBand has no blue wash", async () => {
+  expect(await container.renderToString(ListingBand, { props: band })).not.toContain("wash");
 });
 
 test("ListingBand section heading carries its length", async () => {
@@ -154,7 +153,7 @@ test("TagSelector singular summary", async () => {
 
 test("TagSelector rows show the section chip, title and date", async () => {
   const music = listFor(await container.renderToString(TagSelector, { props: { index: tagIndex } }), "music");
-  expect(music).toMatch(/chip-on[^>]*>\s*On\s*</);
+  expect(music).toMatch(/chip-on[^>]*>\s*Meditations\s*</);
   expect(music).toMatch(/chip-life[^>]*>\s*Life\s*</);
   expect(music).toContain('href="/meditations/on-new-zealand-music"');
   expect(music).toContain('href="/life/top-concertvids"');

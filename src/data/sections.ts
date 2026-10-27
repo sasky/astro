@@ -39,7 +39,7 @@ export const SECTIONS: Record<Section, SectionInfo> = {
   },
   on: {
     path: "meditations",
-    label: "On",
+    label: "Meditations",
     unit: "meditation",
     blurb: "Satire, humour & philosophy",
     title: "Pseudo Philosophy Meditations",

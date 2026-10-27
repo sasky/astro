@@ -30,3 +30,10 @@ test("caption is optional", async () => {
   });
   expect(html).toMatch(/<figcaption[^>]*>\s*Lorde — Royals, live 2013\s*<\/figcaption>/);
 });
+
+test("label names the act from the caption, or says Video", async () => {
+  const label = (html: string) => html.match(/class="vid-label"[^>]*>([^<]*)</)?.[1].trim();
+  expect(label(await container.renderToString(YouTube, { props: lorde }))).toBe("Video · YouTube");
+  const html = await container.renderToString(YouTube, { props: { ...lorde, caption: "Lorde — Royals, live 2013" } });
+  expect(label(html)).toBe("Lorde · YouTube");
+});

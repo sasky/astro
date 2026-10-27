@@ -14,7 +14,7 @@ test("feedItem links the post and files it under its section and tags", () => {
     description: "About on-new-zealand-music",
     pubDate: nzMusic.data.pubDate,
     link: "/meditations/on-new-zealand-music",
-    categories: ["On", "music"],
+    categories: ["Meditations", "music"],
   });
   expect(feedItem(post("hide-n-seek-game", "code", ["pico8", "learning", "family"])).categories).toEqual([
     "Code",
@@ -25,7 +25,7 @@ test("feedItem links the post and files it under its section and tags", () => {
 });
 
 test("an untagged post is filed under its section only", () => {
-  expect(feedItem(post("on-being-classy", "on", [])).categories).toEqual(["On"]);
+  expect(feedItem(post("on-being-classy", "on", [])).categories).toEqual(["Meditations"]);
 });
 
 test("the feed escapes &, < and quotes in titles and descriptions", async () => {

@@ -15,7 +15,7 @@ test("parseRedirects skips comments and blank lines", () => {
 
 test("public/_redirects maps every old URL", () => {
   const rules = parseRedirects(readFileSync("public/_redirects", "utf8"));
-  expect(rules).toHaveLength(10);
+  expect(rules).toHaveLength(11);
   expect(rules.every((r) => r.status === 301)).toBe(true);
   expect(rules).toContainEqual(rule("/top_ten_tips_on_class", "/meditations/on-being-classy"));
   expect(rules).toContainEqual(rule("/tags/life", "/life"));

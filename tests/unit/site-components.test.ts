@@ -47,7 +47,7 @@ test("CodeFooter shows the vim mode line", async () => {
 });
 
 test("SectionChip uses the section label", async () => {
-  expect(await container.renderToString(SectionChip, { props: { section: "on" } })).toMatch(/>\s*On\s*</);
+  expect(await container.renderToString(SectionChip, { props: { section: "on" } })).toMatch(/>\s*Meditations\s*</);
 });
 
 test("footer links open in the same tab", async () => {

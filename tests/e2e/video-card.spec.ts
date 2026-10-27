@@ -64,7 +64,7 @@ test.describe("without JS", () => {
 });
 
 test("NZ Music cards have titles", async ({ page }) => {
-  await page.goto("/meditations/on-new-zealand-music");
+  await page.goto("/life/best-new-zealand-music");
   const labels = await page.locator("a.vid").evaluateAll((cards) => cards.map((card) => card.getAttribute("aria-label")));
   expect(labels.length).toBeGreaterThan(0);
   for (const label of labels) {

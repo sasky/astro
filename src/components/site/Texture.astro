@@ -1,6 +1,7 @@
 ---
 // Decorative background layers: the theme's pattern plus a tiled grain.
-// They cover the whole page behind the content and can't be clicked.
+// They cover the whole page behind the content and can't be clicked. A theme
+// can pin them to the viewport with --texture-position: fixed.
 interface Props {
   /** Texture strength (0–1). Defaults to the theme's --texture-opacity. */
   opacity?: number;
@@ -16,7 +17,7 @@ const { opacity } = Astro.props;
 
 <style>
   .texture {
-    position: absolute;
+    position: var(--texture-position, absolute);
     inset: 0;
     z-index: 0;
     pointer-events: none;
