@@ -21,14 +21,14 @@ test("a section listing is the current page", async () => {
   expect(navLinks(html)).toEqual([
     ["/code", "Code", null],
     ["/life", "Life", null],
-    ["/meditations", "On", "page"],
+    ["/meditations", "Meditations", "page"],
   ]);
   expect(html.match(/aria-current/g)).toHaveLength(1);
 });
 
 test("a post marks its section as current", async () => {
   const html = await renderAt("/meditations/on-happiness.html");
-  expect(navLinks(html)[2]).toEqual(["/meditations", "On", "true"]);
+  expect(navLinks(html)[2]).toEqual(["/meditations", "Meditations", "true"]);
 });
 
 test("Home marks the wordmark, not a section", async () => {

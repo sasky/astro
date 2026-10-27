@@ -6,7 +6,6 @@ const listing = "/meditations";
 const moment = "/meditations/on-being-in-the-moment-vs-past-and-future";
 const classy = "/meditations/on-being-classy";
 const happiness = "/meditations/on-happiness";
-const nzMusic = "/meditations/on-new-zealand-music";
 const onFonts = /Holtwood One SC|Alfa Slab One|Rye|Oswald/;
 
 // OnLayout clips overflow, so scrollWidth can't catch it: check that every
@@ -48,10 +47,10 @@ test("On listing heading, stats and headliner", async ({ page }) => {
   await page.goto(listing);
   await expect(page).toHaveTitle("Pseudo Philosophy Meditations — sasky.nz");
   await expect(page.locator("h1")).toHaveText("Pseudo Philosophy Meditations");
-  await expect(page.locator(".stats")).toContainText("4 meditations");
-  await expect(page.locator(".stats")).toContainText("since June 2026");
+  await expect(page.locator(".stats")).toContainText("3 meditations");
+  await expect(page.locator(".stats")).toContainText("since September 2026");
   const headliner = page.locator('section[aria-labelledby="headliner"]');
-  await expect(headliner.locator(".now-showing")).toHaveText("!Now Showing · Meditation the Fourth!");
+  await expect(headliner.locator(".now-showing")).toHaveText("!Now Showing · Meditation the Third!");
   await expect(page.locator("#headliner a")).toHaveAttribute("href", moment);
   await expect(headliner.locator(".excerpt")).toHaveText(/^You do not realise at first/);
   await expect(headliner.locator(".byline")).toContainText("18th October 2026");
@@ -61,17 +60,17 @@ test("On listing heading, stats and headliner", async ({ page }) => {
 test("Also Appearing lists the rest, newest first, with computed numerals", async ({ page }) => {
   await page.goto(listing);
   const rows = page.locator('section[aria-labelledby="also"] li');
-  await expect(rows.locator(".prog-title")).toHaveText(["On Happiness", "On Being Classy", "On New Zealand Music"]);
-  await expect(rows.locator(".prog-num")).toHaveText(["III.", "II.", "I."]);
-  await expect(rows.locator("time")).toHaveText(["22nd Sept. 2026", "11th Sept. 2026", "20th June 2026"]);
+  await expect(rows.locator(".prog-title")).toHaveText(["On Happiness", "On Being Classy"]);
+  await expect(rows.locator(".prog-num")).toHaveText(["II.", "I."]);
+  await expect(rows.locator("time")).toHaveText(["22nd Sept. 2026", "11th Sept. 2026"]);
   const classyLine = rows.nth(1).locator(".prog-line");
   await expect(classyLine).toHaveText("Top Ten Tips for Staying Classy");
   await expect(classyLine).not.toHaveClass(/prog-line-long/);
   expect(await classyLine.evaluate((el) => getComputedStyle(el).textTransform)).toBe("uppercase");
-  const nzLine = rows.nth(2).locator(".prog-line");
-  await expect(nzLine).toHaveClass(/prog-line-long/);
-  await expect(nzLine).toHaveText(/songs\.$/);
-  expect(await nzLine.evaluate((el) => getComputedStyle(el).textTransform)).toBe("none");
+  const happinessLine = rows.nth(0).locator(".prog-line");
+  await expect(happinessLine).toHaveClass(/prog-line-long/);
+  await expect(happinessLine).toHaveText(/"Happy\."$/);
+  expect(await happinessLine.evaluate((el) => getComputedStyle(el).textTransform)).toBe("none");
 });
 
 test("On listing chrome", async ({ page, request }) => {
@@ -144,18 +143,16 @@ test("Classy tips get Roman numerals", async ({ page }) => {
 });
 
 test("other On headings are untouched", async ({ page }) => {
-  for (const path of [moment, nzMusic]) {
-    await page.goto(path);
-    await expect(page.locator(".prose-on h2.tip, .prose-on .num")).toHaveCount(0);
-    const h2 = page.locator(".prose-on h2").first();
-    expect(await h2.evaluate((el) => getComputedStyle(el).fontFamily)).toMatch(/Rye/);
-  }
+  await page.goto(moment);
+  await expect(page.locator(".prose-on h2.tip, .prose-on .num")).toHaveCount(0);
+  const h2 = page.locator(".prose-on h2").first();
+  expect(await h2.evaluate((el) => getComputedStyle(el).fontFamily)).toMatch(/Rye/);
 });
 
 test("post header, numbering and title", async ({ page }) => {
   await page.goto(classy);
   await expect(page).toHaveTitle("On Being Classy — Pseudo Philosophy Meditations — sasky.nz");
-  await expect(page.locator(".post-header .now-showing")).toHaveText("!Meditation the Second!");
+  await expect(page.locator(".post-header .now-showing")).toHaveText("!Meditation the First!");
   await expect(page.locator("h1")).toHaveText("On Being Classy");
   await expect(page.locator('nav[aria-label="Breadcrumb"] a')).toHaveAttribute("href", "/meditations");
   await expect(page.locator('.site-nav-link[href="/meditations"]')).toHaveAttribute("aria-current", "true");
@@ -163,16 +160,16 @@ test("post header, numbering and title", async ({ page }) => {
 
 test("Further Meditations follow G7", async ({ page }) => {
   const labels = (p: Page) => p.locator("nav[aria-labelledby=further] .fm-label");
-  await page.goto(classy);
+  await page.goto(happiness);
   await expect(labels(page)).toHaveText(["Earlier · Meditation the First", "Later · Meditation the Third"]);
-  await expect(page.locator(".further").first()).toHaveAttribute("href", nzMusic);
-  await page.goto(nzMusic);
+  await expect(page.locator(".further").first()).toHaveAttribute("href", classy);
+  await page.goto(classy);
   await expect(labels(page)).toHaveText(["Later · Meditation the Second"]);
   const card = (await page.locator(".further").boundingBox())!;
   const grid = (await page.locator(".fm-grid").boundingBox())!;
   expect(Math.abs(card.x + card.width / 2 - (grid.x + grid.width / 2))).toBeLessThanOrEqual(1);
   await page.goto(moment);
-  await expect(labels(page)).toHaveText(["Earlier · Meditation the Third"]);
+  await expect(labels(page)).toHaveText(["Earlier · Meditation the Second"]);
   await expect(page.locator(".fm-programme")).toHaveAttribute("href", "/meditations");
 });
 
@@ -191,19 +188,6 @@ test("drop cap on the first paragraph", async ({ page }) => {
     .first()
     .evaluate((el) => getComputedStyle(el, "::first-letter").fontFamily);
   expect(family).toMatch(/Holtwood/);
-});
-
-test("On video cards use On tokens and still play", async ({ page }) => {
-  await page.goto(nzMusic);
-  const card = page.locator(".vid").first();
-  const [border, background] = await card.evaluate((el) => [
-    getComputedStyle(el).borderTopColor,
-    getComputedStyle(el).backgroundColor,
-  ]);
-  expect(border).toBe("rgb(35, 23, 14)");
-  expect(background).not.toBe("rgb(18, 22, 61)");
-  await card.click();
-  await expect(page.locator(".video").first().locator('iframe[src*="youtube-nocookie.com"]')).toBeAttached();
 });
 
 test("post at 390", async ({ page }) => {
@@ -229,7 +213,7 @@ test("no console errors on On posts", async ({ page }) => {
   const errors: string[] = [];
   page.on("console", (message) => message.type() === "error" && errors.push(message.text()));
   page.on("pageerror", (error) => errors.push(error.message));
-  for (const path of [moment, happiness, classy, nzMusic]) await page.goto(path, { waitUntil: "networkidle" });
+  for (const path of [moment, happiness, classy]) await page.goto(path, { waitUntil: "networkidle" });
   expect(errors).toEqual([]);
 });
 
@@ -255,33 +239,19 @@ test("tip numerals stay inside the bill between breakpoints", async ({ page }) =
   }
 });
 
-test("a one-line first paragraph keeps the drop cap to itself", async ({ page }) => {
-  await page.goto(nzMusic);
-  const [first, second] = await page.locator(".prose-on > p").evaluateAll((ps) =>
-    ps.slice(0, 2).map((p) => {
-      const range = document.createRange();
-      range.selectNodeContents(p);
-      return { bottom: p.getBoundingClientRect().bottom, left: range.getClientRects()[0].left };
-    }),
-  );
-  const column = (await page.locator(".prose-on").boundingBox())!;
-  expect(Math.abs(second.left - column.x)).toBeLessThanOrEqual(1);
-  expect(second.left).toBeLessThan(first.left);
-});
-
 test("the programme list counts down like its numerals", async ({ page }) => {
   await page.goto(listing);
   const list = page.locator('section[aria-labelledby="also"] ol');
   await expect(list).toHaveAttribute("reversed", "");
-  expect(await list.locator("li").count()).toBe(3);
+  expect(await list.locator("li").count()).toBe(2);
 });
 
 test("programme titles never split a word at 320", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 800 });
   await page.goto(listing);
   const titles = page.locator(".prog-title");
-  await expect(titles).toHaveCount(3);
-  for (let i = 0; i < 3; i++) {
+  await expect(titles).toHaveCount(2);
+  for (let i = 0; i < 2; i++) {
     expect(await splitWords(page, `.prog-row:nth-child(${i + 1}) .prog-title`)).toEqual([]);
   }
 });

@@ -31,7 +31,7 @@ beforeAll(async () => {
 });
 
 test("Prompt links ~ home", async () => {
-  const html = await container.renderToString(Prompt, { props: { path: "~/code", cmd: "cat README.md", link: true } });
+  const html = await container.renderToString(Prompt, { props: { path: "~/code", cmd: "cat README.md" } });
   expect(html).toMatch(/href="\/"[^>]*>\s*~\s*</);
   expect(html).toContain("/code");
   expect(html).toContain("$");
@@ -63,8 +63,8 @@ test("CodeListEntry", async () => {
   expect(html).toMatch(/href="\/tags\/silverstripe"[^>]*>\s*(<span[^>]*>)?\s*\[silverstripe\]/);
 });
 
-test("Prompt without link leaves ~ as text", async () => {
-  expect(await container.renderToString(Prompt, { props: { path: "~/code", cmd: "ls -lt" } })).not.toContain("<a");
+test("Prompt leaves a path outside ~ as text", async () => {
+  expect(await container.renderToString(Prompt, { props: { path: "/etc", cmd: "ls -lt" } })).not.toContain("<a");
 });
 
 const hideNSeek = {

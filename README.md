@@ -8,7 +8,7 @@ Posts live in three sections, each with its own look:
 |---|---|---|---|
 | Code | `/code` | `code` | A terminal: JetBrains Mono, green on near-black |
 | Life | `/life` | `hp` | Graph paper, Dymo labels and Fraunces (Home, tag pages and the 404 use it too) |
-| On | `/meditations` | `on` | A Victorian handbill: kraft paper, Holtwood, Oswald, Roman numerals |
+| Meditations | `/meditations` | `on` | A Victorian handbill: kraft paper, Holtwood, Oswald, Roman numerals |
 
 Home (`/`) has the hero, the about section, a door into each section and a tag browser. Tags have pages at `/tags/{tag}`, and there's one RSS feed at `/rss.xml`.
 

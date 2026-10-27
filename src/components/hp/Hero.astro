@@ -29,7 +29,7 @@ const masks = `--mask-sil: url(${silhouette.src}); --mask-jacket: url(${jacket.s
       <Image
         src={portrait}
         widths={[480, 760, 1000, 1527]}
-        sizes="(max-width: 760px) 100vw, 60vw"
+        sizes="(max-width: 1060px) 480px, 60vw"
         alt=""
         loading="eager"
         fetchpriority="high"
@@ -88,10 +88,13 @@ const masks = `--mask-sil: url(${silhouette.src}); --mask-jacket: url(${jacket.s
       repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.07) 0px, rgba(255, 255, 255, 0.07) 1px, transparent 1px, transparent 28px);
   }
 
+  /* Hangs 40px off the viewport's right edge until the page is wider than
+     the content column (about 1150px); then the shoulder lines up with the
+     column's right edge (the cutout has about 80px of space beside it). */
   .portrait {
     position: absolute;
     top: 4%;
-    right: -40px;
+    right: max(-40px, calc((100% - var(--wrap)) / 2 + var(--gutter) - 80px));
     height: 104%;
     aspect-ratio: 1527 / 1500;
     mask-image: linear-gradient(90deg, transparent 0%, transparent 14%, #000 44%);
@@ -215,23 +218,29 @@ const masks = `--mask-sil: url(${silhouette.src}); --mask-jacket: url(${jacket.s
     line-height: 1.35;
   }
 
-  @media (max-width: 760px) {
+  /* Stacked: the photo above the text. Below about 1060px the side-by-side
+     heading runs into the photo. */
+  @media (max-width: 1060px) {
     .hero {
       flex-direction: column;
       min-height: 0;
     }
 
+    /* Crops the 470px portrait at the chest, and keeps the ghost stripes
+       from running under the name line. */
     .hero-media {
       position: relative;
       inset: auto;
-      height: 480px;
+      height: 360px;
+      overflow: clip;
     }
 
+    /* 470px tall is 479px wide, inside the 480w candidate that `sizes` names. */
     .portrait {
       top: 0;
       right: auto;
       left: 50%;
-      height: 100%;
+      height: 470px;
       transform: translateX(-50%);
       mask-image: none;
     }
@@ -250,15 +259,20 @@ const masks = `--mask-sil: url(${silhouette.src}); --mask-jacket: url(${jacket.s
     }
 
     .hero-copy {
-      padding: 0 20px 56px;
+      padding: 20px 20px 56px;
+    }
+
+    .hero-text {
+      gap: 18px;
+      max-width: none;
     }
 
     h1 {
-      font-size: 44px;
+      font-size: clamp(44px, 7vw, 74px);
     }
 
     .lede {
-      font-size: 21px;
+      font-size: clamp(21px, 2.5vw, 26px);
     }
   }
 </style>

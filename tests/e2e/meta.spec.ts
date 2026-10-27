@@ -27,7 +27,7 @@ const pages = [
     description: "Top Ten Tips for Staying Classy",
     type: "article",
   },
-  { path: "/tags/music", title: "#music — sasky.nz", description: "Every post tagged music on sasky.nz, from Life and On." },
+  { path: "/tags/music", title: "#music — sasky.nz", description: "Every post tagged music on sasky.nz, from Life." },
 ];
 
 for (const { path, title, description, canonical = `${SITE}${path}`, type = "website" } of pages) {

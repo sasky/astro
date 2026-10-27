@@ -1,19 +1,17 @@
 ---
 // A shell prompt line: cam@sasky:{path}$ {cmd}. Values: Site-Code-List.dc.html
-// and Site-Code-Post.dc.html. `link` makes the leading ~ a link home;
+// and Site-Code-Post.dc.html. A leading ~ is always a link home;
 // `crumbs` turns every path segment into a breadcrumb link.
 interface Props {
   path?: string;
   cmd?: string;
-  /** Link the leading ~ to Home. */
-  link?: boolean;
   /** Render the path as a breadcrumb: ~ → /, ~/code → /code. */
   crumbs?: boolean;
   /** End with a blinking block cursor. */
   cursor?: boolean;
 }
 
-const { path = "~", cmd, link = false, crumbs = false, cursor = false } = Astro.props;
+const { path = "~", cmd, crumbs = false, cursor = false } = Astro.props;
 const segments = path.replace(/^~\/?/, "").split("/").filter(Boolean);
 const startsHome = path.startsWith("~");
 ---
@@ -30,7 +28,7 @@ const startsHome = path.startsWith("~");
           </>
         ))}
       </nav>
-    ) : link && startsHome ? (
+    ) : startsHome ? (
       <>
         <a class="lnk" href="/">~</a>
         {segments.length > 0 && <span class="prompt-path">/{segments.join("/")}</span>}

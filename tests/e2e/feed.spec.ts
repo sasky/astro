@@ -28,7 +28,7 @@ test("RSS feed is well-formed, self-linked and categorised", async ({ page, requ
   expect(feed.items).toHaveLength(7);
   expect(feed.items.map(({ link }) => link)).not.toContainEqual(expect.stringContaining("/about"));
   const categories = (path: string) => feed.items.find(({ link }) => link === `https://sasky.nz${path}`)?.categories;
-  expect(categories("/meditations/on-new-zealand-music")).toEqual(["On", "music"]);
+  expect(categories("/life/best-new-zealand-music")).toEqual(["Life", "music"]);
   expect(categories("/code/hide-n-seek-game")).toEqual(["Code", "pico8", "learning", "family"]);
-  expect(categories("/meditations/on-being-classy")).toEqual(["On"]);
+  expect(categories("/meditations/on-being-classy")).toEqual(["Meditations"]);
 });

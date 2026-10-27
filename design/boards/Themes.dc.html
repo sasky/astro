@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>sasky.nz — Theme system</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&amp;family=Source+Sans+3:ital,wght@0,400;0,600;1,400&amp;family=JetBrains+Mono:wght@400;700;800&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,700;1,8..60,400&amp;family=Libre+Franklin:wght@700;800;900&amp;family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;family=UnifrakturMaguntia&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.tx-term{background-image:repeating-linear-gradient(to bottom,rgba(190,255,215,.05) 0px,rgba(190,255,215,.05) 1px,transparent 1px,transparent 3px),radial-gradient(ellipse 90% 40% at 50% 0%,rgba(110,231,160,.12),transparent 70%),radial-gradient(ellipse 130% 100% at 50% 40%,transparent 55%,rgba(0,0,0,.55) 100%)}
+.tx-personal{background-image:radial-gradient(ellipse 60% 22% at 50% 0%,rgba(61,90,128,.06),transparent 70%),radial-gradient(ellipse 60% 40% at 0% 30%,rgba(30,44,68,.08),transparent 70%),radial-gradient(ellipse 60% 40% at 100% 70%,rgba(110,80,40,.07),transparent 70%),linear-gradient(90deg,rgba(20,24,32,.045),transparent 16%,transparent 84%,rgba(20,24,32,.045)),repeating-linear-gradient(45deg,rgba(0,0,0,.026) 0px,rgba(0,0,0,.026) 1px,transparent 1px,transparent 5px),repeating-linear-gradient(-45deg,rgba(0,0,0,.017) 0px,rgba(0,0,0,.017) 1px,transparent 1px,transparent 5px)}
+.tx-paper{background-image:radial-gradient(circle at 8% 6%,rgba(150,96,34,.18),transparent 22%),radial-gradient(circle at 92% 90%,rgba(150,96,34,.14),transparent 24%),repeating-linear-gradient(90deg,rgba(90,62,26,.05) 0px,rgba(90,62,26,.05) 1px,transparent 1px,transparent 140px),repeating-linear-gradient(0deg,rgba(90,62,26,.03) 0px,rgba(90,62,26,.03) 1px,transparent 1px,transparent 4px),radial-gradient(ellipse 110% 90% at 50% 50%,transparent 55%,rgba(110,72,26,.24) 100%)}
+</style>
+</helmet>
+<div style="width: 1440px; height: 980px; box-sizing: border-box; padding: 56px; display: flex; flex-direction: column; gap: 36px; background-color: #e9e6e0; color: #1d1c1a; font-family: 'Schibsted Grotesk', 'Helvetica Neue', sans-serif">
+
+<header style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h1 style="margin: 0; font-size: 40px; line-height: 1.1; font-weight: 800; letter-spacing: -0.03em">sasky.nz — theme system</h1>
+<p style="margin: 0; font-size: 17px; line-height: 1.5; color: #55524d; max-width: 70ch">Three rooms, one house. Each post picks its theme from its tags; the homepage lives in Terminal.</p>
+</div>
+</header>
+
+<div style="flex-grow: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; min-height: 0">
+
+<section style="position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 26px; padding: 32px; border-radius: 4px; background-color: #0b0f0d; color: #c8d6cb; font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace">
+<div aria-hidden="true" class="tx-term" style="position: absolute; inset: 0; pointer-events: none; opacity: {{texture}}"></div>
+<svg aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: {{grainDark}}"><filter id="g1"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#g1)"></rect></svg>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 12px; color: #7d8f82">01 · ~/tech</span>
+<h2 style="margin: 0; font-size: 30px; line-height: 1.1; font-weight: 800; color: #6ee7a0">Terminal</h2>
+<span style="font-size: 13px; line-height: 1.6; color: #9fb3a5">Homepage + tags: silverstripe, learning, pico8</span>
+</div>
+<div style="position: relative; display: flex; flex-direction: column; gap: 10px; padding: 20px 0; border-top: 1px dashed #24382d; border-bottom: 1px dashed #24382d">
+<span style="font-size: 23px; line-height: 1.25; font-weight: 800; color: #eef5f0"><span style="color: #6ee7a0">#&nbsp;</span>Cheap and easy Silverstripe hosting</span>
+<span style="font-size: 14px; line-height: 1.75">SilverStripe is a open source MVC style CMS and Framework written in PHP, and using a Mysql Database.</span>
+<span style="font-size: 13px; color: #f2b45a">[silverstripe] [learning]</span>
+</div>
+<div style="position: relative; display: flex; flex-direction: column; gap: 4px; font-size: 12px; line-height: 1.6; color: #9fb3a5">
+<span><span style="color: #eef5f0">JetBrains Mono</span> 800 headings</span>
+<span>400 body · 15–16px / 1.75 · 70ch</span>
+</div>
+<div style="position: relative; display: flex; flex-wrap: wrap; gap: 12px; font-size: 11px; color: #9fb3a5">
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="display: block; width: 56px; height: 44px; background-color: #0b0f0d; border: 1px solid #2c3d33"></span><span>#0b0f0d</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="display: block; width: 56px; height: 44px; background-color: #c8d6cb"></span><span>#c8d6cb</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="display: block; width: 56px; height: 44px; background-color: #6ee7a0"></span><span>#6ee7a0</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="display: block; width: 56px; height: 44px; background-color: #f2b45a"></span><span>#f2b45a</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="display: block; width: 56px; height: 44px; background-color: #7d8f82"></span><span>#7d8f82</span></div>
+</div>
+<div style="position: relative; margin-top: auto; display: flex; flex-direction: column; gap: 4px; font-size: 12px; line-height: 1.6; color: #9fb3a5">
+<span style="color: #7d8f82">texture</span>
+<span>CRT scanlines · phosphor glow · vignette · fine grain</span>
+</div>
+</section>
+
+<section style="position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 22px; padding: 32px; border-radius: 4px; border-top: 3px solid #3d5a80; background-color: #ffffff; color: #242424; font-family: 'Source Sans 3', 'Segoe UI', sans-serif; box-shadow: 0 1px 2px rgba(20,28,40,.06), 0 18px 36px -24px rgba(20,28,40,.35)">
+<div aria-hidden="true" class="tx-personal" style="position: absolute; inset: 0; pointer-events: none; opacity: {{texture}}"></div>
+<svg aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; mix-blend-mode: multiply; opacity: {{grainSoft}}"><filter id="g2"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#g2)"></rect></svg>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #3d5a80">02 · Personal</span>
+<h2 style="margin: 0; font-family: 'Source Serif 4', 'Iowan Old Style', Georgia, serif; font-size: 34px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; color: #111111">Long read</h2>
+<span style="font-size: 15px; line-height: 1.5; color: #5c5c5c">Personal posts &amp; About · tag: personal · black on white</span>
+</div>
+<div style="position: relative; display: flex; flex-direction: column; gap: 10px; padding: 18px 0; border-top: 1px solid rgba(61,90,128,.28); border-bottom: 1px solid rgba(61,90,128,.28)">
+<span aria-hidden="true" style="display: block; width: 32px; height: 3px; background-color: #c4893b"></span>
+<span style="font-family: 'Source Serif 4', 'Iowan Old Style', Georgia, serif; font-size: 26px; line-height: 1.12; font-weight: 700; letter-spacing: -0.02em; color: #111111">Concert youtube vids to temporarily restore one's faith in humanity</span>
+<span style="font-family: 'Source Serif 4', 'Iowan Old Style', Georgia, serif; font-size: 17px; line-height: 1.6">When I'm feeling particularly disillusioned with humanity, I may on rare occasion, fire up my collection of expertly curated Youtube videos…</span>
+</div>
+<div style="position: relative; display: flex; flex-direction: column; gap: 3px; font-size: 14px; line-height: 1.5; color: #5c5c5c">
+<span><span style="color: #111111; font-weight: 600">Source Serif 4</span> 700 headings · 62px title</span>
+<span><span style="color: #111111; font-weight: 600">Source Serif 4</span> body · 21px / 1.68 · 680px</span>
+<span><span style="color: #111111; font-weight: 600">Source Sans 3</span> nav, byline, captions, tags</span>
+</div>
+<div style="position: relative; display: flex; flex-wrap: wrap; gap: 10px; font-size: 11px; color: #5c5c5c">
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="display: block; width: 46px; height: 40px; border-radius: 4px; background-color: #ffffff; border: 1px solid #d9d7d3"></span><span>#ffffff</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="display: block; width: 46px; height: 40px; border-radius: 4px; background-color: #111111"></span><span>#111111</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="display: block; width: 46px; height: 40px; border-radius: 4px; background-color: #242424"></span><span>#242424</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="display: block; width: 46px; height: 40px; border-radius: 4px; background-color: #5c5c5c"></span><span>#5c5c5c</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="display: block; width: 46px; height: 40px; border-radius: 4px; background-color: #3d5a80"></span><span>#3d5a80</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="display: block; width: 46px; height: 40px; border-radius: 4px; background-color: #c4893b"></span><span>#c4893b</span></div>
+</div>
+<div style="position: relative; margin-top: auto; display: flex; flex-direction: column; gap: 4px; font-size: 14px; line-height: 1.5; color: #5c5c5c">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #6b6b6b">Texture</span>
+<span>Soft shadow pools · edge shading · linen · grain · soft drop shadows on cards &amp; video</span>
+</div>
+</section>
+
+<section style="position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 22px; padding: 32px; border-radius: 2px; background-color: #f1e8d4; color: #221c15; font-family: 'Libre Caslon Text', Georgia, serif">
+<div aria-hidden="true" class="tx-paper" style="position: absolute; inset: 0; pointer-events: none; opacity: {{texture}}"></div>
+<svg aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; mix-blend-mode: multiply; opacity: {{grainPaper}}"><filter id="g3"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter><filter id="f3"><feTurbulence type="fractalNoise" baseFrequency="0.012 0.35" numOctaves="2" seed="7"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#g3)"></rect><rect width="100%" height="100%" filter="url(#f3)" opacity="0.6"></rect></svg>
+<div style="position: relative; display: flex; flex-direction: column; gap: 6px">
+<span style="font-family: 'Libre Franklin', 'Franklin Gothic Medium', 'Helvetica Neue', Arial, sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: #8a2a1b">03 · The ‘On’ Series</span>
+<h2 style="margin: 0; font-family: 'UnifrakturMaguntia', serif; font-size: 40px; line-height: 1.05; font-weight: 400; color: #1a150f">The ‘On’ Papers</h2>
+<span style="font-size: 15px; font-style: italic; line-height: 1.5; color: #4a3f33">Satire, humour &amp; philosophy · tag: life</span>
+</div>
+<div style="position: relative; display: flex; flex-direction: column; gap: 10px; padding: 18px 0; border-top: 4px double #221c15; border-bottom: 1px solid #221c15">
+<span style="font-family: 'Libre Franklin', 'Franklin Gothic Medium', 'Helvetica Neue', Arial, sans-serif; font-size: 40px; font-weight: 900; line-height: 0.96; letter-spacing: -0.01em; text-transform: uppercase; color: #1a150f">On Being Classy</span>
+<span style="font-size: 17px; font-style: italic; color: #3a3026">Top Ten Tips for Staying Classy</span>
+<span style="font-size: 16px; line-height: 1.65">One walks down the street and all of a sudden the skies open up with an unexpected downpour.</span>
+</div>
+<div style="position: relative; display: flex; flex-direction: column; gap: 3px; font-size: 14px; line-height: 1.5; color: #4a3f33">
+<span><span style="color: #1a150f; font-weight: 700">UnifrakturMaguntia</span> masthead only</span>
+<span><span style="color: #1a150f; font-weight: 700">Libre Franklin</span> 800–900 headlines, labels, drop caps</span>
+<span><span style="color: #1a150f; font-weight: 700">Libre Caslon Text</span> body · 19px / 1.7</span>
+</div>
+<div style="position: relative; display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: #4a3f33">
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="display: block; width: 56px; height: 44px; background-color: #f1e8d4; border: 1px solid #b9ab8c"></span><span>#f1e8d4</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="display: block; width: 56px; height: 44px; background-color: #221c15"></span><span>#221c15</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="display: block; width: 56px; height: 44px; background-color: #4a3f33"></span><span>#4a3f33</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="display: block; width: 56px; height: 44px; background-color: #8a2a1b"></span><span>#8a2a1b</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="display: block; width: 56px; height: 44px; background-color: #d8ccb2"></span><span>#d8ccb2</span></div>
+</div>
+<div style="position: relative; margin-top: auto; display: flex; flex-direction: column; gap: 3px; font-size: 14px; line-height: 1.5; color: #4a3f33">
+<span style="font-family: 'Libre Franklin', 'Franklin Gothic Medium', 'Helvetica Neue', Arial, sans-serif; font-size: 12px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: #8a2a1b">Texture</span>
+<span>Laid-paper lines · foxing · fibre grain · darkened edges</span>
+</div>
+</section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"texture":{"editor":"range","default":0.8,"min":0,"max":1,"step":0.05},"$preview":{"width":1440,"height":980}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const t = this.props.texture ?? 0.8;
+    const r = (n) => Math.round(n * 1000) / 1000;
+    return {
+      texture: t,
+      grainDark: r(t * 0.13),
+      grainSoft: r(t * 0.11),
+      grainPaper: r(t * 0.16)
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -73,9 +73,9 @@ test("doors show computed counts and latest posts", async ({ page }) => {
     "/life",
     "/meditations",
   ]);
-  await expect(page.locator("a.door .door-count")).toHaveText(["2 posts", "1 post", "4 meditations"]);
+  await expect(page.locator("a.door .door-count")).toHaveText(["2 posts", "2 posts", "3 meditations"]);
   await expect(doors.nth(2).locator(".door-latest-title")).toHaveText(newestOn);
-  for (const [i, prefix] of ["Code: ", "Life: ", "On: "].entries()) {
+  for (const [i, prefix] of ["Code: ", "Life: ", "Meditations: "].entries()) {
     await expect(doors.nth(i)).toHaveAccessibleName(new RegExp(`^${prefix}.*Enter`));
   }
 });
