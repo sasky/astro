@@ -183,3 +183,16 @@ for (const [javaScriptEnabled, role] of [
     });
   });
 }
+
+// Line numbers are CSS counters at 2.42:1, kept as decoration; that holds only
+// while screen readers don't get them.
+test("Code line numbers aren't in the accessibility tree", async ({ page }) => {
+  await page.goto("/code/silverstripe-app-platform");
+  const cdp = await page.context().newCDPSession(page);
+  const { nodes } = await cdp.send("Accessibility.getFullAXTree");
+  const texts = nodes
+    .filter((node) => !node.ignored && node.role?.value === "StaticText")
+    .map((node) => String(node.name?.value ?? "").trim());
+  expect(texts).toContain("SS_DATABASE_CLASS");
+  expect(texts.filter((text) => /^\d+$/.test(text))).toEqual([]);
+});

@@ -107,7 +107,10 @@ const captionId = uniqueId("code-caption");
   }
 
   pre :global(.line)::before {
+    /* Empty alt text: shown, but not read out (they're decoration at 2.42:1).
+       The plain value first, for browsers without alt text. */
     content: counter(ln);
+    content: counter(ln) / "";
     position: absolute;
     left: 0;
     width: 2.4em;

@@ -17,8 +17,8 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 | 5. Code pages | Merged into `feature/redesign` | [#7](https://github.com/sasky/astro/pull/7) |
 | 6. On pages | Merged into `feature/redesign` | [#8](https://github.com/sasky/astro/pull/8) |
 | 7. Tags, RSS, SEO | Merged into `feature/redesign` | [#9](https://github.com/sasky/astro/pull/9) |
-| 8. QA | PR open for Cam's review | [#10](https://github.com/sasky/astro/pull/10) |
-| 9. Cleanup and launch | Not started | — |
+| 8. QA | Merged into `feature/redesign` | [#10](https://github.com/sasky/astro/pull/10) |
+| 9. Cleanup and launch | Cleanup PR open for Cam's review; the launch PR into `main` follows | [#11](https://github.com/sasky/astro/pull/11) |
 
 **Waiting on Cam**
 - **Content review**, any time before Phase 9 (the posts are now in `src/content/posts/`):
@@ -29,15 +29,16 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
   - Refine the draft section intros in `src/data/sections.ts` (marked `TODO(Cam)`).
   - From the Phase 8 compare sheet: Silverstripe's `SS_DEFAULT_ADMIN`, `_config.php` and `_config.yml` have no backticks, so they aren't code chips as on the board; quotes are curled in post text but straight in titles (the board curls "one’s" in the concert title).
 - **Compare sheet sign-off (spec 8.1):** `npm run build && npm run qa:compare`, then open `qa/compare/index.html`. Also look at the manicule and fleuron SVG shapes (solid hands, a thin star), which differ from the board's glyphs.
+- **`src/images/cameron_grant_holding_a_soft_toy.jpeg`** has been unreferenced since `about.mdx` went (Phase 2). Keep it for a future page, or delete it.
 - **Pico-8 on a real phone (spec 6.3):** the touch controls are untested on a device. At 390×664 the started canvas can sit partly under the d-pad depending on scroll position; consider scrolling `#p8_frame_0` to the top when a touch device starts the game.
 
 **Carried forward**
 - **Phase 4–8 review (Cam):** these phases skipped the brainstorm ("just do your best, we will do a detailed review later"). The calls a brainstorm would have settled are listed under "Calls made in place of a brainstorm" in the plans for [Phase 4](superpowers/plans/2026-10-26-phase-4-hp-pages.md), [5](superpowers/plans/2026-10-26-phase-5-code-pages.md), [6](superpowers/plans/2026-10-26-phase-6-on-pages.md), [7](superpowers/plans/2026-10-26-phase-7-tags-rss-seo.md) and [8](superpowers/plans/2026-10-26-phase-8-qa.md). Review them with the pages.
-- **Phase 9:**
-  - Check the redirects on a real Netlify preview of the PR into `main`; so far only Netlify's local emulator has.
+- **Launch PR (`feature/redesign` into `main`), on its Netlify deploy preview:**
+  - Check the redirects there; so far only Netlify's local emulator has.
   - Run `npm run qa:lighthouse <preview URL>` there. Home scores 94–95 locally (target 95), against an uncompressed local server.
-  - Delete `src/components/legacy/` and `src/layouts/legacy/` (unused since Phase 7). That also clears `astro check`'s two hints in the old `Header.astro`.
-  - Check whether screen readers announce the Code line numbers (CSS counters, 2.42:1 contrast). If they do, hide them.
+  - Read `/rss.xml` and spot-check a page per theme.
+- **After Cam merges the launch PR:** re-run `npm run check:redirects -- --url https://sasky.nz`, and request indexing for `/code`, `/life` and `/meditations` in Search Console if it's set up.
 - **After launch (minor, from the Phase 8 reviews):**
   - `<?php` isn't amber as on the board: Shiki's PHP grammar reads it as `<`, `?`, `php`. It needs a one-token transformer.
   - Tag chips are 44px tall; the board's are 48px (content-box, the same cause as the rows fixed in Phase 8).
@@ -57,12 +58,12 @@ The tracker for the redesign. The detail lives in [`redesign-plan.md`](redesign-
 Read this file first, then [`redesign-plan.md`](redesign-plan.md) (the spec), then the design files in `design-handoff/`. The plans and designs for finished phases are in `docs/superpowers/plans/` and `docs/superpowers/specs/`. They're useful as examples of the format.
 
 **Where things stand**
-- **Branch:** `feature/redesign` holds Phases 1–7, merged; Phase 8 is on `redesign/phase-8-qa` until its PR merges. `main` is still the live old site.
+- **Branch:** `feature/redesign` holds Phases 1–8, merged; Phase 9's cleanup is on `redesign/phase-9-launch` until its PR merges. `main` is still the live old site.
 - **Live pages:**
   - **On the new HP theme:** Home, `/life`, `/life/[slug]`, `/tags/[tag]` and the 404.
   - **On the new Code theme:** `/code` and `/code/[slug]`.
   - **On the new On theme:** `/meditations` and `/meditations/[slug]`.
-  - **Nothing is legacy any more.** `src/components/legacy/` and `src/layouts/legacy/` are unused until Phase 9 deletes them.
+  - **The old site's code is gone** (Phase 9): the old components, legacy layout, global styles, font files and `open-props`.
 - **Components:**
   - `src/components/site/` holds the shared chrome.
   - `src/components/hp/` holds the HP page parts: `Hero`, `AboutSection`, `SectionDoors`/`Door` with the three previews, `TagSelector`, `ListingBand` (its one-word heading sized by `headingFit()` in `src/lib/fit.ts`), `PostList`, `PostRow`, `PostHeader` and `HpPrevNext`.
@@ -86,13 +87,11 @@ Read this file first, then [`redesign-plan.md`](redesign-plan.md) (the spec), th
 - **RSS:** `src/pages/rss.xml.ts` maps posts through `feedItem()` (section label, then tags, as categories) and adds `atom:link rel="self"`.
 - **SEO:** `BaseLayout` emits title, description, canonical and OG tags; `tests/e2e/meta.spec.ts` pins them for one page of each type.
 
-**Next: Phase 9 (Cleanup and launch)**
-- **Spec:** tasks 9.1–9.3:
-  - remove the old code and the two old packages;
-  - rewrite the README and prune `todo.md`;
-  - the launch checklist on a deploy preview, then the PR from `feature/redesign` into `main`.
-- **Carried forward:** the Phase 9 list above (preview redirects and Lighthouse, legacy folders, line numbers).
+**Next: launch (Phase 9, task 9.3)**
+- Once Cam merges the cleanup PR, open the PR from `feature/redesign` into `main` and run the checks above on its deploy preview. Put the results in the PR body.
+- Cam merges the launch PR; then run the post-merge checks above.
 - **Before launch, Cam:** the content review, the compare-sheet sign-off and the Pico-8 phone test (all under "Waiting on Cam").
+- **The README** (rewritten in Phase 9) is now the guide to the codebase; this file stays the record of the redesign.
 
 **How Cam likes to work**
 - **Each phase:**
@@ -167,7 +166,7 @@ Each phase starts with the superpowers sessions it needs, in this order:
 | 6. On pages | Skipped by Cam | Native (used) | Calls listed in the plan for Cam's review. |
 | 7. Tags, RSS, SEO | No | Native (used) | Calls listed in the plan for Cam's review. |
 | 8. QA | No | Native (used) | Calls listed in the plan for Cam's review. |
-| 9. Cleanup and launch | No | Native | Deletions, docs and the PR into `main`. |
+| 9. Cleanup and launch | No | Native (used) | Deletions, docs and the PR into `main`. |
 
 ## Phases and tasks
 
@@ -247,8 +246,8 @@ PR: [#10](https://github.com/sasky/astro/pull/10)
 
 ### Phase 9: Cleanup and launch
 
-PR: _none yet_
+PR: [#11](https://github.com/sasky/astro/pull/11) (cleanup); the launch PR into `main` follows
 
-- [ ] 9.1 Remove the old code (S)
-- [ ] 9.2 Docs (S)
+- [x] 9.1 Remove the old code (S); also kept Code line numbers out of screen readers
+- [x] 9.2 Docs (S)
 - [ ] 9.3 Launch checklist and the PR into `main` (S)
