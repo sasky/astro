@@ -1,0 +1,52 @@
+---
+// A Dymo-style embossed label (HP labels and counts).
+import type { HTMLTag } from "astro/types";
+
+interface Props {
+  tone: "navy" | "blue" | "orange";
+  /** Rotation in degrees. */
+  tilt?: number;
+  /** Element to render, e.g. "p" or "span". */
+  as?: HTMLTag;
+  /** Extra classes, so a parent's scoped styles can size the label. */
+  class?: string;
+}
+
+const { tone, tilt = -1.5, as: Tag = "span", class: className } = Astro.props;
+---
+
+<Tag class:list={["dymo", `dymo-${tone}`, className]} style={`--dymo-tilt: ${tilt}deg`}><slot /></Tag>
+
+<style>
+  .dymo {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    margin: 0;
+    padding: 4px 12px;
+    border-radius: 3px;
+    box-shadow: 0 2px 0 rgba(18, 22, 61, 0.25);
+    font-family: var(--font-jetbrains);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    transform: rotate(var(--dymo-tilt));
+  }
+
+  .dymo-navy {
+    background-color: #12163d;
+    color: #ffffff;
+  }
+
+  .dymo-blue {
+    background-color: #2452ff;
+    color: #ffffff;
+  }
+
+  .dymo-orange {
+    background-color: #ff6a1f;
+    color: #12163d;
+  }
+</style>

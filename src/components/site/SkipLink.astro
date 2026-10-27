@@ -1,0 +1,25 @@
+---
+// First focusable element on every redesigned page; jumps past the top bar.
+---
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<style>
+  .skip-link {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 10;
+    padding: 10px 16px;
+    background-color: var(--ink);
+    color: var(--page-bg);
+    font-family: var(--body-font);
+    font-weight: 700;
+    text-decoration: none;
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus-visible {
+    transform: none;
+  }
+</style>

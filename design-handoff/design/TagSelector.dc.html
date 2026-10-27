@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tag selector — sasky.nz</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&amp;family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="padding: 0 8px 8px 0; box-sizing: border-box">
+<section aria-labelledby="tags-h" class="tg-card" style="width: 100%; box-sizing: border-box; display: flex; flex-direction: column; gap: 28px; padding: 36px 40px 30px; background-color: #fffdf8; border: 2px solid #12163d; box-shadow: 8px 8px 0 var(--blue, #2452ff); font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-size: 17px; line-height: 1.6; color: #12163d">
+
+<div style="display: flex; flex-direction: column; gap: 12px">
+<h2 id="tags-h" class="tg-h" style="margin: 0; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 48px; line-height: 1; font-weight: 800; letter-spacing: -0.03em; color: #12163d">Browse by tag</h2>
+<p style="margin: 0; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 20px; line-height: 1.4; font-style: italic; color: #2a2f5c">Tags run across Code, Life and On. Pick one to see every post with it.</p>
+</div>
+
+<div role="group" aria-label="Tags" style="display: flex; flex-wrap: wrap; gap: 12px">
+<sc-for list="{{tags}}" as="tag" hint-placeholder-count="4">
+<sc-if value="{{tag.selected}}" hint-placeholder-val="{{false}}">
+<button type="button" class="tg-chip" aria-pressed="true" aria-label="{{tag.aria}}" onClick="{{tag.pick}}" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px 0 16px; border: 2px solid #12163d; border-radius: 3px; background-color: #12163d; box-shadow: 0 3px 0 rgba(18,22,61,.3); transform: rotate(-1.5deg); color: #ffffff; font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer"><span>{{tag.label}}</span><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; min-width: 24px; height: 24px; padding: 0 6px; box-sizing: border-box; border-radius: 2px; background-color: var(--orange, #ff6a1f); color: #12163d; font-size: 13px">{{tag.count}}</span></button>
+</sc-if>
+<sc-if value="{{tag.unselected}}" hint-placeholder-val="{{true}}">
+<button type="button" class="tg-chip" aria-pressed="false" aria-label="{{tag.aria}}" onClick="{{tag.pick}}" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px 0 16px; border: 2px solid #12163d; border-radius: 3px; background-color: transparent; color: #12163d; font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer"><span>{{tag.label}}</span><span aria-hidden="true" style="display: flex; align-items: center; justify-content: center; min-width: 24px; height: 24px; padding: 0 6px; box-sizing: border-box; border-radius: 2px; background-color: rgba(18,22,61,.1); color: #12163d; font-size: 13px">{{tag.count}}</span></button>
+</sc-if>
+</sc-for>
+</div>
+
+<div aria-live="polite" style="display: flex; flex-direction: column">
+<p style="margin: 0; padding-bottom: 10px; border-bottom: 2px solid #12163d; font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4a4e6e">{{summary}}</p>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column">
+<sc-for list="{{posts}}" as="post" hint-placeholder-count="3">
+<li style="border-bottom: 2px dashed rgba(18,22,61,.2)">
+<a href="{{post.href}}" class="tg-row" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; min-height: 44px; padding: 14px 8px; color: #12163d; text-decoration: none">
+<sc-if value="{{post.isCode}}" hint-placeholder-val="{{false}}">
+<span style="flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 104px; min-height: 28px; box-sizing: border-box; border-radius: 3px; background-color: #12163d; font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #ffffff">Code</span>
+</sc-if>
+<sc-if value="{{post.isLife}}" hint-placeholder-val="{{false}}">
+<span style="flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 104px; min-height: 28px; box-sizing: border-box; border-radius: 3px; background-color: var(--blue, #2452ff); font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #ffffff">Life</span>
+</sc-if>
+<sc-if value="{{post.isOn}}" hint-placeholder-val="{{true}}">
+<span style="flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 104px; min-height: 28px; box-sizing: border-box; border-radius: 3px; background-color: var(--orange, #ff6a1f); font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #12163d">On</span>
+</sc-if>
+<span class="tg-title" style="flex: 1 1 280px; min-width: 0; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 22px; line-height: 1.3; font-weight: 700; letter-spacing: -0.01em; color: #12163d">{{post.title}}</span>
+<time datetime="{{post.datetime}}" style="flex-shrink: 0; font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 13px; font-weight: 500; color: #4a4e6e">{{post.date}}</time>
+</a>
+</li>
+</sc-for>
+</ul>
+</div>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1040,"height":640}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const posts = {
+      happiness: { title: 'On Happiness', section: 'on', date: '22 September 2026', datetime: '2026-09-22', href: '#' },
+      classy: { title: 'On Being Classy', section: 'on', date: '11 September 2026', datetime: '2026-09-11', href: 'Site-On-Post.dc.html' },
+      nzmusic: { title: 'On New Zealand Music', section: 'on', date: '20 June 2026', datetime: '2026-06-20', href: '#' },
+      concerts: { title: 'Concert youtube vids to temporarily restore one’s faith in humanity', section: 'life', date: '17 May 2024', datetime: '2024-05-17', href: 'Site-Life-Post.dc.html' },
+      silverstripe: { title: 'Cheap and easy Silverstripe hosting', section: 'code', date: '1 April 2024', datetime: '2024-04-01', href: 'Site-Code-Post.dc.html' },
+      hidenseek: { title: 'Hide n Seek', section: 'code', date: '29 January 2024', datetime: '2024-01-29', href: '#' }
+    };
+    const defs = [
+      { id: 'life', ids: ['happiness', 'classy', 'nzmusic', 'concerts', 'hidenseek'] },
+      { id: 'learning', ids: ['silverstripe', 'hidenseek'] },
+      { id: 'silverstripe', ids: ['silverstripe'] },
+      { id: 'pico8', ids: ['hidenseek'] }
+    ];
+    const picked = (this.state && this.state.picked) || 'life';
+    const cur = defs.find((d) => d.id === picked) || defs[0];
+    const tags = defs.map((d) => ({
+      label: d.id,
+      count: d.ids.length,
+      aria: d.id + ', ' + d.ids.length + (d.ids.length === 1 ? ' post' : ' posts'),
+      selected: d.id === cur.id,
+      unselected: d.id !== cur.id,
+      pick: () => this.setState({ picked: d.id })
+    }));
+    // every post with the tag, newest first — no pagination, no "see all" link
+    const list = cur.ids.map((k) => {
+      const p = posts[k];
+      return Object.assign({}, p, {
+        isCode: p.section === 'code',
+        isLife: p.section === 'life',
+        isOn: p.section === 'on'
+      });
+    });
+    return {
+      tags: tags,
+      posts: list,
+      summary: list.length + (list.length === 1 ? ' post' : ' posts') + ' tagged ' + cur.id
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+---
+// One Home section door: count label, a small preview of the section's
+// theme, its blurb, the latest post and "Enter X →".
+// Values: a.door in Site-Home.dc.html.
+import Dymo from "../site/Dymo.astro";
+import CodePreview from "./CodePreview.astro";
+import LifePreview from "./LifePreview.astro";
+import OnPreview from "./OnPreview.astro";
+import { SECTIONS, type Section } from "../../data/sections";
+import { formatDateISO, formatDateLong } from "../../lib/format";
+import type { PostEntry } from "../../lib/get-posts";
+import { countLabel } from "../../lib/posts";
+
+interface Props {
+  section: Section;
+  count: number;
+  latest?: PostEntry;
+}
+
+const { section, count, latest } = Astro.props;
+const { label, path, blurb } = SECTIONS[section];
+const countStyle = {
+  code: { tone: "navy", tilt: 2 },
+  life: { tone: "blue", tilt: -2 },
+  on: { tone: "orange", tilt: 1.5 },
+} as const;
+const Preview = { code: CodePreview, life: LifePreview, on: OnPreview }[section];
+---
+
+<a class="door" href={`/${path}`}>
+  <span class="door-count-wrap" aria-hidden="true">
+    <Dymo tone={countStyle[section].tone} tilt={countStyle[section].tilt} class="door-count">{countLabel(section, count)}</Dymo>
+  </span>
+  <span class="door-preview" aria-hidden="true"><Preview /></span>
+  <span class="door-body">
+    <span class="door-blurb"><span class="sr-only">{label}: </span>{blurb}</span>
+    {
+      latest && (
+        <span class="door-latest">
+          <span class="door-latest-k">
+            Latest · <time datetime={formatDateISO(latest.data.pubDate)}>{formatDateLong(latest.data.pubDate)}</time>
+          </span>
+          <span class="door-latest-title">{latest.data.title}</span>
+        </span>
+      )
+    }
+    <span class="door-enter">Enter {label} <span class="arrow" aria-hidden="true">→</span></span>
+  </span>
+</a>
+
+<style>
+  .door {
+    position: relative;
+    display: flex;
+    flex: 1 0 300px;
+    flex-direction: column;
+    border: 2px solid var(--navy);
+    background-color: var(--card);
+    box-shadow: 6px 6px 0 var(--blue);
+    color: var(--navy);
+    text-decoration: none;
+    scroll-snap-align: start;
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+
+  .door:hover {
+    box-shadow: 9px 9px 0 var(--orange);
+    color: var(--navy);
+    transform: translate(-2px, -2px);
+  }
+
+  .door:active {
+    background-color: var(--card);
+    box-shadow: 2px 2px 0 var(--orange);
+    transform: translate(3px, 3px);
+  }
+
+  .door-count-wrap {
+    position: absolute;
+    z-index: 2;
+    top: -16px;
+    right: 18px;
+  }
+
+  /* Dymo sizing for the count (the component's own is a touch larger). */
+  .door :global(.door-count) {
+    min-height: 30px;
+    padding: 3px 12px;
+    letter-spacing: 0.06em;
+  }
+
+  .door-preview {
+    display: block;
+    height: 168px;
+    border-bottom: 2px solid var(--navy);
+  }
+
+  .door-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 10px;
+    padding: 22px 24px 24px;
+  }
+
+  .door-blurb {
+    font-family: var(--display-font);
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  .door-latest {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 6px;
+    padding-top: 12px;
+    border-top: 2px dashed rgba(18, 22, 61, 0.22);
+  }
+
+  .door-latest-k {
+    color: var(--muted);
+    font-family: var(--mono-font);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .door-latest-title {
+    color: var(--lede);
+    font-family: var(--display-font);
+    font-size: 19px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.35;
+  }
+
+  .door-enter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 14px;
+    color: var(--link);
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .door:hover .door-enter {
+    text-decoration: underline;
+    text-decoration-color: var(--orange);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 5px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .door,
+    .door:hover,
+    .door:active {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>

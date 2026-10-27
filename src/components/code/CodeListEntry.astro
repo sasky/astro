@@ -1,0 +1,111 @@
+---
+// One post in the Code listing, as an `ls -l` row: permissions and ISO date
+// on the left; title, # description and [tags] on the right.
+// Values: article.entry in Site-Code-List.dc.html.
+import TagLinks from "../site/TagLinks.astro";
+import { formatDateISO } from "../../lib/format";
+import type { PostEntry } from "../../lib/get-posts";
+import { postUrl } from "../../lib/posts";
+
+interface Props {
+  post: PostEntry;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, tags } = post.data;
+const iso = formatDateISO(pubDate);
+---
+
+<article class="entry">
+  <div class="entry-meta">
+    <span class="entry-perms">-rw-r--r--</span>
+    <time class="entry-date" datetime={iso}>{iso}</time>
+  </div>
+  <div class="entry-main">
+    <h3 class="entry-title">
+      <a href={postUrl(post)}><span class="entry-caret" aria-hidden="true">&gt;&nbsp;</span>{title}</a>
+    </h3>
+    <p class="entry-desc"><span aria-hidden="true">#&nbsp;</span>{description}</p>
+    <TagLinks tags={tags} theme="code" />
+  </div>
+</article>
+
+<style>
+  .entry {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 24px;
+    padding: 24px 12px;
+    border-bottom: 1px dashed var(--rule-dashed);
+    transition: background-color 0.12s ease;
+  }
+
+  .entry:hover {
+    background-color: rgba(110, 231, 160, 0.06);
+  }
+
+  .entry:active {
+    background-color: rgba(110, 231, 160, 0.12);
+  }
+
+  .entry-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .entry-date {
+    color: var(--muted-2);
+  }
+
+  .entry-main {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .entry-title {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.35;
+  }
+
+  .entry-title a {
+    color: var(--bright);
+    text-decoration: none;
+  }
+
+  .entry:hover .entry-title a {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .entry-caret {
+    color: var(--accent);
+  }
+
+  .entry-desc {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  @media (max-width: 760px) {
+    .entry {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 6px;
+    }
+
+    .entry-perms {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .entry {
+      transition: none;
+    }
+  }
+</style>

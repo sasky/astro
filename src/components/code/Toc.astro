@@ -1,0 +1,102 @@
+---
+// Code post table of contents, from the post's h2 and h3 headings (G5: the
+// real heading text, clamped to two lines). Values: .toc in Site-Code-Post.dc.html.
+interface Props {
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const entries = Astro.props.headings.filter(({ depth }) => depth === 2 || depth === 3);
+---
+
+{
+  entries.length > 0 && (
+    <aside class="toc-wrap" aria-label="On this page">
+      <div class="toc">
+        <div class="toc-cmd">$ grep '^#' post.md</div>
+        <nav class="toc-nav">
+          {entries.map(({ depth, slug, text }) => (
+            <a class:list={["toc-link", `toc-h${depth}`]} href={`#${slug}`}>
+              <span class="toc-text">
+                <span aria-hidden="true">{"#".repeat(depth)} </span>
+                {text}
+              </span>
+            </a>
+          ))}
+        </nav>
+        <a class="toc-link toc-back" href="/code">
+          <span class="arrow" aria-hidden="true">←</span> cd ~/code
+        </a>
+      </div>
+    </aside>
+  )
+}
+
+<style>
+  /* Stretch to the grid row, so the sticky box has room to stick. */
+  .toc-wrap {
+    align-self: stretch;
+  }
+
+  .toc {
+    position: sticky;
+    top: 24px;
+    /* Scroll inside when the list is taller than the window (24px above and below). */
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+    border: 1px dashed var(--rule-dashed);
+    background-color: rgba(11, 15, 13, 0.6);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .toc-cmd {
+    color: var(--muted);
+  }
+
+  .toc-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .toc-link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--muted-2);
+    text-decoration: none;
+  }
+
+  .toc-h2 {
+    color: var(--bright);
+  }
+
+  .toc-link:hover {
+    color: var(--bright);
+  }
+
+  .toc-link:active {
+    background-color: var(--accent);
+    color: #07110b;
+  }
+
+  .toc-text {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .toc-back {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding-top: 6px;
+    border-top: 1px dashed var(--rule-dashed);
+  }
+</style>

@@ -1,0 +1,162 @@
+---
+title: "Cheap and easy Silverstripe hosting"
+description: "Using Digital Ocean's App platform to host a managed Silverstripe site on the cheap"
+metaDescription: "Using Digital Ocean's App platform to host a managed Silverstripe site on the cheap"
+pubDate: 2024-04-01
+tags: ["silverstripe", "learning"]
+section: code
+---
+
+
+## Setup steps
+
+
+The indented audience of this post is those that know what Silverstripe is,
+and how to install it locally. 
+But just in case you do not know what I'm banging on about I'll give a quick SilverStripe primer.
+
+SilverStripe is a open source MVC style CMS and Framework written in PHP, and using a Mysql Database.
+Think of the Framework as similar to Laravel, but a bit more shit. 
+And the CMS bit as like Wordpress, also a bit more shit.
+Not that I have much love for Wordpress, but's that another story.
+
+So, where was I.... 
+There is a sweet spot there which is actually quite nice, that I haven't seen done in other projects in this space.
+SilverStripe is conceptually similar to MVC style frameworks like Laravel for PHP, Rail's for Ruby, Django for python and perhaps Phoenix for Elixir.
+I have often wondered if you use such frameworks for client work in a fast moving web agency setting? 
+My naive understanding is that these frameworks do have compatible CMS's but they are added later as a nicety, not being core to the Framework exactly. 
+SilverStripe has evolved from the get go with a CMS, and as such, is tightly integrated ecosystem.
+
+As much as us devs love getting swept up in the new hotness like writing our web content in markdown, pushing to Github
+then having our fancy Jam stack'ish venture funded SAAS build and deploy our static'ish sites to the 'edge'.
+
+Clients ain't having that nonsense, they just want something as similar to Microsoft Word as possible.
+Clients seek familiarity, they want to edit some text, add a title or two, and see those changes instantly appear on their website.
+
+So enter Silverstripe, it's sweet spot is for building non trivial data driven websites using custom design's.
+It's great at building out relational data schemas (like one to many, many to many etc), quickly.
+Then the backend UI almost works out of the box which allowing clients to edit those data structures.
+I'm probably doing a terrible job at selling you; dear reader; on the merits of Silverstripe.
+But If I have sparked your interest, [I think the lessons page in the docs would be a good next step.](https://www.silverstripe.org/learn/lessons/v4/)
+
+If I sound a little bitter, I may be. I have spent probably 90% of my dev career working on Silverstripe websites of all sizes and complexities.
+I would like to move on from Silverstripe at this stage.
+But gosh darn, It's still such a great solution for many of the projects that come my way. Just when I think I'm out I keep getting pulled back in
+
+So anyhoo
+
+### Step 1: install and run Silverstripe locally
+
+```bash
+composer create-project silverstripe/installer my-website
+```
+
+If you are on a Mac, and need to install Php/Apache/Mysql working locally,
+my go to guide is from the folks a [Get Grav](https://getgrav.org/blog/macos-sonoma-apache-multiple-php-versions) 
+
+
+There is much more info on installing SilverStripe on the [Silverstripe docs](https://docs.silverstripe.org/en/5/getting_started/composer/)
+
+Once Silverstripe is working good locally, and have the repo in Github, move on to step two.
+
+### Step 2: Set up Digital Ocean
+
+Create an account on [Digital Ocean](https://www.digitalocean.com/)
+if you don't already have one. 
+Create a project called the name of you website
+Then smash that 'Create App' button on the App Platform page, and create a app 
+You may want to create one of their projects first to keep it all organised.
+You will also need to create a managed mySql instance. This is because the App platform does not give you Mysql unfortunately.
+it gives you it's more idealised cousin Postgres. 
+
+And in case you are thinking, oh shit, that's not a problem because
+I'm sure Silverstripe has a Postgres module, I'll just composer install that bad boy and happy days.
+<mark>Down that path, there be dragons,</mark> I tried the best part of a couple of hours getting that to work, but no dice.
+Didn't help that I didn't have Postgres installed locally and couldn't be arsed to. 
+But further digging, the port number in the Postgres module seems to be unconfigurable, and you need a exotic port for the App platform.
+Nothing a fork and pull request couldn't fix. But I took the step back at that point and asked if there was a faster way.
+Turns out there was, and that was just spinning up a managed Mysql database outside of the App platforms offerings.
+So go ahead and spin up a managed Mysql instance.
+
+### Step 3: Set up environment variables
+
+Once you have everything set up in Digital ocean. You will need to plug in some Environment variables into the app platform
+Here a run down on them
+
+```dotenv title=".env · database"
+SS_DATABASE_CLASS=MySQLDatabase
+SS_DATABASE_SERVER=db-mysql-syd1-xxxx-do-user-266434-0.c.db.ondigitalocean.com
+SS_DATABASE_PORT=xxxx
+SS_DATABASE_USERNAME=doadmin
+SS_DATABASE_PASSWORD=xxxxxx
+SS_DATABASE_NAME=defaultdb
+```
+
+The database credentials form the managed Mysql instance you set up earlier. (replace the xxxx's with you own creds of course )
+
+```dotenv title=".env · silverstripe"
+SS_ENVIRONMENT_TYPE=live
+SS_FLUSH_ON_DEPLOY=true
+SS_DEFAULT_ADMIN_USERNAME=admin
+SS_DEFAULT_ADMIN_PASSWORD=xxxxxx
+SS_DATABASE_TIMEZONE=Pacific/Auckland
+TZ=Pacific/Auckland
+SS_BASE_URL=https://elp-bookings-c35eo.ondigitalocean.app
+```
+
+Some SilverStripe specific stuff, usually I only use the SS_DEFAULT_ADMIN on dev, but I needed a quick way to get into the admin area of Silverstripe after deploy.
+The Base URL was just the spun up URL that the App platform gave me, guess you would change that as part of the steps of pointing a custom domain to it.
+I didn't get that far.
+
+```dotenv title=".env · mail"
+MAILER_DSN=smtp://resend:re_xxxxx@smtp.resend.com:465
+```
+Here if you want the site to send emails, you can set up a smtp mailer service. Resend looked good, but I never got this far along in the process anyway.
+You will need a real domain to do this as whatever SMTP service you use will want you put put some of that email MX 
+records and other stuff on the DNS of your custom domain.
+
+
+
+```bash title="build command"
+vendor/bin/sake dev/build "flush=1"
+```
+You should also put the above command in the build command option, this will run after each deploy.
+And SilverStripe needs that dev/build run manually if there are schema changes in you're Silverstripe project.
+
+
+
+### step 4: Check if https is working
+
+That just step here, well at least it was for me. This might not be necessarily if you set up a custom domain to point to your App platform instance.
+Which I also didn't get to, as it was just me kicking the tires.
+But the olf HTTPS thing didn't quite work with Silverstripe and the platform. 
+Even with SilverStripe's force HTTPS option.
+After source diving I found that adjusting the `alternate_base_url` config value did the trick.
+Seems that configuration variable is supposed to be used for testing, but in this case it fixed the 
+HTTPS issue I was having. 
+So if you are following on, place the following on your _config.php file. 
+Replacing the domain with your own
+
+```php title="app/_config.php"
+// app/_config.php
+
+<?php
+
+use SilverStripe\Control\Director;
+
+if (!Director::isDev()) {
+    Director::config()->set('alternate_base_url', 'https://xxxx-c35eo.ondigitalocean.app');
+}
+```
+
+(Or in your apps _config.yml file)
+
+Hopefully you got that set up faster than I did. I had it running for a month and got charged about $40 NZD's for the privilege.
+Now of course just setting up a fresh droplet and installing your own LAMP stack on it would be cheaper, and is something I have done in the
+past. But this seems to be a great way to get a Silverstripe site running without to much hassle, and with not having to worry too much
+about keeping Linux/mySql/Apache up to date and configured well for security and speed.
+I don't know how well a App platforms hosted Silverstripe site will perform under load,
+but Hopefully it's a cost efficient way of having a somewhat managed Silverstripe hosting.
+
+**Cam out.**
+

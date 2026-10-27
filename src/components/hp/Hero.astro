@@ -1,0 +1,278 @@
+---
+// Home hero, "J · Blue wash": plus marks, the blue wash, the portrait with two
+// striped ghost silhouettes and orange jacket stripes, and the name label.
+// Values: section.hero in Site-Home.dc.html, spec 6.2 and 5.8.
+import { Image } from "astro:assets";
+import jacket from "../../assets/hero/mask-jacket-stripes.png";
+import portrait from "../../assets/hero/portrait-cutout.webp";
+import silhouette from "../../assets/hero/mask-silhouette.png";
+import Dymo from "../site/Dymo.astro";
+import { hero } from "../../data/home";
+
+const masks = `--mask-sil: url(${silhouette.src}); --mask-jacket: url(${jacket.src})`;
+---
+
+<section class="hero" aria-labelledby="hello">
+  <div class="hero-media" aria-hidden="true">
+    <svg class="plus deco-lg">
+      <defs>
+        <pattern id="hero-plus" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M20 13v14M13 20h14" stroke="#ff6a1f" stroke-opacity="0.6" stroke-width="2"></path>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#hero-plus)"></rect>
+    </svg>
+    <div class="wash"><div class="wash-grain"></div></div>
+    <div class="portrait" style={masks}>
+      <span class="mk mk-sil ghost-far"></span>
+      <span class="mk mk-sil ghost-near"></span>
+      <Image
+        src={portrait}
+        widths={[480, 760, 1000, 1527]}
+        sizes="(max-width: 1060px) 480px, 60vw"
+        alt=""
+        loading="eager"
+        fetchpriority="high"
+      />
+      <span class="mk mk-jacket"></span>
+    </div>
+  </div>
+  <Dymo tone="navy" as="p" tilt={2.5} class="hero-label-float">{hero.label}</Dymo>
+  <div class="hero-copy">
+    <div class="hero-text">
+      <p class="hero-label-inline"><span class="hero-label-mark" aria-hidden="true"></span>{hero.label}</p>
+      <h1 id="hello">{hero.titleBefore}<em>{hero.titleHighlight}</em>{hero.titleAfter}</h1>
+      <p class="lede">{hero.lede}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    display: flex;
+    min-height: 880px;
+    overflow: hidden;
+  }
+
+  .hero-media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .plus {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 54%;
+    height: 100%;
+    opacity: 0.55;
+  }
+
+  .wash {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 66%;
+    background-color: var(--blue);
+    opacity: 0.85;
+    mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.12) 26%, rgba(0, 0, 0, 0.55) 58%, #000 100%);
+  }
+
+  .wash-grain {
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.07) 0px, rgba(255, 255, 255, 0.07) 1px, transparent 1px, transparent 28px),
+      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.07) 0px, rgba(255, 255, 255, 0.07) 1px, transparent 1px, transparent 28px);
+  }
+
+  /* Hangs 40px off the viewport's right edge until the page is wider than
+     the content column (about 1150px); then the shoulder lines up with the
+     column's right edge (the cutout has about 80px of space beside it). */
+  .portrait {
+    position: absolute;
+    top: 4%;
+    right: max(-40px, calc((100% - var(--wrap)) / 2 + var(--gutter) - 80px));
+    height: 104%;
+    aspect-ratio: 1527 / 1500;
+    mask-image: linear-gradient(90deg, transparent 0%, transparent 14%, #000 44%);
+  }
+
+  .mk {
+    position: absolute;
+    inset: 0;
+    mask-size: 100% 100%;
+    mask-repeat: no-repeat;
+  }
+
+  .mk-sil {
+    background-image: repeating-linear-gradient(to bottom, var(--blue) 0px, var(--blue) 2px, transparent 2px, transparent 7px);
+    mask-image: var(--mask-sil);
+  }
+
+  .ghost-far {
+    opacity: 0.4;
+    transform: translate(-80px, 24px);
+  }
+
+  .ghost-near {
+    opacity: 0.8;
+    transform: translate(-40px, 12px);
+  }
+
+  .portrait :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 10px 18px rgba(12, 18, 64, 0.28));
+  }
+
+  .mk-jacket {
+    background-color: var(--orange);
+    opacity: 0.9;
+    transform: translate(-5px, 3px);
+    mask-image: var(--mask-jacket);
+  }
+
+  /* Dymo sizing for the floating name label (the component's own is smaller). */
+  .hero :global(.hero-label-float) {
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    bottom: 92px;
+    min-height: 40px;
+    padding: 6px 16px;
+    box-shadow: 0 3px 0 rgba(18, 22, 61, 0.3);
+    font-size: 14px;
+  }
+
+  .hero-copy {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
+    width: 100%;
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 26px;
+    max-width: 520px;
+  }
+
+  .hero-label-inline {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    color: var(--navy);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .hero-label-mark {
+    display: block;
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    background-color: var(--orange);
+  }
+
+  h1 {
+    margin: 0;
+    color: var(--navy);
+    font-family: var(--display-font);
+    font-size: 80px;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 0.96;
+    text-wrap: balance;
+  }
+
+  h1 em {
+    padding: 0 4px;
+    background-image: linear-gradient(transparent 56%, var(--orange) 56%, var(--orange) 90%, transparent 90%);
+    font-style: italic;
+    font-weight: 700;
+  }
+
+  .lede {
+    margin: 0;
+    color: var(--lede);
+    font-family: var(--display-font);
+    font-size: 26px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.35;
+  }
+
+  /* Stacked: the photo above the text. Below about 1060px the side-by-side
+     heading runs into the photo. */
+  @media (max-width: 1060px) {
+    .hero {
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    /* Crops the 470px portrait at the chest, and keeps the ghost stripes
+       from running under the name line. */
+    .hero-media {
+      position: relative;
+      inset: auto;
+      height: 360px;
+      overflow: clip;
+    }
+
+    /* 470px tall is 479px wide, inside the 480w candidate that `sizes` names. */
+    .portrait {
+      top: 0;
+      right: auto;
+      left: 50%;
+      height: 470px;
+      transform: translateX(-50%);
+      mask-image: none;
+    }
+
+    .wash {
+      width: 100%;
+    }
+
+    .deco-lg,
+    .hero :global(.hero-label-float) {
+      display: none;
+    }
+
+    .hero-label-inline {
+      display: flex;
+    }
+
+    .hero-copy {
+      padding: 20px 20px 56px;
+    }
+
+    .hero-text {
+      gap: 18px;
+      max-width: none;
+    }
+
+    h1 {
+      font-size: clamp(44px, 7vw, 74px);
+    }
+
+    .lede {
+      font-size: clamp(21px, 2.5vw, 26px);
+    }
+  }
+</style>

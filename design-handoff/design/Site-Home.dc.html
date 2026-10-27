@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>sasky.nz — Home</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&amp;family=Source+Sans+3:ital,wght@0,400;0,600;1,400&amp;family=JetBrains+Mono:wght@500;700;800&amp;family=Holtwood+One+SC&amp;family=Oswald:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#f6f1e7}
+a{color:#1f3fd6;text-decoration-color:rgba(255,106,31,.85);text-underline-offset:4px;text-decoration-thickness:2px}
+a:hover{color:#12163d;text-decoration-color:#12163d}
+a:active{color:#12163d;background-color:rgba(255,106,31,.25)}
+a:focus-visible,button:focus-visible{outline:3px solid #1f3fd6;outline-offset:3px}
+::selection{background:#ff6a1f;color:#12163d}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.graph{background-image:repeating-linear-gradient(0deg,rgba(36,82,255,.11) 0px,rgba(36,82,255,.11) 1px,transparent 1px,transparent 28px),repeating-linear-gradient(90deg,rgba(36,82,255,.11) 0px,rgba(36,82,255,.11) 1px,transparent 1px,transparent 28px),radial-gradient(ellipse 50% 40% at 6% 12%,rgba(120,90,40,.07),transparent 70%),radial-gradient(ellipse 40% 50% at 96% 88%,rgba(120,90,40,.08),transparent 70%)}
+.wash{-webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.12) 26%,rgba(0,0,0,.55) 58%,#000 100%);mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.12) 26%,rgba(0,0,0,.55) 58%,#000 100%)}
+.wash-grain{background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.07) 0px,rgba(255,255,255,.07) 1px,transparent 1px,transparent 28px),repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0px,rgba(255,255,255,.07) 1px,transparent 1px,transparent 28px)}
+.portrait{-webkit-mask-image:linear-gradient(90deg,transparent 0%,transparent 14%,#000 44%);mask-image:linear-gradient(90deg,transparent 0%,transparent 14%,#000 44%)}
+.mk{position:absolute;inset:0;-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.mk-sil{-webkit-mask-image:url(assets/mask-silhouette.png);mask-image:url(assets/mask-silhouette.png)}
+.mk-jacket{-webkit-mask-image:url(assets/mask-jacket-stripes.png);mask-image:url(assets/mask-jacket-stripes.png)}
+.navlink:hover{color:#1f3fd6 !important;box-shadow:inset 0 -3px 0 var(--orange,#ff6a1f)}
+.navlink:active{background-color:rgba(255,106,31,.2)}
+.sm-only{display:none !important}
+.dymo li{display:flex;align-items:center;min-height:34px;padding:4px 12px;box-sizing:border-box;border-radius:3px;background-color:#12163d;box-shadow:0 2px 0 rgba(18,22,61,.25);font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-size:13px;font-weight:700;line-height:1.35;letter-spacing:.06em;text-transform:uppercase;color:#ffffff}
+.dymo li:nth-child(odd){transform:rotate(-1.2deg)}
+.dymo li:nth-child(4n){transform:rotate(1.4deg)}
+.dymo li:nth-child(3n+2){background-color:var(--blue,#2452ff)}
+.dymo li:nth-child(5n+4){background-color:var(--orange,#ff6a1f);color:#12163d}
+.stars li{position:relative;padding:10px 0 10px 32px}
+.stars li::before{content:"*";position:absolute;left:0;top:2px;font-family:'Fraunces',serif;font-size:40px;font-weight:900;line-height:1;color:var(--orange,#ff6a1f)}
+.wordmark:hover{color:#1f3fd6 !important}
+.door{transition:transform .15s ease,box-shadow .15s ease;box-shadow:6px 6px 0 var(--blue,#2452ff)}
+.door:hover{transform:translate(-2px,-2px);box-shadow:9px 9px 0 var(--orange,#ff6a1f);color:#12163d}
+.door:hover .enter{text-decoration:underline;text-decoration-color:var(--orange,#ff6a1f);text-decoration-thickness:3px;text-underline-offset:5px}
+.door:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--orange,#ff6a1f)}
+.gl-code{background-image:repeating-linear-gradient(to bottom,rgba(190,255,215,.05) 0px,rgba(190,255,215,.05) 1px,transparent 1px,transparent 3px),radial-gradient(ellipse 80% 70% at 50% 0%,rgba(110,231,160,.16),transparent 70%)}
+.gl-life{background-image:repeating-linear-gradient(0deg,rgba(36,82,255,.13) 0px,rgba(36,82,255,.13) 1px,transparent 1px,transparent 28px),repeating-linear-gradient(90deg,rgba(36,82,255,.13) 0px,rgba(36,82,255,.13) 1px,transparent 1px,transparent 28px)}
+.gl-life-wash{-webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.4) 45%,#000 100%);mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.4) 45%,#000 100%)}
+.gl-on{background-image:radial-gradient(ellipse 50% 60% at 15% 30%,rgba(120,70,20,.18),transparent 70%),radial-gradient(ellipse 50% 60% at 90% 80%,rgba(120,70,20,.16),transparent 70%),linear-gradient(90deg,transparent 49.6%,rgba(60,36,10,.16) 50%,rgba(255,240,200,.14) 50.4%,transparent 51%)}
+.inline{text-shadow:1.5px 1.5px 0 #d2ad6f,3px 3px 0 #23170e}
+.cursor{animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.doors{scrollbar-width:thin;scrollbar-color:rgba(18,22,61,.4) transparent}
+.tg-chip{transition:background-color .12s ease}
+.tg-chip[aria-pressed="false"]:hover{background-color:rgba(36,82,255,.12) !important}
+.tg-chip:active{translate:0 1px}
+.tg-row{transition:background-color .12s ease}
+.tg-row:hover{background-color:rgba(36,82,255,.06)}
+.tg-row:hover .tg-title{text-decoration:underline;text-decoration-color:var(--orange,#ff6a1f);text-decoration-thickness:3px;text-underline-offset:5px}
+.flink:hover{color:#1f3fd6 !important;box-shadow:inset 0 -3px 0 var(--orange,#ff6a1f)}
+.flink:active{background-color:rgba(255,106,31,.2)}
+.rss:hover .rss-label{background-color:#12163d !important;color:#ffffff !important}
+@media (max-width:760px){
+.hero{flex-direction:column !important;min-height:0 !important}
+.hero-media{position:relative !important;inset:auto !important;height:480px}
+.portrait{right:auto !important;left:50% !important;transform:translateX(-50%);height:100% !important;top:0 !important;-webkit-mask-image:none !important;mask-image:none !important}
+.field{width:100% !important}
+.deco-sm{display:none !important}
+.sm-only{display:flex !important}
+.hero-copy{padding:0 20px 56px !important}
+.h1{font-size:44px !important}
+.lede{font-size:21px !important}
+}
+@media (prefers-reduced-motion:reduce){.door,.door:hover,.door:active{transition:none;transform:none}.cursor{animation:none}}
+@media (max-width:760px){
+.home-main{padding:48px 20px 80px !important;gap:72px !important}
+.sec-h,.tg-h{font-size:38px !important}
+.tg-card{padding:26px 18px 20px !important;gap:22px !important}
+.tg-row{padding:12px 4px !important}
+.foot-row{padding:18px 20px !important}
+}
+@media (max-width:480px){
+.bar-row{padding:0 16px !important;gap:4px 12px !important}
+.wordmark{font-size:20px !important;gap:10px !important}
+.navlink{padding:0 10px !important}
+}
+</style>
+</helmet>
+<div style="--blue: {{blue}}; --orange: {{orange}}; position: relative; min-height: 100vh; display: flex; flex-direction: column; background-color: #f6f1e7; color: #12163d; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif; font-size: 17px; line-height: 1.6; overflow: hidden">
+<div aria-hidden="true" class="graph" style="position: absolute; inset: 0; pointer-events: none; opacity: {{texture}}"></div>
+<svg aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; mix-blend-mode: multiply; opacity: {{grain}}"><filter id="j-grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#j-grain)"></rect></svg>
+
+<header style="position: relative; z-index: 3; border-bottom: 2px solid #12163d; background-color: rgba(246,241,231,.94)">
+<div class="bar-row" style="max-width: 1120px; margin: 0 auto; padding: 0 24px; min-height: 66px; box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; line-height: 1.2">
+<a href="Site-Home.dc.html" aria-current="page" class="wordmark" style="display: flex; align-items: center; gap: 12px; min-height: 44px; font-size: 24px; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-weight: 900; font-style: italic; letter-spacing: -0.02em; color: #12163d; text-decoration: none"><span aria-hidden="true" style="display: block; width: 13px; height: 13px; background-color: {{orange}}; box-shadow: 4px 4px 0 {{blue}}; transform: rotate(-8deg)"></span>sasky.nz</a>
+<nav aria-label="Sections" style="display: flex; align-items: center; gap: 4px; font-size: 16px; font-weight: 600; font-family: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif">
+<a href="Site-Code-List.dc.html" class="navlink" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; color: #12163d; text-decoration: none">Code</a>
+<a href="Site-Life-List.dc.html" class="navlink" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; color: #12163d; text-decoration: none">Life</a>
+<a href="Site-On-List.dc.html" class="navlink" style="display: flex; align-items: center; min-height: 44px; padding: 0 14px; color: #12163d; text-decoration: none">On</a>
+</nav>
+</div>
+</header>
+
+<section class="hero" aria-labelledby="hello" style="position: relative; z-index: 1; min-height: 880px; display: flex; overflow: hidden">
+<div class="hero-media" aria-hidden="true" style="position: absolute; inset: 0">
+<svg class="deco-sm" style="position: absolute; left: 0; top: 0; width: 54%; height: 100%; opacity: {{crosses}}"><defs><pattern id="j-plus" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M20 13v14M13 20h14" stroke="{{orange}}" stroke-opacity="0.6" stroke-width="2"></path></pattern></defs><rect width="100%" height="100%" fill="url(#j-plus)"></rect></svg>
+<div class="field wash" style="position: absolute; top: 0; right: 0; bottom: 0; width: 66%; background-color: {{blue}}; opacity: {{field}}"><div class="wash-grain" style="position: absolute; inset: 0"></div></div>
+<div class="portrait" style="position: absolute; top: 4%; right: {{photoRight}}; height: 104%; aspect-ratio: 1527 / 1500">
+<span class="mk mk-sil" style="background-image: repeating-linear-gradient(to bottom, {{blue}} 0px, {{blue}} 2px, transparent 2px, transparent 7px); transform: translate(-{{ghostStep2}}, 24px); opacity: 0.4"></span>
+<span class="mk mk-sil" style="background-image: repeating-linear-gradient(to bottom, {{blue}} 0px, {{blue}} 2px, transparent 2px, transparent 7px); transform: translate(-{{ghostStep}}, 12px); opacity: 0.8"></span>
+<img src="assets/portrait-cutout.webp" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; filter: drop-shadow(0 10px 18px rgba(12,18,64,.28))">
+<span class="mk mk-jacket" style="background-color: {{orange}}; transform: translate({{misX}}, {{misY}}); opacity: {{stripes}}"></span>
+</div>
+</div>
+<p class="deco-sm" style="position: absolute; z-index: 2; left: 50%; bottom: 92px; margin: 0; display: flex; align-items: center; min-height: 40px; padding: 6px 16px; box-sizing: border-box; border-radius: 3px; background-color: #12163d; box-shadow: 0 3px 0 rgba(18,22,61,.3); transform: rotate(2.5deg); font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #ffffff">Cameron Grant · Wellington, Aotearoa</p>
+<div class="hero-copy" style="position: relative; z-index: 2; flex-grow: 1; width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 24px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center">
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 26px; max-width: 520px">
+<p class="sm-only" style="margin: 0; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #12163d"><span aria-hidden="true" style="display: block; width: 12px; height: 12px; background-color: {{orange}}"></span>Cameron Grant · Wellington, Aotearoa</p>
+<h1 id="hello" class="h1" style="margin: 0; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 80px; line-height: 0.96; font-weight: 800; letter-spacing: -0.035em; color: #12163d; text-wrap: balance">Hello, welcome to my <em style="font-style: italic; font-weight: 700; background-image: linear-gradient(transparent 56%, {{orange}} 56%, {{orange}} 90%, transparent 90%); padding: 0 4px">little corner</em> of the internet</h1>
+<p class="lede" style="margin: 0; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 26px; line-height: 1.35; font-style: italic; font-weight: 400; color: #2a2f5c">Hello, I’m Cameron. International man of leisure</p>
+</div>
+</div>
+</section>
+
+<main class="home-main" style="position: relative; z-index: 1; flex-grow: 1; width: 100%; max-width: 1120px; margin: 0 auto; padding: 64px 24px 112px; box-sizing: border-box; display: flex; flex-direction: column; gap: 96px">
+
+<section id="about" aria-labelledby="about-h" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr)); gap: 56px 80px; align-items: start">
+<h2 id="about-h" class="sr">About</h2>
+<div style="display: flex; flex-direction: column; gap: 22px">
+<h3 style="margin: 0; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 36px; line-height: 1.08; font-weight: 800; letter-spacing: -0.025em; color: #12163d">Hobbies, past and present include but not limited to…</h3>
+<ul class="dymo" style="margin: 4px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 12px 10px">
+<li>learning the ukulele</li>
+<li>eating too many chips</li>
+<li>extensively planning what to do when winning the lotto but never buying a ticket</li>
+<li>liking the idea of foraging but being too scared to eat anything</li>
+<li>reading and watching many computer/software/web dev material</li>
+<li>learning how to dad</li>
+<li>configuring vim</li>
+<li>ergonomic split mechanical keyboards</li>
+<li>learning to spell the same words over and over again</li>
+<li>eating extra hot curries</li>
+<li>drinking whiskey</li>
+<li>drawing cartoons</li>
+<li>frisbee golf</li>
+<li>buying second hand cowboy shirts off the internet</li>
+<li>dwelling in existential despair</li>
+<li>doing nothing</li>
+<li>going on a potato diet</li>
+</ul>
+</div>
+<div style="display: flex; flex-direction: column; gap: 22px">
+<h3 style="margin: 0; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 36px; line-height: 1.08; font-weight: 800; letter-spacing: -0.025em; color: #12163d">I also do web development for a living.</h3>
+<ul class="stars" style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 21px; line-height: 1.45; color: #12163d">
+<li>I’m all about clean maintainable code.</li>
+<li>I believe coding is best done as part of a team.</li>
+<li>I believe in building software to last.</li>
+<li>I believe in embracing test driven development, pair programming, fast feedback loops, a culture of refactoring and a obsession with simplicity.</li>
+</ul>
+</div>
+</section>
+
+<section aria-labelledby="doors-h" style="display: flex; flex-direction: column; gap: 30px">
+<h2 id="doors-h" class="sec-h" style="margin: 0; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 48px; line-height: 1; font-weight: 800; letter-spacing: -0.03em; color: #12163d">Sections</h2>
+<div class="doors" style="display: flex; gap: 32px; overflow-x: auto; scroll-snap-type: x mandatory; margin: -20px -14px 0 -6px; padding: 20px 14px 30px 6px">
+
+<a href="Site-Code-List.dc.html" class="door" style="flex: 1 0 300px; scroll-snap-align: start; position: relative; display: flex; flex-direction: column; border: 2px solid #12163d; background-color: #fffdf8; color: #12163d; text-decoration: none">
+<span aria-hidden="true" style="position: absolute; z-index: 2; top: -16px; right: 18px; display: flex; align-items: center; min-height: 30px; padding: 3px 12px; box-sizing: border-box; border-radius: 3px; background-color: #12163d; box-shadow: 0 2px 0 rgba(18,22,61,.25); transform: rotate(2deg); font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #ffffff">2 posts</span>
+<span aria-hidden="true" class="gl-code" style="display: flex; flex-direction: column; justify-content: center; gap: 6px; height: 168px; padding: 0 24px; box-sizing: border-box; border-bottom: 2px solid #12163d; background-color: #0b0f0d; font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; color: #c8d6cb">
+<span style="font-size: 13px"><span style="color: #6ee7a0; font-weight: 700">cam@sasky</span><span style="color: #7d8f82">:</span><span style="color: #8cc8ff">~</span><span style="color: #7d8f82">$ </span><span style="color: #eef5f0">cd code</span></span>
+<span style="display: flex; align-items: center; gap: 10px; font-size: 38px; line-height: 1.1; font-weight: 800; color: #eef5f0; text-shadow: 0 0 20px rgba(110,231,160,.35)"><span style="color: #6ee7a0">#</span>Code<span class="cursor" style="display: block; width: 14px; height: 32px; background-color: #6ee7a0"></span></span>
+</span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 10px; padding: 22px 24px 24px">
+<span style="font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 25px; line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; color: #12163d"><span class="sr">Code: </span>Code, hosting &amp; small games</span>
+<span style="margin-top: 6px; display: flex; flex-direction: column; gap: 4px; padding-top: 12px; border-top: 2px dashed rgba(18,22,61,.22)">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4a4e6e">Latest · <time datetime="2024-04-01">1 April 2024</time></span>
+<span style="font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 19px; line-height: 1.35; font-style: italic; font-weight: 500; color: #2a2f5c">Cheap and easy Silverstripe hosting</span>
+</span>
+<span class="enter" style="margin-top: auto; padding-top: 14px; display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 700; color: #1f3fd6">Enter Code <span aria-hidden="true">→</span></span>
+</span>
+</a>
+
+<a href="Site-Life-List.dc.html" class="door" style="flex: 1 0 300px; scroll-snap-align: start; position: relative; display: flex; flex-direction: column; border: 2px solid #12163d; background-color: #fffdf8; color: #12163d; text-decoration: none">
+<span aria-hidden="true" style="position: absolute; z-index: 2; top: -16px; right: 18px; display: flex; align-items: center; min-height: 30px; padding: 3px 12px; box-sizing: border-box; border-radius: 3px; background-color: {{blue}}; box-shadow: 0 2px 0 rgba(18,22,61,.25); transform: rotate(-2deg); font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #ffffff">1 post</span>
+<span aria-hidden="true" class="gl-life" style="position: relative; display: flex; align-items: center; height: 168px; padding: 0 24px; box-sizing: border-box; border-bottom: 2px solid #12163d; background-color: #f6f1e7; overflow: hidden">
+<span class="gl-life-wash" style="position: absolute; top: 0; right: 0; bottom: 0; width: 62%; background-color: {{blue}}; opacity: 0.85"></span>
+<span style="position: relative; display: flex; align-items: center; gap: 16px; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 54px; line-height: 1; font-weight: 800; font-style: italic; letter-spacing: -0.03em; color: #12163d"><span style="display: block; width: 16px; height: 16px; background-color: {{orange}}; box-shadow: 5px 5px 0 {{blue}}; transform: rotate(-8deg)"></span>Life</span>
+</span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 10px; padding: 22px 24px 24px">
+<span style="font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 25px; line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; color: #12163d"><span class="sr">Life: </span>Music, family &amp; other non-code things</span>
+<span style="margin-top: 6px; display: flex; flex-direction: column; gap: 4px; padding-top: 12px; border-top: 2px dashed rgba(18,22,61,.22)">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4a4e6e">Latest · <time datetime="2024-05-17">17 May 2024</time></span>
+<span style="font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 19px; line-height: 1.35; font-style: italic; font-weight: 500; color: #2a2f5c">Concert youtube vids to temporarily restore one’s faith in humanity</span>
+</span>
+<span class="enter" style="margin-top: auto; padding-top: 14px; display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 700; color: #1f3fd6">Enter Life <span aria-hidden="true">→</span></span>
+</span>
+</a>
+
+<a href="Site-On-List.dc.html" class="door" style="flex: 1 0 300px; scroll-snap-align: start; position: relative; display: flex; flex-direction: column; border: 2px solid #12163d; background-color: #fffdf8; color: #12163d; text-decoration: none">
+<span aria-hidden="true" style="position: absolute; z-index: 2; top: -16px; right: 18px; display: flex; align-items: center; min-height: 30px; padding: 3px 12px; box-sizing: border-box; border-radius: 3px; background-color: {{orange}}; box-shadow: 0 2px 0 rgba(18,22,61,.25); transform: rotate(1.5deg); font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #12163d">3 meditations</span>
+<span aria-hidden="true" class="gl-on" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; height: 168px; padding: 0 20px; box-sizing: border-box; background-color: #d2ad6f; border-bottom: 2px solid #12163d; color: #23170e; text-align: center">
+<span style="display: flex; align-items: center; gap: 10px; font-family: 'Oswald', 'Arial Narrow', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase"><span style="font-size: 18px; letter-spacing: 0">☞</span>Now showing<span style="font-size: 18px; letter-spacing: 0">☜</span></span>
+<span class="inline" style="font-family: 'Holtwood One SC', 'Rockwell Extra Bold', serif; font-size: 21px; line-height: 1.15; text-wrap: balance">Pseudo Philosophy Meditations</span>
+<span style="align-self: stretch; display: flex; flex-direction: column; gap: 2px"><span style="display: block; height: 3px; background-color: #23170e"></span><span style="display: block; height: 1px; background-color: #23170e"></span></span>
+</span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 10px; padding: 22px 24px 24px">
+<span style="font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 25px; line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; color: #12163d"><span class="sr">On: </span>Satire, humour &amp; philosophy</span>
+<span style="margin-top: 6px; display: flex; flex-direction: column; gap: 4px; padding-top: 12px; border-top: 2px dashed rgba(18,22,61,.22)">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4a4e6e">Latest · <time datetime="2026-09-22">22 September 2026</time></span>
+<span style="font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 19px; line-height: 1.35; font-style: italic; font-weight: 500; color: #2a2f5c">On Happiness</span>
+</span>
+<span class="enter" style="margin-top: auto; padding-top: 14px; display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 700; color: #1f3fd6">Enter On <span aria-hidden="true">→</span></span>
+</span>
+</a>
+
+</div>
+</section>
+
+<div style="display: flex; flex-direction: column">
+<dc-import name="TagSelector" hint-size="100%,640px"></dc-import>
+</div>
+
+</main>
+
+<footer style="position: relative; z-index: 1; border-top: 2px solid #12163d; background-color: rgba(246,241,231,.94)">
+<div class="foot-row" style="max-width: 1120px; margin: 0 auto; padding: 18px 24px; box-sizing: border-box; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 24px; line-height: 1.2">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px">
+<a href="Site-Home.dc.html" class="wordmark" style="display: flex; align-items: center; gap: 10px; min-height: 44px; font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-size: 20px; font-weight: 900; font-style: italic; letter-spacing: -0.02em; color: #12163d; text-decoration: none"><span aria-hidden="true" style="display: block; width: 10px; height: 10px; background-color: {{orange}}; box-shadow: 3px 3px 0 {{blue}}; transform: rotate(-8deg)"></span>sasky.nz</a>
+<span style="font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; color: #4a4e6e">© 2026 Cameron Grant</span>
+</div>
+<nav aria-label="Contact and feed" style="display: flex; flex-wrap: wrap; align-items: center; gap: 0 4px; font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase">
+<a href="https://mastodon.social/@sasky" class="flink" style="display: flex; align-items: center; min-height: 44px; padding: 0 10px; color: #12163d; text-decoration: none">Mastodon</a>
+<a href="https://www.linkedin.com/in/cameron-grant-5802b45b/" class="flink" style="display: flex; align-items: center; min-height: 44px; padding: 0 10px; color: #12163d; text-decoration: none">LinkedIn</a>
+<a href="https://github.com/sasky/" class="flink" style="display: flex; align-items: center; min-height: 44px; padding: 0 10px; color: #12163d; text-decoration: none">GitHub</a>
+<a href="/rss.xml" class="rss" style="display: flex; align-items: center; min-height: 44px; padding: 0 0 0 10px; text-decoration: none"><span class="rss-label" style="display: flex; align-items: center; min-height: 30px; padding: 3px 12px; box-sizing: border-box; border-radius: 3px; background-color: {{orange}}; box-shadow: 0 2px 0 rgba(18,22,61,.25); transform: rotate(-2deg); color: #12163d">RSS</span></a>
+</nav>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"blue":{"editor":"color","default":"#2452ff","options":["#2452ff","#1f8bff","#3b2bff"]},"orange":{"editor":"color","default":"#ff6a1f","options":["#ff6a1f","#ff8a00","#ff4d2e"]},"field":{"editor":"range","default":0.85,"min":0,"max":1,"step":0.05},"stripes":{"editor":"range","default":0.9,"min":0,"max":1,"step":0.05},"misregister":{"editor":"range","default":5,"min":0,"max":20,"step":1,"unit":"px"},"ghost":{"editor":"range","default":40,"min":0,"max":120,"step":4,"unit":"px"},"photoRight":{"editor":"range","default":-40,"min":-300,"max":120,"step":10,"unit":"px"},"crosses":{"editor":"range","default":0.55,"min":0,"max":1,"step":0.05},"texture":{"editor":"range","default":0.8,"min":0,"max":1,"step":0.05},"$preview":{"width":1280,"height":3300}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const t = this.props.texture ?? 0.8;
+    const mis = this.props.misregister ?? 5;
+    const gh = this.props.ghost ?? 40;
+    return {
+      blue: this.props.blue ?? '#2452ff',
+      orange: this.props.orange ?? '#ff6a1f',
+      field: this.props.field ?? 0.85,
+      stripes: this.props.stripes ?? 0.9,
+      misX: (-mis) + 'px',
+      misY: Math.round(mis * 0.5) + 'px',
+      ghostStep: gh + 'px',
+      ghostStep2: (gh * 2) + 'px',
+      photoRight: (this.props.photoRight ?? -40) + 'px',
+      crosses: this.props.crosses ?? 0.55,
+      texture: t,
+      grain: Math.round(t * 0.12 * 1000) / 1000
+    };
+  }
+}
+</script>
+</body>
+</html>

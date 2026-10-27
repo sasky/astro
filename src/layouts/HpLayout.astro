@@ -1,0 +1,53 @@
+---
+// HP theme layout: Home, Life, tag pages and 404.
+import { Font } from "astro:assets";
+import BaseLayout from "./BaseLayout.astro";
+import SkipLink from "../components/site/SkipLink.astro";
+import Texture from "../components/site/Texture.astro";
+import TopBar from "../components/site/TopBar.astro";
+import HpFooter from "../components/site/HpFooter.astro";
+import "../styles/themes/hp.css";
+
+interface Props {
+  title: string;
+  description: string;
+  ogType?: "website" | "article";
+  noindex?: boolean;
+  /** Texture strength (0–1); defaults to the theme's. */
+  texture?: number;
+}
+
+const { texture, ...meta } = Astro.props;
+---
+
+<BaseLayout theme="hp" {...meta}>
+  <Fragment slot="head">
+    <Font cssVariable="--font-fraunces" preload={[{ subset: "latin" }]} />
+    <Font cssVariable="--font-source-sans" />
+    <Font cssVariable="--font-jetbrains" />
+    <slot name="head" />
+  </Fragment>
+  <div class="page">
+    <SkipLink />
+    <Texture opacity={texture} />
+    <TopBar />
+    <main id="main" class="page-main"><slot /></main>
+    <HpFooter />
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow: clip;
+  }
+
+  .page-main {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+  }
+</style>

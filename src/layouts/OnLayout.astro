@@ -1,0 +1,57 @@
+---
+// On theme layout: the Sideshow handbill look for the meditations.
+import { Font } from "astro:assets";
+import BaseLayout from "./BaseLayout.astro";
+import SkipLink from "../components/site/SkipLink.astro";
+import Texture from "../components/site/Texture.astro";
+import TopBar from "../components/site/TopBar.astro";
+import OnFooter from "../components/site/OnFooter.astro";
+import "../styles/themes/on.css";
+
+interface Props {
+  title: string;
+  description: string;
+  ogType?: "website" | "article";
+  noindex?: boolean;
+  /** Texture strength (0–1); defaults to the theme's. */
+  texture?: number;
+  /** Which board's kraft paper: the listing's, or the post's (taller, edge-burnt). */
+  paper?: "listing" | "post";
+  /** "inside": the page puts the correspondence row in its bill (the listing). */
+  footer?: "inside" | "after";
+}
+
+const { texture, footer = "after", paper = "listing", ...meta } = Astro.props;
+---
+
+<BaseLayout theme="on" {...meta}>
+  <Fragment slot="head">
+    <Font cssVariable="--font-holtwood" preload={[{ subset: "latin" }]} />
+    <Font cssVariable="--font-alfa" />
+    <Font cssVariable="--font-rye" />
+    <Font cssVariable="--font-oswald" preload={[{ subset: "latin" }]} />
+  </Fragment>
+  <div class="page" data-paper={paper}>
+    <SkipLink />
+    <Texture opacity={texture} />
+    <TopBar />
+    <main id="main" class="page-main"><slot /></main>
+    <OnFooter placement={footer} />
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow: clip;
+  }
+
+  .page-main {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+  }
+</style>

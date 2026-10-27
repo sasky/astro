@@ -1,0 +1,25 @@
+---
+// Not found (HP theme). There's no design file for it, so it borrows the
+// Life listing's header band (Site-Life-List.dc.html).
+import ListingBand from "../components/hp/ListingBand.astro";
+import { SECTIONS } from "../data/sections";
+import HpLayout from "../layouts/HpLayout.astro";
+import { pageTitle } from "../lib/title";
+
+const section = (key: keyof typeof SECTIONS) => ({ href: `/${SECTIONS[key].path}`, label: SECTIONS[key].label });
+const [code, life, on] = [section("code"), section("life"), section("on")];
+---
+
+<HpLayout
+  title={pageTitle("Page not found")}
+  description="This page doesn't exist. It may have moved when the site was reorganised."
+  noindex
+  texture={0.8}
+>
+  <ListingBand headingId="not-found" label="404" title="This page has wandered off" variant="message">
+    <Fragment slot="lede">
+      It might have moved when the site was reorganised. Try <a href={code.href}>{code.label}</a>,{" "}
+      <a href={life.href}>{life.label}</a> or <a href={on.href}>{on.label}</a>, or head <a href="/">home</a>.
+    </Fragment>
+  </ListingBand>
+</HpLayout>

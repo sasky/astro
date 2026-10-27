@@ -1,0 +1,24 @@
+---
+// Life listing (HP theme). Values: Site-Life-List.dc.html.
+import ListingBand from "../../components/hp/ListingBand.astro";
+import PostList from "../../components/hp/PostList.astro";
+import PostRow from "../../components/hp/PostRow.astro";
+import { SECTIONS } from "../../data/sections";
+import HpLayout from "../../layouts/HpLayout.astro";
+import { formatMonthYear } from "../../lib/format";
+import { getPosts } from "../../lib/get-posts";
+import { countLabel, sectionStats } from "../../lib/posts";
+import { pageTitle } from "../../lib/title";
+
+const section = SECTIONS.life;
+const posts = await getPosts("life");
+const { count, since } = sectionStats(posts);
+const label = since ? `${countLabel("life", count)} · since ${formatMonthYear(since)}` : countLabel("life", count);
+---
+
+<HpLayout title={pageTitle(section.title)} description={section.blurb}>
+  <ListingBand headingId="life-h" label={label} title={section.title} lede={section.blurb} intro={section.intro} />
+  <PostList heading="Every Life post, newest first">
+    {posts.map((post) => <PostRow post={post} />)}
+  </PostList>
+</HpLayout>

@@ -1,0 +1,35 @@
+---
+// A thick and a thin rule, 3px apart, in either order. Values: Site-On-*.dc.html.
+interface Props {
+  order: "thick-thin" | "thin-thick";
+}
+
+const { order } = Astro.props;
+const bars = order === "thick-thin" ? ["thick", "thin"] : ["thin", "thick"];
+---
+
+<div class="double-rule" aria-hidden="true">
+  {bars.map((bar) => <span class:list={["bar", bar]} />)}
+</div>
+
+<style>
+  .double-rule {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    align-self: stretch;
+  }
+
+  .bar {
+    display: block;
+    background-color: var(--ink-on);
+  }
+
+  .thick {
+    height: 4px;
+  }
+
+  .thin {
+    height: 1px;
+  }
+</style>

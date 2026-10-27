@@ -1,0 +1,69 @@
+---
+// Life post (HP theme). Values: Site-Life-Post.dc.html.
+import type { GetStaticPaths } from "astro";
+import { render } from "astro:content";
+import HpPrevNext from "../../components/hp/HpPrevNext.astro";
+import PostHeader from "../../components/hp/PostHeader.astro";
+import TagLinks from "../../components/site/TagLinks.astro";
+import { SECTIONS } from "../../data/sections";
+import HpLayout from "../../layouts/HpLayout.astro";
+import { getPosts } from "../../lib/get-posts";
+import { neighbours } from "../../lib/posts";
+import { readingTime } from "../../lib/text";
+import { pageTitle } from "../../lib/title";
+
+export const getStaticPaths = (async () => {
+  const posts = await getPosts("life");
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post, older: neighbours(posts, post.id).older } }));
+}) satisfies GetStaticPaths;
+
+const { post, older } = Astro.props;
+const { title, description, metaDescription, pubDate, tags } = post.data;
+const { Content } = await render(post);
+---
+
+<HpLayout
+  title={pageTitle(title, SECTIONS.life.title)}
+  description={metaDescription ?? description}
+  ogType="article"
+  texture={0.6}
+>
+  <div class="post-wrap">
+    <article>
+      <PostHeader
+        section="life"
+        title={title}
+        description={description}
+        pubDate={pubDate}
+        minutes={readingTime(post.body ?? "")}
+      />
+      <div class="prose-life"><Content /></div>
+      {
+        tags.length > 0 && (
+          <div class="post-tags">
+            <TagLinks tags={tags} theme="hp" />
+          </div>
+        )
+      }
+    </article>
+    <HpPrevNext section="life" older={older} />
+  </div>
+</HpLayout>
+
+<style>
+  .post-wrap {
+    max-width: 748px;
+    margin: 0 auto;
+    padding: 72px 24px 96px;
+  }
+
+  .post-tags {
+    margin-top: 40px;
+  }
+
+  @media (max-width: 760px) {
+    .post-wrap {
+      padding: 40px 20px 72px;
+    }
+  }
+</style>

@@ -1,0 +1,150 @@
+---
+// "Also Appearing": the programme of meditations, each row a Roman numeral,
+// title, programme line (G6) and short date. Numerals count every post in
+// `all`, oldest first. Values: Site-On-List.dc.html.
+import type { PostEntry } from "../../lib/get-posts";
+import { formatDateISO, formatDateOnShort, toRoman } from "../../lib/format";
+import { postUrl, seriesNumber } from "../../lib/posts";
+import { programmeLine } from "../../lib/text";
+
+interface Props {
+  posts: PostEntry[];
+  all: PostEntry[];
+}
+
+const { posts, all } = Astro.props;
+---
+
+<ol class="programme" reversed>
+  {
+    posts.map((post) => {
+      const line = programmeLine(post.data.description);
+      return (
+        <li class="prog-row">
+          <a class="prog" href={postUrl(post)}>
+            <span class="prog-num" aria-hidden="true">
+              {toRoman(seriesNumber(all, post.id))}.
+            </span>
+            <span class="prog-text">
+              <span class="prog-title on-inline">{post.data.title}</span>
+              <span class:list={["prog-line", { "prog-line-long": line.long }]}>{line.text}</span>
+            </span>
+            <span class="prog-date">
+              <time datetime={formatDateISO(post.data.pubDate)}>{formatDateOnShort(post.data.pubDate)}</time>
+            </span>
+          </a>
+        </li>
+      );
+    })
+  }
+</ol>
+
+<style>
+  .programme {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    margin: 14px 0 0;
+    padding: 0;
+    border-top: 3px solid var(--ink-on);
+    list-style: none;
+  }
+
+  .prog-row {
+    border-bottom: 2px dotted var(--ink-on);
+  }
+
+  .prog {
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: center;
+    min-height: 44px;
+    padding: 22px 10px;
+    color: var(--ink-on);
+    text-align: left;
+    text-decoration: none;
+    transition: background-color 0.12s ease;
+  }
+
+  .prog:hover {
+    background-color: var(--on-hover-fill);
+  }
+
+  .prog:hover .prog-title {
+    color: var(--rust);
+  }
+
+  .prog:active {
+    background-color: var(--on-active-fill);
+  }
+
+  .prog-num {
+    font-family: var(--font-alfa);
+    font-size: 32px;
+    line-height: 1;
+    text-align: center;
+  }
+
+  /* A container, so the title can size to fit its longest word at ≤760. */
+  .prog-text {
+    container-type: inline-size;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .prog-title {
+    font-family: var(--font-holtwood);
+    font-size: 32px;
+    line-height: 1.12;
+    overflow-wrap: anywhere;
+  }
+
+  .prog-line {
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .prog-line-long {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.35;
+    text-transform: none;
+    text-wrap: pretty;
+  }
+
+  .prog-date {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-align: right;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 760px) {
+    .prog {
+      grid-template-columns: 52px minmax(0, 1fr);
+      gap: 14px;
+    }
+
+    .prog-date {
+      grid-column: 2;
+      text-align: left;
+    }
+
+    .prog-title {
+      font-size: min(24px, 13cqi);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .prog {
+      transition: none;
+    }
+  }
+</style>

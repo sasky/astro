@@ -1,0 +1,230 @@
+---
+// On listing (handbill theme). Values: Site-On-List.dc.html.
+import Manicule from "../../components/site/Manicule.astro";
+import Bill from "../../components/on/Bill.astro";
+import DiamondRule from "../../components/on/DiamondRule.astro";
+import DoubleRule from "../../components/on/DoubleRule.astro";
+import Eye from "../../components/on/Eye.astro";
+import NowShowing from "../../components/on/NowShowing.astro";
+import OnCorrespondence from "../../components/on/OnCorrespondence.astro";
+import Programme from "../../components/on/Programme.astro";
+import { SECTIONS } from "../../data/sections";
+import OnLayout from "../../layouts/OnLayout.astro";
+import { formatDateISO, formatDateOn, formatMonthYear, ordinalWord } from "../../lib/format";
+import { getPosts } from "../../lib/get-posts";
+import { countLabel, postUrl, sectionStats, seriesNumber } from "../../lib/posts";
+import { excerpt } from "../../lib/text";
+import { pageTitle } from "../../lib/title";
+
+const section = SECTIONS.on;
+const posts = await getPosts("on");
+const { count, since, latest } = sectionStats(posts);
+const rest = posts.filter((post) => post !== latest);
+const latestExcerpt = latest && (latest.data.excerpt ?? excerpt(latest.body ?? ""));
+---
+
+<OnLayout title={pageTitle(section.title)} description={section.blurb} footer="inside">
+  <div class="on-wrap">
+    <Bill>
+      <p class="presents">Cameron Grant of Wellington, Aotearoa, presents</p>
+      <DoubleRule order="thick-thin" />
+      <h1 class="title on-inline">{section.title}</h1>
+      <DoubleRule order="thin-thick" />
+      {section.subtitle && <p class="subtitle">{section.subtitle}</p>}
+      <Eye />
+      {section.intro && <p class="intro">{section.intro}</p>}
+      <p class="stats">
+        {countLabel("on", count)}
+        {since && ` · since ${formatMonthYear(since)}`}
+      </p>
+
+      {
+        latest && (
+          <section class="headliner" aria-labelledby="headliner">
+            <NowShowing text={`!Now Showing · Meditation the ${ordinalWord(seriesNumber(posts, latest.id))}!`} />
+            <h2 id="headliner" class="headliner-title on-inline">
+              <a href={postUrl(latest)}>{latest.data.title}</a>
+            </h2>
+            <DiamondRule />
+            <p class="headliner-description">{latest.data.description}</p>
+            <div class="headliner-box">
+              {latestExcerpt && <p class="excerpt">{latestExcerpt}</p>}
+              <p class="byline">
+                By Cameron Grant ·{" "}
+                <time datetime={formatDateISO(latest.data.pubDate)}>{formatDateOn(latest.data.pubDate)}</time>
+              </p>
+              <a class="on-ink read-on" href={postUrl(latest)}>
+                <Manicule dir="right" /> Read On, if You Dare! <Manicule dir="left" />
+              </a>
+            </div>
+          </section>
+        )
+      }
+
+      {
+        rest.length > 0 && (
+          <section class="also" aria-labelledby="also">
+            <h2 id="also" class="also-title">
+              Also Appearing
+            </h2>
+            <p class="also-sub">The full programme · newest first</p>
+            <Programme posts={rest} all={posts} />
+          </section>
+        )
+      }
+
+      <OnCorrespondence />
+    </Bill>
+  </div>
+</OnLayout>
+
+<style>
+  .on-wrap :global(.on-correspondence) {
+    margin-top: 18px;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .title,
+  .headliner-title {
+    font-family: var(--font-holtwood);
+    font-weight: 400;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+  }
+
+  .title {
+    margin: 2px 0;
+    font-size: 72px;
+    line-height: 1.04;
+  }
+
+  .subtitle {
+    font-size: 31px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1.08;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  .intro {
+    max-width: 54ch;
+    color: var(--muted);
+    font-size: 19px;
+    line-height: 1.45;
+  }
+
+  .stats,
+  .byline,
+  .also-sub {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* A container, so the headliner title can size to fit its longest word (R11). */
+  .headliner {
+    container-type: inline-size;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    align-self: stretch;
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 3px solid var(--ink-on);
+  }
+
+  .headliner-title {
+    margin: 6px 0 0;
+    font-size: min(68px, 13cqi);
+    line-height: 1.04;
+  }
+
+  .headliner-title a {
+    color: var(--ink-on);
+    text-decoration: none;
+  }
+
+  .headliner-title a:hover {
+    color: var(--rust);
+  }
+
+  .headliner-description {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.14;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  .headliner-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+    margin-top: 6px;
+    padding: 14px 30px 16px;
+    border-right: 3px solid var(--ink-on);
+    border-left: 3px solid var(--ink-on);
+    border-radius: 14px;
+  }
+
+  .excerpt {
+    max-width: 58ch;
+    font-size: 21px;
+    line-height: 1.45;
+    text-wrap: pretty;
+  }
+
+  .read-on {
+    font-size: 24px;
+  }
+
+  /* Manicule is 1.6em wide: 15px matches the board's 24px ☞ glyph. */
+  .read-on :global(.manicule) {
+    font-size: 15px;
+  }
+
+  .also {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    align-self: stretch;
+    margin-top: 18px;
+  }
+
+  .also-title {
+    margin: 0;
+    font-family: var(--font-rye);
+    font-size: 40px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 760px) {
+    .title {
+      font-size: 30px;
+    }
+
+    .headliner-title {
+      font-size: min(40px, 13cqi);
+    }
+
+    .headliner-description {
+      font-size: 20px;
+    }
+
+    .headliner-box {
+      padding: 14px 16px 16px;
+    }
+  }
+</style>

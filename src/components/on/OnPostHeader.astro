@@ -1,0 +1,131 @@
+---
+// The top of an On post's bill: "presents", the meditation number, the
+// breadcrumb, the title between double rules, the description and the byline.
+// Values: Site-On-Post.dc.html.
+import { SECTIONS } from "../../data/sections";
+import { formatDateISO, formatDateOn, ordinalWord } from "../../lib/format";
+import DiamondRule from "./DiamondRule.astro";
+import DoubleRule from "./DoubleRule.astro";
+import NowShowing from "./NowShowing.astro";
+
+interface Props {
+  /** The post's place in the series, oldest first. */
+  number: number;
+  title: string;
+  description: string;
+  pubDate: Date;
+}
+
+const { number, title, description, pubDate } = Astro.props;
+const section = SECTIONS.on;
+---
+
+<header class="post-header">
+  <p class="presents">Cameron Grant of Wellington, Aotearoa, presents</p>
+  <NowShowing text={`!Meditation the ${ordinalWord(number)}!`} topRule />
+  <nav aria-label="Breadcrumb">
+    <a class="crumb" href={`/${section.path}`}>{section.title}</a>
+  </nav>
+  <DoubleRule order="thick-thin" />
+  <h1 class="title on-inline">{title}</h1>
+  <DoubleRule order="thin-thick" />
+  <p class:list={["subtitle", { "subtitle-long": description.length > 60 }]}>{description}</p>
+  <p class="byline">
+    By Cameron Grant · Wellington · <time datetime={formatDateISO(pubDate)}>{formatDateOn(pubDate)}</time>
+  </p>
+  <div class="diamond"><DiamondRule /></div>
+</header>
+
+<style>
+  /* A container, so the title can size to fit its longest word (R11). */
+  .post-header {
+    container-type: inline-size;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    align-self: stretch;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .crumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 8px;
+    color: var(--ink-on);
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  .crumb:hover {
+    color: var(--rust);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+  }
+
+  .crumb:active {
+    background-color: var(--ink-on);
+    color: var(--light);
+  }
+
+  .title {
+    margin: 4px 0;
+    font-family: var(--font-holtwood);
+    /* Holtwood is wide: at 13cqi a nine-letter word ("HAPPINESS", 7.4em) fits the line. */
+    font-size: min(88px, 13cqi);
+    font-weight: 400;
+    line-height: 1.02;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+  }
+
+  .subtitle {
+    margin-top: 4px;
+    font-size: 31px;
+    font-weight: 700;
+    line-height: 1.1;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  .subtitle-long {
+    max-width: 40ch;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.4;
+    text-transform: none;
+    text-wrap: pretty;
+  }
+
+  .byline {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .diamond {
+    align-self: stretch;
+    margin-top: 8px;
+  }
+
+  @media (max-width: 760px) {
+    .title {
+      font-size: min(46px, 13cqi);
+    }
+
+    .subtitle-long {
+      font-size: 19px;
+    }
+  }
+</style>

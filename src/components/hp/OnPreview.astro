@@ -1,0 +1,79 @@
+---
+// The On door's preview: a handbill "Now showing" with the series title.
+// Decorative; Door marks it aria-hidden. Values: .gl-on in Site-Home.dc.html.
+import Manicule from "../site/Manicule.astro";
+import { SECTIONS } from "../../data/sections";
+---
+
+<span class="preview-on">
+  <span class="kicker"><span class="hand"><Manicule /></span>Now showing<span class="hand"><Manicule dir="left" /></span></span>
+  <span class="title">{SECTIONS.on.title}</span>
+  <span class="rule"><span class="rule-thick"></span><span class="rule-thin"></span></span>
+</span>
+
+<style>
+  .preview-on {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 100%;
+    padding: 0 20px;
+    background-color: #d2ad6f;
+    background-image:
+      radial-gradient(ellipse 50% 60% at 15% 30%, rgba(120, 70, 20, 0.18), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 90% 80%, rgba(120, 70, 20, 0.16), transparent 70%),
+      linear-gradient(90deg, transparent 49.6%, rgba(60, 36, 10, 0.16) 50%, rgba(255, 240, 200, 0.14) 50.4%, transparent 51%);
+    color: #23170e;
+    text-align: center;
+  }
+
+  .kicker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-oswald);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
+  .hand {
+    display: flex;
+    font-size: 18px;
+    letter-spacing: 0;
+  }
+
+  .title {
+    font-family: var(--font-holtwood);
+    font-size: 21px;
+    line-height: 1.15;
+    text-shadow:
+      1.5px 1.5px 0 #d2ad6f,
+      3px 3px 0 #23170e;
+    text-wrap: balance;
+  }
+
+  .rule {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    gap: 2px;
+  }
+
+  .rule-thick,
+  .rule-thin {
+    display: block;
+    background-color: #23170e;
+  }
+
+  .rule-thick {
+    height: 3px;
+  }
+
+  .rule-thin {
+    height: 1px;
+  }
+</style>

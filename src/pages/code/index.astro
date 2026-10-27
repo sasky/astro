@@ -1,0 +1,143 @@
+---
+// Code listing (terminal theme). Values: Site-Code-List.dc.html.
+import CodeListEntry from "../../components/code/CodeListEntry.astro";
+import Prompt from "../../components/code/Prompt.astro";
+import { SECTIONS } from "../../data/sections";
+import CodeLayout from "../../layouts/CodeLayout.astro";
+import { formatMonthYear } from "../../lib/format";
+import { getPosts } from "../../lib/get-posts";
+import { countLabel, sectionStats } from "../../lib/posts";
+import { pageTitle } from "../../lib/title";
+
+const section = SECTIONS.code;
+const posts = await getPosts("code");
+const { count, since } = sectionStats(posts);
+---
+
+<CodeLayout title={pageTitle(section.title)} description={section.blurb}>
+  <div class="code-main">
+    <header class="readme">
+      <Prompt path="~/code" cmd="cat README.md" />
+      <h1><span class="hash" aria-hidden="true">#&nbsp;</span>{section.title}</h1>
+      <p class="blurb"><span aria-hidden="true">&gt;&nbsp;</span>{section.blurb}</p>
+      {section.intro && <p class="intro"><span aria-hidden="true">&lt;!--&nbsp;</span>{section.intro}<span aria-hidden="true">&nbsp;--&gt;</span></p>}
+      <div class="stats">
+        <span><span class="stat-k">total&nbsp;</span><span class="stat-v">{countLabel("code", count)}</span></span>
+        {
+          since && (
+            <span>
+              <span class="stat-k">since&nbsp;</span>
+              <span class="stat-v">{formatMonthYear(since)}</span>
+            </span>
+          )
+        }
+      </div>
+    </header>
+
+    <section class="list" aria-labelledby="all">
+      <Prompt path="~/code" cmd="ls -lt" />
+      <h2 id="all"><span aria-hidden="true">#&nbsp;</span>every code post, newest first</h2>
+      <div class="entries">
+        {posts.map((post) => <CodeListEntry post={post} />)}
+      </div>
+    </section>
+
+    <Prompt path="~/code" cursor />
+  </div>
+</CodeLayout>
+
+<style>
+  .code-main {
+    display: flex;
+    flex-direction: column;
+    gap: 72px;
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 72px 32px 96px;
+  }
+
+  .readme {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 40px;
+    border-bottom: 1px dashed var(--rule-dashed);
+    font-size: 14px;
+  }
+
+  h1 {
+    margin: 6px 0 0;
+    color: var(--bright);
+    font-size: 60px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    text-shadow: 0 0 22px rgba(110, 231, 160, 0.35);
+  }
+
+  .hash {
+    color: var(--accent);
+  }
+
+  .blurb {
+    max-width: 60ch;
+    margin: 0;
+    color: var(--muted-2);
+    font-size: 19px;
+    font-style: italic;
+  }
+
+  /* #6f8a7a, not the board's #5f7a6a, which fails AA at this size (spec 6.3). */
+  .intro {
+    max-width: 64ch;
+    margin: 0;
+    color: #6f8a7a;
+    font-size: 15px;
+  }
+
+  .stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+    font-size: 13px;
+  }
+
+  .stat-k {
+    color: var(--muted);
+  }
+
+  .stat-v {
+    color: var(--bright);
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  h2 {
+    margin: -8px 0 0;
+    color: var(--muted);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.7;
+  }
+
+  .entries {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px dashed var(--rule-dashed);
+  }
+
+  @media (max-width: 760px) {
+    .code-main {
+      gap: 52px;
+      padding: 44px 20px 72px;
+    }
+
+    h1 {
+      font-size: 40px;
+    }
+  }
+</style>

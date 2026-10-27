@@ -1,0 +1,101 @@
+---
+// Code post header: breadcrumb prompt, "# title", "> description" and the
+// date / read / tags row. Values: Site-Code-Post.dc.html.
+import Prompt from "./Prompt.astro";
+import TagLinks from "../site/TagLinks.astro";
+import { formatDateISO, formatDateLong } from "../../lib/format";
+
+interface Props {
+  slug: string;
+  title: string;
+  description: string;
+  pubDate: Date;
+  /** Reading time in minutes. */
+  minutes: number;
+  tags: string[];
+}
+
+const { slug, title, description, pubDate, minutes, tags } = Astro.props;
+---
+
+<header class="post-header">
+  <Prompt path="~/code" cmd={`cat ${slug}.md`} crumbs />
+  <h1><span class="hash" aria-hidden="true">#&nbsp;</span>{title}</h1>
+  <p class="desc"><span aria-hidden="true">&gt;&nbsp;</span>{description}</p>
+  <div class="meta">
+    <span><span class="meta-k">date&nbsp;</span><time datetime={formatDateISO(pubDate)}>{formatDateLong(pubDate)}</time></span>
+    <span><span class="meta-k">read&nbsp;</span><span class="meta-v">{minutes} min read</span></span>
+    {
+      tags.length > 0 && (
+        <span class="meta-tags">
+          <span class="meta-k">tags</span>
+          <TagLinks tags={tags} theme="code" />
+        </span>
+      )
+    }
+  </div>
+</header>
+
+<style>
+  .post-header {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding-bottom: 32px;
+    border-bottom: 1px dashed var(--rule-dashed);
+    font-size: 14px;
+  }
+
+  h1 {
+    max-width: 24ch;
+    margin: 0;
+    color: var(--bright);
+    font-size: 44px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.18;
+    text-wrap: balance;
+  }
+
+  .hash {
+    color: var(--accent);
+  }
+
+  .desc {
+    max-width: 64ch;
+    margin: 0;
+    color: var(--muted-2);
+    font-size: 17px;
+    font-style: italic;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 28px;
+    font-size: 13px;
+  }
+
+  .meta-k {
+    color: var(--muted);
+  }
+
+  .meta time,
+  .meta-v {
+    color: var(--bright);
+  }
+
+  .meta-tags {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    --tag-gap: 0 12px;
+  }
+
+  @media (max-width: 900px) {
+    h1 {
+      font-size: 30px;
+    }
+  }
+</style>

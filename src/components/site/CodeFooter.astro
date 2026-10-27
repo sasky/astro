@@ -1,0 +1,71 @@
+---
+// Code footer: a vim-style status line. Values: Site-Code-List.dc.html.
+import { SOCIAL } from "../../data/social";
+
+const year = new Date().getUTCFullYear();
+---
+
+<footer class="code-footer">
+  <div class="code-footer-row">
+    <span class="code-footer-mode">-- NORMAL --</span>
+    <nav class="code-footer-nav" aria-label="Contact and feed">
+      {
+        SOCIAL.map(({ label, href }) => (
+          <a class:list={["code-footer-link", { "code-footer-rss": label === "RSS" }]} href={href}>
+            {label.toLowerCase()}
+          </a>
+        ))
+      }
+    </nav>
+    <span>© {year} Cameron Grant</span>
+  </div>
+</footer>
+
+<style>
+  .code-footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid #1d2e25;
+    background-color: #0d1511;
+  }
+
+  .code-footer-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px 20px;
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 10px 32px;
+    color: #7d8f82;
+    font-size: 12px;
+  }
+
+  .code-footer-mode {
+    color: #6ee7a0;
+    font-weight: 700;
+  }
+
+  .code-footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 4px;
+  }
+
+  .code-footer-link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 8px;
+    color: #9fb3a5;
+  }
+
+  .code-footer-link.code-footer-rss {
+    color: #f2b45a;
+  }
+
+  .code-footer-link:hover {
+    color: #eef5f0;
+  }
+</style>

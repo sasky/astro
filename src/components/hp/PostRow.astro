@@ -1,0 +1,125 @@
+---
+// One post in an HP list (Life listing, tag pages): date and reading time on
+// the left; title, description and tags on the right. Flat, no card.
+// Values: article.entry in Site-Life-List.dc.html.
+import SectionChip from "../site/SectionChip.astro";
+import TagLinks from "../site/TagLinks.astro";
+import { formatDateISO, formatDateLong } from "../../lib/format";
+import type { PostEntry } from "../../lib/get-posts";
+import { postUrl } from "../../lib/posts";
+import { readingTime } from "../../lib/text";
+
+interface Props {
+  post: PostEntry;
+  /** Show the post's section chip (tag pages mix sections). */
+  chip?: boolean;
+  /** On a tag page, the tag to mark current in the row's tags. */
+  currentTag?: string;
+}
+
+const { post, chip = false, currentTag } = Astro.props;
+const { title, description, pubDate, section, tags } = post.data;
+---
+
+<article class="row">
+  <div class="row-meta">
+    <time class="row-date" datetime={formatDateISO(pubDate)}>{formatDateLong(pubDate)}</time>
+    <span>{readingTime(post.body ?? "")} min read</span>
+  </div>
+  <div class="row-main">
+    {chip && <SectionChip section={section} />}
+    <h3 class="row-title"><a href={postUrl(post)}>{title}</a></h3>
+    <p class="row-desc">{description}</p>
+    <TagLinks tags={tags} theme="hp" current={currentTag} />
+  </div>
+</article>
+
+<style>
+  .row {
+    display: grid;
+    grid-template-columns: 170px minmax(0, 1fr);
+    gap: 32px;
+    padding: 28px 12px;
+    border-bottom: 2px dashed rgba(18, 22, 61, 0.22);
+    transition: background-color 0.12s ease;
+  }
+
+  .row:hover {
+    background-color: rgba(36, 82, 255, 0.06);
+  }
+
+  .row:active {
+    background-color: rgba(255, 106, 31, 0.12);
+  }
+
+  .row-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-top: 7px;
+    color: var(--muted);
+    font-family: var(--mono-font);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .row-date {
+    color: var(--navy);
+    font-weight: 700;
+  }
+
+  .row-main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .row-title {
+    margin: 0;
+    font-family: var(--display-font);
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  .row-title a {
+    color: var(--navy);
+    text-decoration: none;
+  }
+
+  .row:hover .row-title a {
+    text-decoration: underline;
+    text-decoration-color: var(--orange);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 5px;
+  }
+
+  .row-desc {
+    margin: 0;
+    color: var(--lede);
+    font-family: var(--display-font);
+    font-size: 20px;
+    font-style: italic;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 760px) {
+    .row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 8px;
+      padding: 22px 4px;
+    }
+
+    .row-title {
+      font-size: 25px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .row {
+      transition: none;
+    }
+  }
+</style>

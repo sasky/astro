@@ -1,0 +1,53 @@
+---
+// On footer. After a post ("after") it holds the correspondence row and the
+// colophon; on the listing ("inside") the row sits inside the bill instead,
+// so the footer holds only the colophon. Values: Site-On-*.dc.html.
+import OnCorrespondence from "../on/OnCorrespondence.astro";
+import { toRoman } from "../../lib/format";
+
+interface Props {
+  placement?: "inside" | "after";
+}
+
+const { placement = "after" } = Astro.props;
+const year = toRoman(new Date().getUTCFullYear());
+---
+
+<footer class="on-footer">
+  {placement === "after" && <OnCorrespondence />}
+  <p class="on-footer-colophon">
+    Set in Holtwood, Alfa Slab, Rye &amp; Oswald · Printed upon the World Wide Web · © {year} Cameron Grant
+  </p>
+</footer>
+
+<style>
+  .on-footer {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    width: 100%;
+    max-width: 956px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 0 28px 56px;
+    color: var(--ink-on);
+    font-family: var(--font-oswald);
+  }
+
+  .on-footer-colophon {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 760px) {
+    .on-footer {
+      padding: 0 12px 40px;
+    }
+  }
+</style>

@@ -1,0 +1,178 @@
+---
+// "Further Meditations in this Series": the earlier and later posts (G7: only
+// the cards that exist, centred), then a link to the full programme.
+// Values: Site-On-Post.dc.html.
+import { SECTIONS } from "../../data/sections";
+import { formatDateISO, formatDateOn, ordinalWord } from "../../lib/format";
+import type { PostEntry } from "../../lib/get-posts";
+import { postUrl } from "../../lib/posts";
+import Manicule from "../site/Manicule.astro";
+
+interface Neighbour {
+  post: PostEntry;
+  number: number;
+}
+
+interface Props {
+  older?: Neighbour;
+  newer?: Neighbour;
+}
+
+const { older, newer } = Astro.props;
+const cards = [
+  older && { ...older, label: `Earlier · Meditation the ${ordinalWord(older.number)}`, earlier: true },
+  newer && { ...newer, label: `Later · Meditation the ${ordinalWord(newer.number)}`, earlier: false },
+].filter((card) => !!card);
+---
+
+<nav class="fm-nav" aria-labelledby="further">
+  <h2 id="further" class="fm-heading">Further Meditations in this Series</h2>
+  {
+    cards.length > 0 && (
+      <div class:list={["fm-grid", { "fm-grid-one": cards.length === 1 }]}>
+        {cards.map(({ post, label, earlier }) => (
+          <a class="further" href={postUrl(post)}>
+            <span class="fm-label">
+              {earlier && (
+                <span class="fm-hand">
+                  <Manicule dir="left" />
+                </span>
+              )}
+              {label}
+              {!earlier && (
+                <span class="fm-hand">
+                  <Manicule dir="right" />
+                </span>
+              )}
+            </span>
+            <span class="fm-title on-inline">{post.data.title}</span>
+            <span class="fm-date">
+              <time datetime={formatDateISO(post.data.pubDate)}>{formatDateOn(post.data.pubDate)}</time>
+            </span>
+          </a>
+        ))}
+      </div>
+    )
+  }
+  <a class="on-ink fm-programme" href={`/${SECTIONS.on.path}`}>
+    <Manicule dir="right" /> The Full Programme of Meditations <Manicule dir="left" />
+  </a>
+</nav>
+
+<style>
+  .fm-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    width: 100%;
+    max-width: 900px;
+    margin: 18px auto 0;
+    text-align: center;
+  }
+
+  .fm-heading {
+    margin: 0;
+    font-family: var(--font-rye);
+    font-size: 36px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  .fm-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    align-self: stretch;
+  }
+
+  .fm-grid-one {
+    grid-template-columns: minmax(0, calc(50% - 12px));
+    justify-content: center;
+  }
+
+  .further {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 26px 24px 24px;
+    border: 2px solid var(--ink-on);
+    outline: 1px solid var(--ink-on);
+    outline-offset: -8px;
+    color: var(--ink-on);
+    text-decoration: none;
+    transition: background-color 0.12s ease;
+  }
+
+  .further:hover {
+    background-color: var(--on-hover-fill);
+  }
+
+  .further:hover .fm-title {
+    color: var(--rust);
+  }
+
+  .further:active {
+    background-color: var(--on-active-fill);
+  }
+
+  /* The card's own outline is decorative; focus gets the theme ring outside it. */
+  .further:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+  }
+
+  .fm-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .fm-hand {
+    display: flex;
+    font-size: 9px;
+  }
+
+  .fm-title {
+    font-family: var(--font-holtwood);
+    font-size: 28px;
+    line-height: 1.12;
+    overflow-wrap: anywhere;
+  }
+
+  .fm-date {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .fm-programme {
+    font-size: 22px;
+  }
+
+  /* Manicule is 1.6em wide: 14px matches the board's 22px ☞ glyph. */
+  .fm-programme :global(.manicule) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 760px) {
+    .fm-grid,
+    .fm-grid-one {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .further {
+      transition: none;
+    }
+  }
+</style>

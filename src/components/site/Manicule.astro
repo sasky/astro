@@ -1,0 +1,33 @@
+---
+// A pointing hand (☞) as inline SVG, so it renders the same everywhere (G8).
+interface Props {
+  dir?: "left" | "right";
+}
+
+const { dir = "right" } = Astro.props;
+---
+
+<svg
+  class:list={["manicule", { "manicule-left": dir === "left" }]}
+  viewBox="0 0 48 24"
+  width="1.6em"
+  height="0.8em"
+  aria-hidden="true"
+  focusable="false"
+>
+  <path
+    fill="currentColor"
+    d="M2 9.5c0-1.2.9-2 2.1-2H30l-3.2-2.6c-.9-.7-1-2-.2-2.8.7-.8 1.9-.9 2.7-.2l8.3 6.7h6.2c1.2 0 2.2 1 2.2 2.2v6.4c0 1.2-1 2.2-2.2 2.2h-3.4l-3.3 2.4c-.6.5-1.4.7-2.2.7H14.8c-1.1 0-2-.9-2-2s.9-2 2-2h-1.5c-1.1 0-2-.9-2-2s.9-2 2-2h-1c-1.1 0-2-.9-2-2s.9-2 2-2H4.1C2.9 11.5 2 10.7 2 9.5Z"
+  ></path>
+</svg>
+
+<style>
+  .manicule {
+    display: inline-block;
+    vertical-align: -0.05em;
+  }
+
+  .manicule-left {
+    transform: scaleX(-1);
+  }
+</style>

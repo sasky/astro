@@ -1,0 +1,143 @@
+---
+// A click-to-play YouTube card for MDX posts. Nothing loads from YouTube
+// until a click: without JS the card is a plain link to youtube.com, and
+// src/scripts/video-card.ts swaps in a youtube-nocookie player.
+// Colours and fonts come from the theme's --vid-* tokens; the fallbacks are
+// the HP values (Site-Life-Post.dc.html), for pages without them yet.
+interface Props {
+  id: string;
+  title: string;
+  caption?: string;
+}
+
+const { id, title, caption } = Astro.props;
+// The card's label names the act: the caption up to its dash ("Lorde — Royals" → "Lorde").
+const name = caption?.split(/\s+[—–-]\s+/)[0].trim() || "Video";
+---
+
+<figure class="video">
+  <a
+    class="vid"
+    href={`https://www.youtube.com/watch?v=${id}`}
+    data-video-id={id}
+    data-video-title={title}
+    aria-label={`Play video: ${title}`}
+  >
+    <span class="vid-play" aria-hidden="true">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"></path></svg>
+    </span>
+    <span class="vid-label" aria-hidden="true">{name} · YouTube</span>
+  </a>
+  {caption && <figcaption class="vid-caption">{caption}</figcaption>}
+</figure>
+
+<script>
+  import "../../scripts/video-card";
+</script>
+
+<style>
+  .video {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    /* Vertical rhythm comes from the post's prose styles. */
+    margin-inline: 0;
+  }
+
+  .vid,
+  .video :global(iframe) {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    box-sizing: border-box;
+    border: 2px solid var(--vid-frame, #12163d);
+  }
+
+  .vid {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: var(--vid-bg, #12163d);
+    background-image: var(
+      --vid-grain,
+      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.07) 0px, rgba(255, 255, 255, 0.07) 1px, transparent 1px, transparent 28px),
+      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.07) 0px, rgba(255, 255, 255, 0.07) 1px, transparent 1px, transparent 28px)
+    );
+    background-size: var(--vid-grain-size, auto);
+    box-shadow: 6px 6px 0 var(--vid-shadow, #2452ff);
+    color: var(--vid-play-fg, #12163d);
+    text-decoration: none;
+    transition:
+      box-shadow 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .vid:hover {
+    box-shadow: 9px 9px 0 var(--vid-shadow-hover, #ff6a1f);
+    transform: translate(-2px, -2px);
+  }
+
+  .vid:active {
+    background-color: var(--vid-bg, #12163d);
+    box-shadow: 2px 2px 0 var(--vid-shadow-hover, #ff6a1f);
+    transform: translate(3px, 3px);
+  }
+
+  .vid-play {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background-color: var(--vid-play-bg, #ff6a1f);
+    box-shadow: var(--vid-play-shadow, 0 4px 0 rgba(0, 0, 0, 0.35));
+    transition: transform 0.15s ease;
+  }
+
+  .vid:hover .vid-play {
+    transform: scale(1.06);
+  }
+
+  .vid-label {
+    position: absolute;
+    left: 14px;
+    bottom: 12px;
+    display: flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 2px 10px;
+    box-sizing: border-box;
+    border-radius: 3px;
+    background-color: var(--vid-label-bg, #ffffff);
+    color: var(--vid-label-fg, #12163d);
+    font-family: var(--vid-label-font, var(--font-jetbrains, monospace));
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    transform: rotate(-1.5deg);
+  }
+
+  .vid-caption {
+    color: var(--vid-caption-color, #4a4e6e);
+    font-family: var(--vid-caption-font, var(--font-jetbrains, monospace));
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vid,
+    .vid:hover,
+    .vid:active,
+    .vid-play,
+    .vid:hover .vid-play {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>

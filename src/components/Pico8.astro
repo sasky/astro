@@ -1,5 +1,13 @@
 ---
-let { pico8src } = Astro.props;
+// The Pico-8 player for posts with a `pico8` cart, as a terminal-window panel
+// (G4). The markup inside #body_0 comes from Pico-8's HTML export: the loader
+// (public/pico8/pico8Loader.js) finds it by id and sizes the canvas to fit
+// #p8_frame, which is a square of min(100%, 80vh, 800px).
+interface Props {
+  pico8src: string;
+}
+
+const { pico8src } = Astro.props;
 ---
 <script>
     // https://docs.astro.build/en/guides/client-side-scripts/#pass-frontmatter-variables-to-scripts
@@ -7,28 +15,19 @@ let { pico8src } = Astro.props;
     const pico8JSSrc = document.getElementById('body_0')?.getAttribute('data-pico8src');
     // setting a JS Global for the pico8Loader code to find
     // hacky but works
-    window.pico8src = pico8JSSrc; 
+    (window as Window & { pico8src?: string | null }).pico8src = pico8JSSrc;
 </script>
 <script is:inline src="/pico8/pico8Loader.js" ></script>
 
-<!-- all this is copied from the pico8 html generator, with some changes, so yucky -->
-<div style="padding: 0px; margin: 0px; background-color: #222; color: #ccc" role="presentation">
+<figure class="pico8-panel">
+  <figcaption class="pico8-caption">
+    <span>── {pico8src}.p8</span>
+    <span class="pico8-hint">arrow keys + X</span>
+  </figcaption>
+  <div class="pico8-screen" role="presentation">
   <div id="body_0" data-pico8src={pico8src}>
-    <div
-      id="p8_frame_0"
-      style="max-width: 800px; max-height: 800px; margin: auto"
-    >
-      <div
-        id="p8_frame"
-        style="
-          display: flex;
-          width: 100%;
-          max-width: 95vw;
-          min-height: 500px;
-          max-height: 95vh;
-          margin: auto;
-        "
-      >
+    <div id="p8_frame_0">
+      <div id="p8_frame">
         <div
           id="p8_menu_buttons_touch"
           style="position: absolute; width: 100%; z-index: 10; left: 0px"
@@ -163,10 +162,50 @@ let { pico8src } = Astro.props;
     </div>
   </div>
 </div>
-
-
+</figure>
 
 <style>
+    .pico8-panel {
+        margin: 0;
+        border: 1px solid var(--rule-dashed);
+        background-color: #070a09;
+    }
+
+    .pico8-caption {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 4px 16px;
+        min-height: 44px;
+        padding: 0 14px;
+        border-bottom: 1px solid var(--rule-dashed);
+        background-color: #0d1511;
+        color: var(--muted);
+        font-size: 12px;
+    }
+
+    .pico8-hint {
+        color: var(--muted-2);
+    }
+
+    .pico8-screen {
+        padding: 24px 0;
+        color: #ccc;
+    }
+
+    #p8_frame {
+        display: flex;
+        width: min(100%, 80vh, 800px);
+        aspect-ratio: 1;
+        margin: 0 auto;
+    }
+    /* Fill the square before the loader sizes it, so the page doesn't shift. */
+    #p8_container {
+        width: 100%;
+        height: 100%;
+    }
+
     .p8_menu_button{
         opacity:0.3;
         padding:4px;

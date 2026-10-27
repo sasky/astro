@@ -1,37 +1,35 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-export async function getStaticPaths() {
-  const allPosts:any[] = Object.values(import.meta.glob("./../*.mdx", { eager: true }));
+// Tag page (HP theme), spec 5.11 and Q4: the Life listing's band and rows,
+// with each row's section chip, since a tag crosses sections.
+import type { GetStaticPaths } from "astro";
+import ListingBand from "../../components/hp/ListingBand.astro";
+import PostList from "../../components/hp/PostList.astro";
+import PostRow from "../../components/hp/PostRow.astro";
+import { SECTIONS } from "../../data/sections";
+import HpLayout from "../../layouts/HpLayout.astro";
+import { formatList, plural } from "../../lib/format";
+import { getPosts } from "../../lib/get-posts";
+import { buildTagIndex, sectionsOf } from "../../lib/posts";
+import { pageTitle } from "../../lib/title";
+import { SITE } from "../../data/site";
 
-
-  const uniqueTags:any[] = [
-    ...new Set(allPosts.map((post: { frontmatter: { tags: any; }; }) => post.frontmatter.tags).flat()),
-  ];
-
-  return uniqueTags.map((tag) => {
-    const filteredPosts = allPosts.filter((post: { frontmatter: { tags: string | any[]; }; }) =>
-      post.frontmatter.tags.includes(tag)
-    );
-    return {
-      params: { tag },
-      props: { posts: filteredPosts },
-    };
-  });
-}
+export const getStaticPaths = (async () => {
+  const index = buildTagIndex(await getPosts());
+  return index.map(({ tag, count, posts }) => ({ params: { tag }, props: { count, posts } }));
+}) satisfies GetStaticPaths;
 
 const { tag } = Astro.params;
-const { posts } = Astro.props;
+const { count, posts } = Astro.props;
+const sections = formatList(sectionsOf(posts).map((section) => SECTIONS[section].label));
 ---
 
-<BaseLayout pageTitle={tag}>
-  <p>Posts tagged with {tag}</p>
-  <ul>
-    {
-      posts.map((post: { url: string | URL | null | undefined; frontmatter: { title: unknown; }; }) => (
-        <li>
-          <a href={post.url}>{post.frontmatter.title}</a>
-        </li>
-      ))
-    }
-  </ul>
-</BaseLayout>
+<HpLayout title={pageTitle(`#${tag}`)} description={`Every post tagged ${tag} on ${SITE.name}, from ${sections}.`}>
+  <ListingBand headingId="tag-h" label={plural(count, "post")} title={`#${tag}`}>
+    <Fragment slot="lede">
+      Posts from {sections}. Pick another tag on the <a href="/#tags">home page</a>.
+    </Fragment>
+  </ListingBand>
+  <PostList heading={`Every post tagged ${tag}, newest first`}>
+    {posts.map((post) => <PostRow post={post} chip currentTag={tag} />)}
+  </PostList>
+</HpLayout>

@@ -1,0 +1,77 @@
+---
+// The handbill frame: a 2px rule, a 6px gap, a 1px rule, and a fleuron in each
+// corner. Holds the On listing and the On post. Values: Site-On-*.dc.html.
+import Fleuron from "../site/Fleuron.astro";
+
+interface Props {
+  as?: "div" | "article";
+  class?: string;
+}
+
+const { as: Tag = "div", class: className } = Astro.props;
+---
+
+<Tag class:list={["bill-frame", className]}>
+  <div class="bill">
+    <span class="corner corner-tl"><Fleuron /></span>
+    <span class="corner corner-tr"><Fleuron /></span>
+    <span class="corner corner-bl"><Fleuron /></span>
+    <span class="corner corner-br"><Fleuron /></span>
+    <slot />
+  </div>
+</Tag>
+
+<style>
+  .bill-frame {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 6px;
+    border: 2px solid var(--ink-on);
+  }
+
+  .bill {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 34px 48px 30px;
+    border: 1px solid var(--ink-on);
+    text-align: center;
+  }
+
+  .corner {
+    position: absolute;
+    display: flex;
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .corner-tl {
+    top: 6px;
+    left: 8px;
+  }
+
+  .corner-tr {
+    top: 6px;
+    right: 8px;
+  }
+
+  .corner-bl {
+    bottom: 6px;
+    left: 8px;
+  }
+
+  .corner-br {
+    right: 8px;
+    bottom: 6px;
+  }
+
+  @media (max-width: 760px) {
+    .bill {
+      padding: 24px 14px 22px;
+    }
+  }
+</style>

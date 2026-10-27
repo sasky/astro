@@ -1,0 +1,121 @@
+---
+// MDX `pre` override for Code posts: a terminal frame with a "── title"
+// caption, a copy button and line numbers. The Shiki transformer
+// (src/shiki/meta-to-data.ts) supplies data-title from the fence's
+// title="…" and Astro adds data-language. Values: figure in Site-Code-Post.dc.html.
+import { uniqueId } from "../../lib/ids";
+
+interface Props {
+  "data-title"?: string;
+  "data-language"?: string;
+  [attribute: string]: unknown;
+}
+
+const { "data-title": title, "data-language": language, ...attributes } = Astro.props;
+const label = title ?? (language && language !== "plaintext" ? language : "text");
+const captionId = uniqueId("code-caption");
+---
+
+<figure class="code-block">
+  <figcaption class="code-caption">
+    <span class="code-title" id={captionId}><span aria-hidden="true">──&nbsp;</span>{label}</span>
+    <button type="button" class="copy" aria-describedby={captionId} hidden><span aria-live="polite">copy</span></button>
+  </figcaption>
+  <pre {...attributes}><slot /></pre>
+</figure>
+
+<script>
+  import "../../scripts/copy-code";
+</script>
+
+<style>
+  /* Vertical spacing comes from the post's prose styles (code.css). */
+  .code-block {
+    margin-inline: 0;
+    border: 1px solid var(--rule-dashed);
+    background-color: #070a09;
+  }
+
+  .code-caption {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--rule-dashed);
+    background-color: #0d1511;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .code-title {
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+  }
+
+  .copy {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 0;
+    border-left: 1px solid var(--rule-dashed);
+    background-color: transparent;
+    color: var(--muted-2);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12px;
+  }
+
+  .copy[hidden] {
+    display: none;
+  }
+
+  .copy:hover {
+    background-color: #14201a;
+    color: var(--bright);
+  }
+
+  .copy:active {
+    background-color: var(--accent);
+    color: #07110b;
+  }
+
+  pre {
+    margin: 0;
+    font-family: inherit;
+    padding: 16px 20px 16px 8px;
+    overflow-x: auto;
+    font-size: 13.5px;
+    line-height: 1.75;
+  }
+
+  pre :global(code) {
+    display: block;
+    font-family: inherit;
+    counter-reset: ln;
+  }
+
+  /* Lines are blocks (the transformer drops the newlines between them), so
+     empty lines need a minimum height. */
+  pre :global(.line) {
+    position: relative;
+    display: block;
+    min-height: 1lh;
+    padding-left: 3.4em;
+    white-space: pre;
+    counter-increment: ln;
+  }
+
+  pre :global(.line)::before {
+    /* Empty alt text: shown, but not read out (they're decoration at 2.42:1).
+       The plain value first, for browsers without alt text. */
+    content: counter(ln);
+    content: counter(ln) / "";
+    position: absolute;
+    left: 0;
+    width: 2.4em;
+    color: #3d5446;
+    text-align: right;
+    user-select: none;
+  }
+</style>
