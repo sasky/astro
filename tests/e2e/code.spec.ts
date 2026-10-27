@@ -215,19 +215,26 @@ test("Pico-8 at 390 fits the width", async ({ page }) => {
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
 });
 
-test("comics in a 3-column grid, 2 at 390", async ({ page }) => {
+test("comics two across, each frame hugging its image", async ({ page }) => {
   const tracks = async () =>
     (await page.locator(".image-collection").evaluate((el) => getComputedStyle(el).gridTemplateColumns)).split(" ")
       .length;
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto(hideNSeek);
-  expect(await tracks()).toBe(3);
+  expect(await tracks()).toBe(2);
   const articleRight = await page.locator(".prose-code").evaluate((el) => el.getBoundingClientRect().right);
-  const rights = await page
-    .locator(".image-collection img")
-    .evaluateAll((imgs) => imgs.map((img) => img.getBoundingClientRect().right));
-  expect(rights).toHaveLength(9);
-  for (const right of rights) expect(right).toBeLessThanOrEqual(articleRight + 0.5);
+  const frames = await page.locator(".image-collection > picture").evaluateAll((pictures) =>
+    pictures.map((picture) => {
+      const img = picture.querySelector("img")!;
+      return { gap: picture.getBoundingClientRect().height - img.getBoundingClientRect().height, right: img.getBoundingClientRect().right };
+    }),
+  );
+  expect(frames).toHaveLength(9);
+  for (const { gap, right } of frames) {
+    expect(right).toBeLessThanOrEqual(articleRight + 0.5);
+    // 6px padding and a 1px dashed border, top and bottom.
+    expect(gap).toBeCloseTo(14, 0);
+  }
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(hideNSeek);
   expect(await tracks()).toBe(2);

@@ -1,8 +1,8 @@
 import { expect, test } from "vitest";
 import { about, hero } from "../../src/data/home";
 
-test("about lists all 24 hobbies, typos fixed", () => {
-  expect(about.hobbies).toHaveLength(24);
+test("about lists all 19 hobbies, typos fixed", () => {
+  expect(about.hobbies).toHaveLength(19);
   expect(about.hobbies).toEqual(expect.arrayContaining(["sourdough", "DJing", "meditation"]));
   expect(about.hobbies).not.toContain("mediation");
 });

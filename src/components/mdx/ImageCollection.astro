@@ -1,6 +1,7 @@
 ---
-// A grid of images inside a post's column (G3): three across, two on phones,
-// each in a dashed frame. The images come from the MDX as <Picture>s.
+// A grid of images inside a post's column: two across, each in a dashed
+// frame that hugs its image. The images come from the MDX as <Picture>s;
+// give them `widths` and the `sizes` below the grid's cells so they stay sharp.
 ---
 
 <div class="image-collection">
@@ -10,7 +11,9 @@
 <style>
   .image-collection {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    /* Each frame keeps its own height, so the dashes sit 6px from every edge. */
+    align-items: start;
     gap: 16px;
   }
 
@@ -24,11 +27,5 @@
     display: block;
     width: 100%;
     height: auto;
-  }
-
-  @media (max-width: 760px) {
-    .image-collection {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
   }
 </style>
